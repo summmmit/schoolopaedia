@@ -29,10 +29,8 @@
                                 </div>
                                 <?php
                                 if(count($errors)){
-
                                     echo "<pre>";
                                     print_r($errors);
-
                                 }
                                     ?>
                             </div>

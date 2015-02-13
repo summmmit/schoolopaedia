@@ -73,57 +73,58 @@ class AccountController  extends BaseController {
 
             $voter_id = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', mt_rand(1,10))),1,10);
 
-//            $User = User::create(array(
-//                'first_name'                => $first_name,
-//                'middle_name'               => $middle_name,
-//                'last_name'                 => $last_name,
-//
-//                'email'                     => $email,
-//
-//                'mobile_number'             => $mobile_number,
-//                'mobile_updated_at '        => $mobile_updated_at ,
-//
-//                'dob'                       => $dob,
-//                'sex'                       => $sex,
-//                'marriage_status'           => $marriage_status,
-//
-//                'relative_id'               => $relative_id,
-//                'relation_with_person'      => $relation_with_person,
-//
-//                'add_1'                     => $add_1,
-//                'add_2'                     => $add_2,
-//                'city'                      => $city,
-//                'state'                     => $state,
-//                'country'                   => $country,
-//                'pin_code'                  => $pin_code,
-//                'address_updated_at'        => $address_updated_at,
-//
-//                'pic'                       => "asdgasdg",
-//                'pic_updated_at'            => $pic_updated_at,
-//
-//                'newsletter'                => $newsletter,
-//
-//                'code'                      => $code,
-//                'active'                    => 0
-//            ));
-//
-//            if($User){
-//
-//                //send email
-//
-////                       Mail::send('emails.auth.activate', array('link' => URL::route('account-activate', $code), 'username' => $username), function($message) use ($create){
-////                       $message->to($create->email, $create->username)->subject('Activate Your Account');
-////                        });
-//
-//                //redirect with a flash message
-////                return Redirect::route('create-message')->with('message', 'Your account has been createde u can activate now');
-////            }else{
-////                return Redirect::route('create-message')->with('message', 'Your account has been not Been Created. Try Again Later');
-////            }
-//                return Redirect::route('home');
+            $User = User::create(array(
+                'first_name'                => $first_name,
+                'middle_name'               => $middle_name,
+                'last_name'                 => $last_name,
+
+                'email'                     => $email,
+                'voter_id'                  => $voter_id,
+
+                'mobile_number'             => $mobile_number,
+                'mobile_updated_at '        => $mobile_updated_at ,
+
+                'dob'                       => $dob,
+                'sex'                       => $sex,
+                'marriage_status'           => $marriage_status,
+
+                'relative_id'               => $relative_id,
+                'relation_with_person'      => $relation_with_person,
+
+                'add_1'                     => $add_1,
+                'add_2'                     => $add_2,
+                'city'                      => $city,
+                'state'                     => $state,
+                'country'                   => $country,
+                'pin_code'                  => $pin_code,
+                'address_updated_at'        => $address_updated_at,
+
+                'pic'                       => "asdgasdg",
+                'pic_updated_at'            => $pic_updated_at,
+
+                'newsletter'                => $newsletter,
+
+                'code'                      => $code,
+                'active'                    => 0
+            ));
+
+            if($User){
+
+                //send email
+
+//                       Mail::send('emails.auth.activate', array('link' => URL::route('account-activate', $code), 'username' => $voter_id), function($message) use ($create){
+//                       $message->to($create->email, $create->username)->subject('Activate Your Account');
+//                        });
+
+                //redirect with a flash message
+//                return Redirect::route('create-message')->with('message', 'Your account has been createde u can activate now');
 //            }else{
-//                return Redirect::route('home');
+//                return Redirect::route('create-message')->with('message', 'Your account has been not Been Created. Try Again Later');
 //            }
+                return Redirect::route('home');
+            }else{
+                return Redirect::route('home');
+            }
 
         }
     }
