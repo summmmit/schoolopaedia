@@ -223,7 +223,7 @@
     </header>
     <!-- end: TOPBAR -->
     <!-- start: PAGESLIDE LEFT -->
-    <a class="closedbar inner hidden-sm hidden-xs" href="#">
+    <a class="open inner hidden-sm hidden-xs" href="#">
     </a>
     <nav id="pageslide-left" class="pageslide inner">
         <div class="navbar-content">

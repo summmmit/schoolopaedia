@@ -39,11 +39,11 @@
             <div class="form-group">
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" class="grey" value="1" name="sex">
+                        <input type="radio" class="grey" value="0" name="sex">
                         Female
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" class="grey" value="2" name="sex">
+                        <input type="radio" class="grey" value="1" name="sex">
                         Male
                     </label>
                 </div>

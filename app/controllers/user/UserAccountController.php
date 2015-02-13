@@ -145,6 +145,11 @@ class UserAccountController  extends BaseController {
     public function getUserHome(){
         return View::make('user.userHome');
     }
+    
+    public function getUserProfile(){
+        $user = Auth::user();            
+        return View::make('user.UserProfile')->withuser($user);
+    }
 
     public function postEdit(){
 

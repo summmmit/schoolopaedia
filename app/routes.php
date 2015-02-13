@@ -91,4 +91,12 @@ Route::group(array('before' => 'auth'), function(){
         'uses' => 'UserAccountController@getUserHome'
     ));
     
+    /*
+     * User Profile (get)
+     */
+    Route::get('/user/profile', array(
+        'as'  => 'user-profile',
+        'uses' => 'UserAccountController@getUserProfile'
+    ));
+    
 });

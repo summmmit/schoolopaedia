@@ -18,7 +18,7 @@
 @stop
 
 @section('content')
-
+Sumit singh
 @stop
 
 @section('scripts')
