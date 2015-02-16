@@ -72,6 +72,13 @@ Route::group(array('before' => 'auth'), function(){
      */
     Route::group(array('before' => 'csrf'), function(){
         
+        /*
+         *  Edit User Details (post)
+         */
+        Route::Post('/user/edit', array(
+            'as' => 'user-edit-post',
+            'uses' => 'UserAccountController@postEdit'
+        ));
     });
     /*
      * non - protection Routes

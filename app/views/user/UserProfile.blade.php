@@ -2,6 +2,9 @@
 
 @section('page_header')
 <h1><i class="fa fa-pencil-square"></i> Your Details<small>These are the details of you as per our database.</small></h1>
+<?php
+$now = \Carbon\Carbon::createFromDate();
+?>
 @stop
 
 @section('page_breadcrumb')
@@ -24,7 +27,7 @@
             <ul class="nav nav-tabs tab-padding tab-space-3 tab-blue" id="myTab4">
                 <li class="active">
                     <a data-toggle="tab" href="#panel_overview">
-                        Overview
+                        Overview                         
                     </a>
                 </li>
                 <li>
@@ -39,6 +42,7 @@
                         <div class="col-sm-5 col-md-4">
                             <div class="user-left">
                                 <h2><i class="fa fa-users"></i> Overview</h2>
+
                                 <hr>
                                 <div class="center">
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -192,7 +196,7 @@
                     </div>
                 </div>
                 <div id="panel_edit_account" class="tab-pane fade">
-                    <form action="#" role="form" id="form">
+                    <form action="{{ URL::route('user-edit-post'); }}" role="form" id="form" method="post">
                         <div class="row">
                             <div class="col-md-12">
                                 <h3>Account Info</h3>
@@ -203,31 +207,31 @@
                                     <label class="control-label">
                                         First Name
                                     </label>
-                                    <input type="text" placeholder="Insert your First Name" class="form-control" id="first_name" name="first_name" {{ (Input::old('first_name')) ? 'value = "' .e(Input::old('first_name')). '" ':'' }}>
+                                    <input type="text" placeholder="{{ $user->first_name }}" class="form-control" id="first_name" name="first_name">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Middle Name <span class="symbol"></span>
                                     </label>
-                                    <input type="text" placeholder="Insert your Middle Name" class="form-control" id="middle_name" name="middle_name" {{ (Input::old('middle_name')) ? 'value = "' .e(Input::old('middle_name')). '" ':'' }}>
+                                    <input type="text" placeholder="{{ $user->middle_name }}" class="form-control" id="middle_name" name="middle_name">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Last Name <span class="symbol required"></span>
                                     </label>
-                                    <input type="text" placeholder="Insert your Last Name" class="form-control" id="last_name" name="last_name" {{ (Input::old('last_name')) ? 'value = "' .e(Input::old('last_name')). '" ':'' }}>
+                                    <input type="text" placeholder="{{ $user->last_name }}" class="form-control" id="last_name" name="last_name">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Email Address
                                     </label>
-                                    <input type="email" placeholder="Email Address" class="form-control" id="email" name="email" {{ (Input::old('email')) ? 'value = "' .e(Input::old('email')). '" ':'' }}>
+                                    <input type="email" placeholder="{{ $user->email }}" class="form-control" id="email" name="email">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Mobile Number <span class="symbol required"></span>
                                     </label>
-                                    <input type="number" placeholder="Mobile Number" class="form-control" id="mobile_number" name="mobile_number" {{ (Input::old('mobile_number')) ? 'value = "' .e(Input::old('mobile_number')). '" ':'' }}>
+                                    <input type="number" placeholder="{{ $user->mobile_number }}" class="form-control" id="mobile_number" name="mobile_number">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
@@ -249,85 +253,48 @@
                                     </label>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <select name="dd" id="dd" class="form-control"  {{ (Input::old('dd')) ? 'value = "' .e(Input::old('dd')). '" ':'' }}>
-                                                <option value="">DD</option>
-                                                <option value="01">1</option>
-                                                <option value="02">2</option>
-                                                <option value="03">3</option>
-                                                <option value="04">4</option>
-                                                <option value="05">5</option>
-                                                <option value="06">6</option>
-                                                <option value="07">7</option>
-                                                <option value="08">8</option>
-                                                <option value="09">9</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="13">13</option>
-                                                <option value="14">14</option>
-                                                <option value="15">15</option>
-                                                <option value="16">16</option>
-                                                <option value="17">17</option>
-                                                <option value="18">18</option>
-                                                <option value="19">19</option>
-                                                <option value="20">20</option>
-                                                <option value="21">21</option>
-                                                <option value="22">22</option>
-                                                <option value="23">23</option>
-                                                <option value="24">24</option>
-                                                <option value="25">25</option>
-                                                <option value="26">26</option>
-                                                <option value="27">27</option>
-                                                <option value="28">28</option>
-                                                <option value="29">29</option>
-                                                <option value="30">30</option>
-                                                <option value="31">31</option>
+                                            <select name="dd" id="dd" class="form-control">
+                                                <option value="">DD</option>  <!-- Bug here ...........this need to be in blade form -->
+                                                <?php for ($i = 01; $i <= 31; $i++) { ?>                                                    
+                                                    <option value="<?php echo $i; ?>" <?php if (date('d', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
+                                                <?php } ?>                    
                                             </select>
                                         </div>
                                         <div class="col-md-3">
-                                            <select name="mm" id="mm" class="form-control" {{ (Input::old('mm')) ? 'value = "' .e(Input::old('mm')). '" ':'' }}>
-                                                <option value="">MM</option>
-                                                <option value="01">1</option>
-                                                <option value="02">2</option>
-                                                <option value="03">3</option>
-                                                <option value="04">4</option>
-                                                <option value="05">5</option>
-                                                <option value="06">6</option>
-                                                <option value="07">7</option>
-                                                <option value="08">8</option>
-                                                <option value="09">9</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
+                                            <select name="mm" id="mm" class="form-control">
+                                                <option value="">MM</option>  <!-- Bug here ...........this need to be in blade form -->
+                                                <?php for ($i = 01; $i <= 12; $i++) { ?>                                                    
+                                                    <option value="<?php echo $i; ?>" <?php if (date('m', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
+                                                <?php } ?>                                                
                                             </select>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text" placeholder="YYYY" id="yyyy" name="yyyy" class="form-control" {{ (Input::old('yyyy')) ? 'value = "' .e(Input::old('yyyy')). '" ':'' }}>
+                                            <input type="text" placeholder="{{ date('Y', strtotime($user->dob)) }}" id="yyyy" name="yyyy" class="form-control">
                                         </div>
                                     </div>
                                 </div>
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Gender <span class="symbol required"></span>
-                                </label>
-                                <div>
-                                    <label class="radio-inline">
-                                        <input type="radio" class="grey" value="1" name="sex" id="sex_female">
-                                        Female
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Gender <span class="symbol required"></span>
                                     </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" class="grey" value="2" name="sex"  id="sex_male">
-                                        Male
-                                    </label>
+                                    <div>
+                                        <label class="radio-inline">
+                                            <input type="radio" class="grey" value="1" name="sex" id="sex_female" {{ (($user->sex) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
+                                            Female
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" class="grey" value="2" name="sex"  id="sex_male" {{ (($user->sex) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
+                                            Male
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label">
                                                 Zip Code
                                             </label>
-                                            <input class="form-control" placeholder="12345" type="text" name="zipcode" id="zipcode">
+                                            <input class="form-control" placeholder="{{ $user->pin_code }}" type="text" name="zipcode" id="zipcode">
                                         </div>
                                     </div>
                                     <div class="col-md-8">
@@ -335,7 +302,7 @@
                                             <label class="control-label">
                                                 City
                                             </label>
-                                            <input class="form-control tooltips" placeholder="London (UK)" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
+                                            <input class="form-control tooltips" placeholder="{{ $user->city }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
                                         </div>
                                     </div>
                                 </div>
@@ -349,7 +316,7 @@
                                         <div class="fileupload-preview fileupload-exists thumbnail"></div>
                                         <div class="user-edit-image-buttons">
                                             <span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-                                                <input type="file">
+                                                <input type="file" name="pic">
                                             </span>
                                             <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
                                                 <i class="fa fa-times"></i> Remove
@@ -437,6 +404,7 @@
                                 </button>
                             </div>
                         </div>
+                        {{ Form::token() }}
                     </form>
                 </div>
             </div>
@@ -450,11 +418,13 @@
     <!-- Scripts for This page only -->
     <script src="{{ URL::asset('assets/plugins/jquery.pulsate/jquery.pulsate.min.js'); }}"></script>
     <script src="{{ URL::asset('assets/js/pages-user-profile.js'); }}"></script>
+    <script src="{{ URL::asset('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js'); }}"></script>
     <script>
 jQuery(document).ready(function() {
     Main.init();
     SVExamples.init();
     PagesUserProfile.init();
+    FormElements.init();
 });
     </script>
 
