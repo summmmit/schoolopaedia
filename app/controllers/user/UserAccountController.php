@@ -153,6 +153,11 @@ class UserAccountController  extends BaseController {
 
     public function postEdit(){
 
+echo "<pre>";
+print_r(Input::all());
+echo "</pre>";
+
+die();
         $validator = Validator::make(Input::all(),
             array(
                 'first_name'            => 'required|max:30',
