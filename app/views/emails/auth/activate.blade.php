@@ -1,4 +1,4 @@
-Hello {{ $username }}<br><br>
+Hello {{ $voter_id }}<br><br>
 
 Please Activate Account. <br><br>
 

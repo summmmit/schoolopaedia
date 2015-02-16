@@ -65,7 +65,12 @@ class UserAccountController  extends BaseController {
                 
                 ));
             
-            if($User){                
+            if($User){
+
+                //send email
+                Mail::send('emails.auth.activate', array('link' => URL::route('user-account-activate', $code), 'voter_id' => $voter_id), function($message) use ($User){
+                    $message->to($User->email, $User->voter_id)->subject('Activate Your Account');
+                });
                 return Redirect::route('user-sign-in')
                     ->with('global', 'You have been Registered. You can activate Now.');
             }else{
