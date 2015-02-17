@@ -154,7 +154,7 @@ class UserAccountController  extends BaseController {
     public function postEdit(){
 
 echo "<pre>";
-print_r(Input::all());
+var_dump(Input::all());
 echo "</pre>";
 
 die();
