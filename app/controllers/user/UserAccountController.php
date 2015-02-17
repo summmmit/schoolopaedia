@@ -157,32 +157,29 @@ class UserAccountController  extends BaseController {
     }
 
     public function postEdit(){
-
+        $file = Input::file('pic');
+   $pic = Image::make($file)->resize(300,150)->save('./public/assets/project/profilepics/');
+        $new_Path = ;
 echo "<pre>";
-var_dump(Input::all());
+print_r($pic);
 echo "</pre>";
 
 die();
         $validator = Validator::make(Input::all(),
             array(
-                'first_name'            => 'required|max:30',
-                'last_name'             => 'required|max:30',
+                'first_name'            => 'max:30',
+                'last_name'             => 'max:30',
                 'email'                 => 'max:60|email|unique:users',
                 'mobile_number'         => 'max:10',
                 'dd'                    => 'max:2',
                 'mm'                    => 'max:2',
                 'yyyy'                  => 'max:4',
-                'sex'                   => 'required',
-                'marriage_status'       => 'required',
-                'relative_id'           => 'required|max:15',
-                'relation_with_person'  => 'required',
-                'add_1'                 => 'required|max:30',
-                'city'                  => 'required|max:30',
-                'state'                 => 'required|max:30',
-                'pin_code'              => 'required|max:10',
-                'country'               => 'required|max:30',
-                //'pic'                   => 'required',
-                'newsletter'            => 'required'
+                'relative_id'           => 'max:30',
+                'add_1'                 => 'max:30',
+                'city'                  => 'max:30',
+                'state'                 => 'max:30',
+                'pin_code'              => 'max:10',
+                'country'               => 'max:30'
             )
         );
         if($validator->fails()){

@@ -234,7 +234,7 @@ $now = \Carbon\Carbon::createFromDate();
                                                 <label class="control-label">
                                                     Middle Name <span class="symbol"></span>
                                                 </label>
-                                                <input type="text" placeholder="{{ $user->middle_name }}" class="form-control" id="middle_name" name="middle_name">
+                                                <input type="text" value="{{ $user->middle_name or '' }}" class="form-control" id="middle_name" name="middle_name">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -242,7 +242,7 @@ $now = \Carbon\Carbon::createFromDate();
                                                 <label class="control-label">
                                                     Last Name <span class="symbol required"></span>
                                                 </label>
-                                                <input type="text" placeholder="{{ $user->last_name }}" class="form-control" id="last_name" name="last_name">
+                                                <input type="text" value="{{ $user->last_name or '' }}" class="form-control" id="last_name" name="last_name">
                                             </div>
                                         </div>
                                     </div>
@@ -257,7 +257,7 @@ $now = \Carbon\Carbon::createFromDate();
                                                     @endif
                                                     <span class="symbol required"></span>
                                                 </label>
-                                                <input type="text" placeholder="{{ $user->relative_id }}" class="form-control" id="relative_id" name="relative_id">
+                                                <input type="text" value="{{ $user->relative_id or '' }}" class="form-control" id="relative_id" name="relative_id">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -283,7 +283,7 @@ $now = \Carbon\Carbon::createFromDate();
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="text" placeholder="{{ date('Y', strtotime($user->dob)) }}" id="yyyy" name="yyyy" class="form-control">
+                                                        <input type="text" value="{{ (strtotime($user->dob) == '') ? '' : date('Y', strtotime($user->dob)) }}" id="yyyy" name="yyyy" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -330,7 +330,7 @@ $now = \Carbon\Carbon::createFromDate();
                                         <label class="control-label">
                                             Email Address
                                         </label>
-                                        <input type="email" placeholder="{{ $user->email }}" class="form-control" id="email" name="email">
+                                        <input type="email" value="{{ $user->email or '' }}" class="form-control" id="email" name="email">
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">
@@ -342,7 +342,7 @@ $now = \Carbon\Carbon::createFromDate();
                                         <label class="control-label">
                                             Confirm Password
                                         </label>
-                                        <input type="password"  placeholder="password" class="form-control" id="password_again" name="password_again">
+                                        <input type="password"  placeholder="Confirm Password" class="form-control" id="password_again" name="password_again">
                                     </div>
                                 </div>
                             </div>
@@ -355,7 +355,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             <label class="control-label">
                                                 Mobile Number <span class="symbol required"></span>
                                             </label>
-                                            <input type="number" placeholder="{{ $user->mobile_number }}" class="form-control" id="mobile_number" name="mobile_number">
+                                            <input type="number" value="{{ $user->mobile_number or '' }}" class="form-control" id="mobile_number" name="mobile_number">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -363,7 +363,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             <label class="control-label">
                                                 Home Phone Number
                                             </label>
-                                            <input type="number" placeholder="" class="form-control" id="phone_number" name="phone_number">
+                                            <input type="number" value="{{ $user->phone_number or '' }}" class="form-control" id="phone_number" name="phone_number">
                                         </div>
                                     </div>
                                 </div>
@@ -371,19 +371,19 @@ $now = \Carbon\Carbon::createFromDate();
                                     <label class="control-label">
                                         Address 1 <span class="symbol required"></span>
                                     </label>
-                                    <input class="form-control" type="text" name="add_1" placeholder="{{ $user->add_1 }}" id="add_1">
+                                    <input class="form-control" type="text" name="add_1" value="{{ $user->add_1 or '' }}" id="add_1">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Address 2 <span class="symbol required"></span>
                                     </label>
-                                    <input class="form-control" type="text" name="add_2" placeholder="{{ $user->add_2 }}" id="add_2">
+                                    <input class="form-control" type="text" name="add_2" value="{{ $user->add_2 or '' }}" id="add_2">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         City
                                     </label>
-                                    <input class="form-control tooltips" placeholder="{{ $user->city }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
+                                    <input class="form-control tooltips" value="{{ $user->city or '' }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8">
@@ -405,7 +405,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             <label class="control-label">
                                                 Pin Code <span class="symbol required"></span>
                                             </label>
-                                            <input class="form-control" type="text" name="pin_code" id="pin_code" placeholder="{{ $user->pin_code }}">
+                                            <input class="form-control" type="text" name="pin_code" id="pin_code" value="{{ $user->pin_code or '' }}">
                                         </div>
                                     </div>
                                 </div>
