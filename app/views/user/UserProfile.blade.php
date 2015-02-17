@@ -42,7 +42,6 @@ $now = \Carbon\Carbon::createFromDate();
                         <div class="col-sm-5 col-md-4">
                             <div class="user-left">
                                 <h2><i class="fa fa-users"></i> Overview</h2>
-
                                 <hr>
                                 <div class="center">
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -72,7 +71,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             @elseif($user->relation_with_person == 1)                                        
                                             <td>Husband's Name</td>
                                             @endif
-                                            <td>Suraj Prasad</td>
+                                            <td>{{ $user->relative_id }}</td>
                                             <td><a href="#panel_edit_account" class="show-tab"><i
                                                         class="fa fa-pencil edit-user-info"></i></a>
                                             </td>
@@ -196,191 +195,231 @@ $now = \Carbon\Carbon::createFromDate();
                     </div>
                 </div>
                 <div id="panel_edit_account" class="tab-pane fade">
-                    <form action="{{ URL::route('user-edit-post'); }}" role="form" id="form" method="post">
+                    <form action="{{ URL::route('user-edit-post'); }}" role="form" id="form" method="post" enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-md-12">
-                                <h3>Account Info</h3>
-                                <hr>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        First Name
-                                    </label>
-                                    <input type="text" placeholder="{{ $user->first_name }}" class="form-control" id="first_name" name="first_name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Middle Name <span class="symbol"></span>
-                                    </label>
-                                    <input type="text" placeholder="{{ $user->middle_name }}" class="form-control" id="middle_name" name="middle_name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Last Name <span class="symbol required"></span>
-                                    </label>
-                                    <input type="text" placeholder="{{ $user->last_name }}" class="form-control" id="last_name" name="last_name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Email Address
-                                    </label>
-                                    <input type="email" placeholder="{{ $user->email }}" class="form-control" id="email" name="email">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Mobile Number <span class="symbol required"></span>
-                                    </label>
-                                    <input type="number" placeholder="{{ $user->mobile_number }}" class="form-control" id="mobile_number" name="mobile_number">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Password
-                                    </label>
-                                    <input type="password" placeholder="password" class="form-control" name="password" id="password">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Confirm Password
-                                    </label>
-                                    <input type="password"  placeholder="password" class="form-control" id="password_again" name="password_again">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group connected-group">
-                                    <label class="control-label">
-                                        Date of Birth <span class="symbol required"></span>
-                                    </label>
+                            <div class="user-left">
+                                <div class="col-md-6">
+                                    <h2><i class="fa fa-users"></i> Overview</h2>
+                                    <hr>
+                                    <div class="form-group center">
+                                        <label>
+                                            Update Image
+                                        </label>
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail"><img src="assets/images/avatar-1-xl.jpg" alt="">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div> <br>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file "><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
+                                                    <input type="file" name="pic">
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> Remove
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3>Account Info</h3>
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <select name="dd" id="dd" class="form-control">
-                                                <option value="">DD</option>  <!-- Bug here ...........this need to be in blade form -->
-                                                <?php for ($i = 01; $i <= 31; $i++) { ?>                                                    
-                                                    <option value="<?php echo $i; ?>" <?php if (date('d', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
-                                                <?php } ?>                    
-                                            </select>
+                                        <div class="col-md-4">                                            
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    First Name
+                                                </label>
+                                                <input type="text" value="{{ $user->first_name or '' }}" class="form-control" id="first_name" name="first_name">
+                                            </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <select name="mm" id="mm" class="form-control">
-                                                <option value="">MM</option>  <!-- Bug here ...........this need to be in blade form -->
-                                                <?php for ($i = 01; $i <= 12; $i++) { ?>                                                    
-                                                    <option value="<?php echo $i; ?>" <?php if (date('m', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
-                                                <?php } ?>                                                
-                                            </select>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Middle Name <span class="symbol"></span>
+                                                </label>
+                                                <input type="text" placeholder="{{ $user->middle_name }}" class="form-control" id="middle_name" name="middle_name">
+                                            </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <input type="text" placeholder="{{ date('Y', strtotime($user->dob)) }}" id="yyyy" name="yyyy" class="form-control">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Last Name <span class="symbol required"></span>
+                                                </label>
+                                                <input type="text" placeholder="{{ $user->last_name }}" class="form-control" id="last_name" name="last_name">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Gender <span class="symbol required"></span>
-                                    </label>
-                                    <div>
-                                        <label class="radio-inline">
-                                            <input type="radio" class="grey" value="1" name="sex" id="sex_female" {{ (($user->sex) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
-                                            Female
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    @if($user->relation_with_person == '0')
+                                                    Father's Name
+                                                    @elseif($user->relation_with_person == '1')
+                                                    Husband's Name
+                                                    @endif
+                                                    <span class="symbol required"></span>
+                                                </label>
+                                                <input type="text" placeholder="{{ $user->relative_id }}" class="form-control" id="relative_id" name="relative_id">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group connected-group">
+                                                <label class="control-label">
+                                                    Date of Birth <span class="symbol required"></span>
+                                                </label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <select name="dd" id="dd" class="form-control">
+                                                            <option value="">DD</option>  <!-- Bug here ...........this need to be in blade form -->
+                                                            <?php for ($i = 01; $i <= 31; $i++) { ?>                                                    
+                                                                <option value="<?php echo $i; ?>" <?php if (date('d', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
+                                                            <?php } ?>                    
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <select name="mm" id="mm" class="form-control">
+                                                            <option value="">MM</option>  <!-- Bug here ...........this need to be in blade form -->
+                                                            <?php for ($i = 01; $i <= 12; $i++) { ?>                                                    
+                                                                <option value="<?php echo $i; ?>" <?php if (date('m', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
+                                                            <?php } ?>                                                
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" placeholder="{{ date('Y', strtotime($user->dob)) }}" id="yyyy" name="yyyy" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Gender <span class="symbol required"></span>
+                                                </label>
+                                                <div>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" class="grey" value="0" name="sex" id="sex_female" {{ (($user->sex) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        Female
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" class="grey" value="1" name="sex"  id="sex_male" {{ (($user->sex) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        Male
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Marriage Status <span class="symbol required"></span>
+                                                </label>
+                                                <div>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" class="grey" value="0" name="marriage_status" id="unmarried" {{ (($user->marriage_status) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        UnMarried
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" class="grey" value="1" name="marriage_status"  id="married" {{ (($user->marriage_status) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        Married
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3>Login Details</h3>
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Email Address
                                         </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" class="grey" value="2" name="sex"  id="sex_male" {{ (($user->sex) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
-                                            Male
+                                        <input type="email" placeholder="{{ $user->email }}" class="form-control" id="email" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Password
                                         </label>
+                                        <input type="password" placeholder="password" class="form-control" name="password" id="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Confirm Password
+                                        </label>
+                                        <input type="password"  placeholder="password" class="form-control" id="password_again" name="password_again">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3>Contact Details</h3>
+                                <hr>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                Zip Code
+                                                Mobile Number <span class="symbol required"></span>
                                             </label>
-                                            <input class="form-control" placeholder="{{ $user->pin_code }}" type="text" name="zipcode" id="zipcode">
+                                            <input type="number" placeholder="{{ $user->mobile_number }}" class="form-control" id="mobile_number" name="mobile_number">
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Home Phone Number
+                                            </label>
+                                            <input type="number" placeholder="" class="form-control" id="phone_number" name="phone_number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Address 1 <span class="symbol required"></span>
+                                    </label>
+                                    <input class="form-control" type="text" name="add_1" placeholder="{{ $user->add_1 }}" id="add_1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Address 2 <span class="symbol required"></span>
+                                    </label>
+                                    <input class="form-control" type="text" name="add_2" placeholder="{{ $user->add_2 }}" id="add_2">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        City
+                                    </label>
+                                    <input class="form-control tooltips" placeholder="{{ $user->city }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
+                                </div>
+                                <div class="row">
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                City
+                                                State <span class="symbol required"></span>
                                             </label>
-                                            <input class="form-control tooltips" placeholder="{{ $user->city }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
+                                            <select class="form-control" id="state" name="state">
+                                                <option value="">Select...</option>
+                                                <option value="up">Uttar Pradesh</option>
+                                                <option value="dl">Delhi</option>
+                                                <option value="mp">Madhya Pradesh</option>
+                                                <option value="raj">Rajasthan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Pin Code <span class="symbol required"></span>
+                                            </label>
+                                            <input class="form-control" type="text" name="pin_code" id="pin_code" placeholder="{{ $user->pin_code }}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>
-                                        Image Upload
-                                    </label>
-                                    <div class="fileupload fileupload-new" data-provides="fileupload">
-                                        <div class="fileupload-new thumbnail"><img src="assets/images/avatar-1-xl.jpg" alt="">
-                                        </div>
-                                        <div class="fileupload-preview fileupload-exists thumbnail"></div>
-                                        <div class="user-edit-image-buttons">
-                                            <span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-                                                <input type="file" name="pic">
-                                            </span>
-                                            <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
-                                                <i class="fa fa-times"></i> Remove
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>Additional Info</h3>
-                                <hr>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label class="control-label">
-                                        Twitter
+                                        Country <span class="symbol required"></span>
                                     </label>
-                                    <span class="input-icon">
-                                        <input class="form-control" type="text" placeholder="Text Field">
-                                        <i class="fa fa-twitter"></i> </span>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Facebook
-                                    </label>
-                                    <span class="input-icon">
-                                        <input class="form-control" type="text" placeholder="Text Field">
-                                        <i class="fa fa-facebook"></i> </span>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Google Plus
-                                    </label>
-                                    <span class="input-icon">
-                                        <input class="form-control" type="text" placeholder="Text Field">
-                                        <i class="fa fa-google-plus"></i> </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Github
-                                    </label>
-                                    <span class="input-icon">
-                                        <input class="form-control" type="text" placeholder="Text Field">
-                                        <i class="fa fa-github"></i> </span>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Linkedin
-                                    </label>
-                                    <span class="input-icon">
-                                        <input class="form-control" type="text" placeholder="Text Field">
-                                        <i class="fa fa-linkedin"></i> </span>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Skype
-                                    </label>
-                                    <span class="input-icon">
-                                        <input class="form-control" type="text" placeholder="Text Field">
-                                        <i class="fa fa-skype"></i> </span>
+                                    <select class="form-control" id="country" name="country">
+                                        <option value="">Select...</option>
+                                        <option value="IND" selected>India / भारत</option>
+                                        <option value="dl">Delhi</option>
+                                        <option value="mp">Madhya Pradesh</option>
+                                        <option value="raj">Rajasthan</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -395,7 +434,7 @@ $now = \Carbon\Carbon::createFromDate();
                         <div class="row">
                             <div class="col-md-8">
                                 <p>
-                                    By clicking UPDATE, you are agreeing to the Policy and Terms &amp; Conditions.
+                                    Click the Update Button to Update your Details.
                                 </p>
                             </div>
                             <div class="col-md-4">
