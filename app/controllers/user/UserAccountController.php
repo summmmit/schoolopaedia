@@ -51,6 +51,8 @@ class UserAccountController  extends BaseController {
                 'last_name'                 => $last_name,
 
                 'email'                     => $email,
+                'email_updated_at'          => date("Y-m-d H:i:s"),
+                
                 'password'                  => Hash::make($password),
                 'password_updated_at'       => date("Y-m-d H:i:s"),
                 
@@ -61,7 +63,8 @@ class UserAccountController  extends BaseController {
                 'address_updated_at'        => date("Y-m-d H:i:s"),
 
                 'code'                      => $code,
-                'active'                    => 0
+                'active'                    => 0,
+                'mobile_verified'           => 0
                 
                 ));
             
@@ -157,20 +160,31 @@ class UserAccountController  extends BaseController {
     }
 
     public function postEdit(){
-        $file = Input::file('pic');
-   $pic = Image::make($file)->resize(300,150)->save('./public/assets/project/profilepics/');
-        $new_Path = ;
-echo "<pre>";
-print_r($pic);
-echo "</pre>";
-
-die();
+        
+        $pic_New_Name = NULL;
+        if(Input::hasFile('pic')){
+            
+        $file = Input::file('pic');  
+        $new_path = 'assets\projects\images\profilepics';     
+        $file_Temporary_name = $file->getFilename();            // emporary file name
+        $file_OriginalName = $file->getClientOriginalName();  // Original Name of the file
+        $file_Size = $file->getClientSize();          // Size of the file
+        $file_MimeType = $file->getClientMimeType();      // Mime Type of the file
+        $file_Extension = $file->guessClientExtension();   // Ext of the file
+        $file_TemporaryPath = $file->getRealPath();            // Temporary file path
+        
+        $pic_New_Name = md5(date('Y-m-d H:i:s:u')).".".$file_Extension;
+         
+        $uploaded = $file->move($new_path, $pic_New_Name);  
+        }
+        
+        //$pic = Image::make($file)->resize(300,150)->save($new_path.$file_OriginalName);
         $validator = Validator::make(Input::all(),
             array(
                 'first_name'            => 'max:30',
                 'last_name'             => 'max:30',
-                'email'                 => 'max:60|email|unique:users',
                 'mobile_number'         => 'max:10',
+                'home_number'           => 'max:10',
                 'dd'                    => 'max:2',
                 'mm'                    => 'max:2',
                 'yyyy'                  => 'max:4',
@@ -183,98 +197,118 @@ die();
             )
         );
         if($validator->fails()){
-            return Redirect::route('account-create')
+            return Redirect::route('user-profile')
                 ->withErrors($validator)
                 ->withInput();
         }else{
-            $first_name                 = Input::get('first_name');
-            $middle_name                = Input::get('middle_name');
-            $last_name                  = Input::get('last_name');
-            $email                      = Input::get('email');
-            $mobile_number              = Input::get('mobile_number');
-            $dob                        = Input::get('dd')."-".Input::get('mm')."-".Input::get('yyyy');
-            $sex                        = Input::get('sex');
-            $marriage_status            = Input::get('marriage_status');
-            $relative_id                = Input::get('relative_id');
-            $relation_with_person       = Input::get('relation_with_person');
-            $add_1                      = Input::get('add_1');
-            $add_2                      = Input::get('add_2');
-            $city                       = Input::get('city');
-            $state                      = Input::get('state');
-            $pin_code                   = Input::get('pin_code');
-            $country                    = Input::get('country');
-            $pic                        = Input::get('pic');
-            $newsletter                 = Input::get('newsletter');
-
-            $now                        = date("Y-m-d H-m-i");
-            $mobile_updated_at          = $now;
-            $address_updated_at         = $now;
-            $pic_updated_at             = $now;
-
-            // To verify Mobiles
-            $moobile_verified           = 0;
-
-            //Activation COde
-            $code = str_random(60);
-
-            $voter_id = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', mt_rand(1,10))),1,10);
-
-            $User = User::create(array(
-                'first_name'                => $first_name,
-                'middle_name'               => $middle_name,
-                'last_name'                 => $last_name,
-
-                'email'                     => $email,
-
-                'mobile_number'             => $mobile_number,
-                'mobile_updated_at '        => $mobile_updated_at ,
-
-                'dob'                       => $dob,
-                'sex'                       => $sex,
-                'marriage_status'           => $marriage_status,
-
-                'relative_id'               => $relative_id,
-                'relation_with_person'      => $relation_with_person,
-
-                'add_1'                     => $add_1,
-                'add_2'                     => $add_2,
-                'city'                      => $city,
-                'state'                     => $state,
-                'country'                   => $country,
-                'pin_code'                  => $pin_code,
-                'address_updated_at'        => $address_updated_at,
-
-                'pic'                       => "asdgasdg",
-                'pic_updated_at'            => $pic_updated_at,
-
-                'newsletter'                => $newsletter,
-
-                'code'                      => $code,
-                'active'                    => 0
-            ));
-//
-//            if($User){
-//
-//                //send email
-//
-////                       Mail::send('emails.auth.activate', array('link' => URL::route('account-activate', $code), 'username' => $username), function($message) use ($create){
-////                       $message->to($create->email, $create->username)->subject('Activate Your Account');
-////                        });
-//
-//                //redirect with a flash message
-////                return Redirect::route('create-message')->with('message', 'Your account has been createde u can activate now');
-////            }else{
-////                return Redirect::route('create-message')->with('message', 'Your account has been not Been Created. Try Again Later');
-////            }
-//                return Redirect::route('home');
-//            }else{
-//                return Redirect::route('home');
-//            }
+            
+            $user = User::find(Auth::user()->id);
+            
+            $now                              = date("Y-m-d H-i-s");
+            
+            $user->first_name                 = Input::get('first_name');
+            $user->middle_name                = Input::get('middle_name');
+            $user->last_name                  = Input::get('last_name');
+            
+            if($user->mobile_number != Input::get('mobile_number')){
+              $user->mobile_number              = Input::get('mobile_number');
+              $user->mobile_updated_at          = $now;
+            }
+            
+            $user->home_number                = Input::get('home_number');
+            
+            $user->dob                        = Input::get('yyyy')."-".Input::get('mm')."-".Input::get('dd');
+            $user->sex                        = Input::get('sex');
+            $user->marriage_status            = Input::get('marriage_status');
+            $user->relative_id                = Input::get('relative_id');
+            $user->relation_with_person       = Input::get('relation_with_person');
+            
+            if(($user->add_1 != Input::get('add_1')) || ($user->add_2 != Input::get('add_2'))){
+              $user->add_1                      = Input::get('add_1');
+              $user->add_2                      = Input::get('add_2');
+              $user->address_updated_at         = $now;
+            }
+            
+            if(($user->city != Input::get('city')) || ($user->state != Input::get('state')) || ($user->pin_code != Input::get('pin_code')) || ($user->country != Input::get('country'))){
+            
+              $user->city                       = Input::get('city');
+              $user->state                      = Input::get('state');
+              $user->pin_code                   = Input::get('pin_code');
+              $user->country                    = Input::get('country');
+              $user->address_updated_at         = $now;
+            }
+            
+            if(isset($pic_New_Name)){
+              $user->pic                        = $pic_New_Name;
+              $user->pic_updated_at             = $now;
+            }
+                
+            if($user->save()){
+                return Redirect::route('user-profile')->with('details-changed', 'Your Details are updated');
+            }else{
+                return Redirect::route('user-profile')->with('details-not-changed', 'Your Details Couldnt updated. Some Error Occured');
+            }
 
         }
     }
 
-    public function getCreateMessage($message){
+    public function postChangePassword(){
+        
+            $updated = false;
+        
+            $user = User::find(Auth::user()->id);
+            
+            $now       =    date("Y-m-d H-i-s");
+              
+            if($user->email != Input::get('email')){
+                
+                  $validator = Validator::make(Input::all(), array('email'  => 'sometimes|max:60|email|unique:users' ));
+                  if($validator->fails()){
+                         return Redirect::route('user-profile')->withErrors($validator)->withInput();
+                  }else{
+                         $user->email                      = Input::get('email');
+                         $user->email_updated_at           = $now;
+                         
+                         $updated = true;
+                  }
+            }
+            
+            if(Input::get('password') != NULL && Input::get('old_password') != NULL){
+                
+                $validator = Validator::make(Input::all(),
+                    array(
+                          'old_password'   => 'required',
+                          'password'       => 'required|min:3',
+                          'password_again' => 'required|same:password'
+                         )
+                 );
+                
+                if($validator->fails()){
+                          return Redirect::route('user-profile')->withErrors($validator);
+                  }else{
+
+                      $auth = Auth::attempt(array('password' => Input::get('old_password')));
+                      
+                      if($auth){
+                          $user->password                 =  Hash::make(Input::get('password'));
+                          $user->password_updated_at      =  $now;
+                         
+                          $updated = true;
+                      }else{
+                          return Redirect::route('user-profile')->with('details-not-changed', 'Your Old Password is not matched. Try Again');
+                      }
+                  }
+            }
+            
+            if($updated){
+                if($user->save()){
+                    return Redirect::route('user-profile')->with('details-changed', 'sumit Your Details is Changed');
+                }else{
+                    return Redirect::route('user-profile')->with('details-not-changed', 'Your details Not Changed . Try Again');
+                }
+            }else{
+                    return Redirect::route('user-profile')->with('details-not-changed', ' You didn\'t changed any details. Check and Try Again');
+            }
     }
 
 }

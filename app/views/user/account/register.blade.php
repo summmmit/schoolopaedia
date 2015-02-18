@@ -11,7 +11,6 @@
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
             <?php
             if (count($errors)) {
-
                 echo "<pre>";
                 print_r($errors);
             }

@@ -11,12 +11,8 @@ class FileUpload {
     const FILE_NOT_VALID = 0003;
     const FILE_LARGE_SIZE = 0004;
     const FILE_ALREADY_EXISTS = 0004;
-
-    public function getPicUpload() {
-        return View::make('test.picUpload');
-    }
-
-    public function postPicUpload() {
+    
+    public static function postPicUpload() {
 
         $file = Input::file('fileToUpload');
         $allowed_Extensions = array('png', 'jpg', 'jpeg', 'sql');
@@ -30,7 +26,7 @@ class FileUpload {
         }
     }
 
-    public function uploadAnyFile($file, $new_Path, $allowed_Extensions = null, $allowed_Size = null, $new_Name = null){
+    public static function uploadAnyFile($file, $new_Path, $allowed_Extensions = null, $allowed_Size = null, $new_Name = null){
     //public function uploadAnyFile($file, $new_Path) {
 
         $file_name = $file->getFilename();            // emporary file name

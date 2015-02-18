@@ -22,6 +22,22 @@ $now = \Carbon\Carbon::createFromDate();
 
 @section('content')
 <div class="row">
+    <div class="col-md-12"><!-- Some Message to be Displayed start-->
+        @if(Session::has('details-changed'))
+        <div class="errorHandler alert alert-success">
+            <i class="fa fa-remove-sign"></i>{{ Session::get('details-changed') }}
+        </div>
+        @elseif(Session::has('details-not-changed'))
+        <div class="errorHandler alert alert-danger">
+            <i class="fa fa-remove-sign"></i>{{ Session::get('details-not-changed') }}
+        </div>
+        @elseif(count($errors))
+        <div class="errorHandler alert alert-warning">
+            <i class="fa fa-remove-sign"></i>
+            <?php print_r($errors) ?>
+        </div>
+        @endif  
+    </div>
     <div class="col-md-12">
         <div class="tabbable">
             <ul class="nav nav-tabs tab-padding tab-space-3 tab-blue" id="myTab4">
@@ -35,6 +51,11 @@ $now = \Carbon\Carbon::createFromDate();
                         Edit Account
                     </a>
                 </li>
+                <li>
+                    <a data-toggle="tab" href="#panel_login_details">
+                        Login Details
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div id="panel_overview" class="tab-pane fade in active">
@@ -46,7 +67,7 @@ $now = \Carbon\Carbon::createFromDate();
                                 <div class="center">
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
                                         <div class="user-image">
-                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/images/ss.PNG') }}" alt="">
+                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user->pic) }}" alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -206,7 +227,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             Update Image
                                         </label>
                                         <div class="fileupload fileupload-new" data-provides="fileupload">
-                                            <div class="fileupload-new thumbnail"><img src="assets/images/avatar-1-xl.jpg" alt="">
+                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user->pic) }}" alt="">
                                             </div>
                                             <div class="fileupload-preview fileupload-exists thumbnail"></div> <br>
                                             <div class="user-edit-image-buttons">
@@ -325,25 +346,6 @@ $now = \Carbon\Carbon::createFromDate();
                                             </div>
                                         </div>
                                     </div>
-                                    <h3>Login Details</h3>
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Email Address
-                                        </label>
-                                        <input type="email" value="{{ $user->email or '' }}" class="form-control" id="email" name="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Password
-                                        </label>
-                                        <input type="password" placeholder="password" class="form-control" name="password" id="password">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Confirm Password
-                                        </label>
-                                        <input type="password"  placeholder="Confirm Password" class="form-control" id="password_again" name="password_again">
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -363,7 +365,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             <label class="control-label">
                                                 Home Phone Number
                                             </label>
-                                            <input type="number" value="{{ $user->phone_number or '' }}" class="form-control" id="phone_number" name="phone_number">
+                                            <input type="number" value="{{ $user->home_number or '' }}" class="form-control" id="home_number" name="home_number">
                                         </div>
                                     </div>
                                 </div>
@@ -445,6 +447,66 @@ $now = \Carbon\Carbon::createFromDate();
                         </div>
                         {{ Form::token() }}
                     </form>
+                </div>                
+                <div id="panel_login_details" class="tab-pane fade">
+                    <div class="row">
+                        <div class="user-left">
+                            <div class="col-md-6">
+                                <table class="table table-condensed table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3"><h3>Login Details</h3></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <form action="{{ URL::route('user-login-details-post'); }}" role="form" id="form" method="post" enctype="multipart/form-data">
+                                <h3>Update Details</h3>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Email Address
+                                    </label>
+                                    <input type="email" value="{{ $user->email or '' }}" class="form-control" id="email" name="email">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Old Password
+                                    </label>
+                                    <input type="password" placeholder="Old Password" class="form-control" name="old_password" id="old_password">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        New Password
+                                    </label>
+                                    <input type="password" placeholder="password" class="form-control" name="password" id="password">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Confirm Password
+                                    </label>
+                                    <input type="password"  placeholder="Confirm Password" class="form-control" id="password_again" name="password_again">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p>
+                                            Click the Update Button to Update your Details.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-blue btn-block" type="submit">
+                                            Update <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {{ Form::token() }}
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

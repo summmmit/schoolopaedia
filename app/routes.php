@@ -78,6 +78,13 @@ Route::group(array('before' => 'auth'), function(){
         Route::Post('/user/edit', array(
             'as' => 'user-edit-post',
             'uses' => 'UserAccountController@postEdit'
+        ));   
+        /*
+         *  Change User login Details (post)
+         */
+        Route::Post('/user/login/details', array(
+            'as' => 'user-login-details-post',
+            'uses' => 'UserAccountController@postChangePassword'
         ));
     });
     /*
