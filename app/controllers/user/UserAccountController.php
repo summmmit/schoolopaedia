@@ -45,22 +45,24 @@ class UserAccountController  extends BaseController {
             
             //Activation Code
             $code                       = str_random(60);
+
+            $now                        = date("Y-m-d H-i-s");
             
             $User = User::create(array(
                 'first_name'                => $first_name,
                 'last_name'                 => $last_name,
 
                 'email'                     => $email,
-                'email_updated_at'          => date("Y-m-d H:i:s"),
+                'email_updated_at'          => $now,
                 
                 'password'                  => Hash::make($password),
-                'password_updated_at'       => date("Y-m-d H:i:s"),
+                'password_updated_at'       => $now,
                 
                 'voter_id'                  => $voter_id,
                 'sex'                       => $sex,
                 'city'                      => $city,
                 'state'                     => $state,
-                'address_updated_at'        => date("Y-m-d H:i:s"),
+                'address_updated_at'        => $now,
 
                 'code'                      => $code,
                 'active'                    => 0,
@@ -261,6 +263,8 @@ class UserAccountController  extends BaseController {
             $now       =    date("Y-m-d H-i-s");
               
             if($user->email != Input::get('email')){
+
+                  $updated = true;
                 
                   $validator = Validator::make(Input::all(), array('email'  => 'sometimes|max:60|email|unique:users' ));
                   if($validator->fails()){
@@ -268,12 +272,12 @@ class UserAccountController  extends BaseController {
                   }else{
                          $user->email                      = Input::get('email');
                          $user->email_updated_at           = $now;
-                         
-                         $updated = true;
                   }
             }
             
             if(Input::get('password') != NULL && Input::get('old_password') != NULL){
+
+                $updated = true;
                 
                 $validator = Validator::make(Input::all(),
                     array(
@@ -292,8 +296,6 @@ class UserAccountController  extends BaseController {
                       if($auth){
                           $user->password                 =  Hash::make(Input::get('password'));
                           $user->password_updated_at      =  $now;
-                         
-                          $updated = true;
                       }else{
                           return Redirect::route('user-profile')->with('details-not-changed', 'Your Old Password is not matched. Try Again');
                       }

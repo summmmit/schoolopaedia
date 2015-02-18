@@ -465,7 +465,7 @@ $now = \Carbon\Carbon::createFromDate();
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <form action="{{ URL::route('user-login-details-post'); }}" role="form" id="form" method="post" enctype="multipart/form-data">
+                            <form action="{{ URL::route('user-login-details-post'); }}" role="form" id="form" method="post">
                                 <h3>Update Details</h3>
                                 <div class="form-group">
                                     <label class="control-label">
