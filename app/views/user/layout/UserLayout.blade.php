@@ -203,7 +203,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="login_login.html">
+                                <a href="{{ URL::route('user-sign-out'); }}">
                                     Log Out
                                 </a>
                             </li>
@@ -325,7 +325,7 @@
                 </a>
             </div>
             <div class="col-xs-6 text-right no-padding">
-                <a class="btn btn-sm log-out text-right" href="login_login.html">
+                <a class="btn btn-sm log-out text-right" href="{{ URL::route('user-sign-out'); }}">
                     <i class="fa fa-power-off"></i> Log Out
                 </a>
             </div>
@@ -370,8 +370,8 @@
             <div class="container">
                 <!-- start: PAGE HEADER -->
                 <!-- start: TOOLBAR -->
-                <div class="toolbar row">
-                    <div class="col-sm-12 hidden-xs">
+                <div class="toolbar row  hidden-xs">
+                    <div class="col-sm-12">
                         <div class="page-header">
                             @yield('page_header')
                         </div>

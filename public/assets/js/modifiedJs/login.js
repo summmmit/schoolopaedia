@@ -101,8 +101,7 @@ var Login = function() {
 		var errorHandler = $('.errorHandler', form);
 		form.validate({
 			rules : {
-				username : {
-					minlength : 2,
+				email : {
 					required : true
 				},
 				password : {
@@ -190,8 +189,8 @@ var Login = function() {
 	return {
 		//main function to initiate template pages
 		init : function() {
-			runBoxToShow();
-			runLoginButtons();
+			//runBoxToShow();
+			//runLoginButtons();
 			runSetDefaultValidation();
 			runLoginValidator();
 			runForgotValidator();

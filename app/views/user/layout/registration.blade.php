@@ -65,12 +65,7 @@
         <script src="{{ URL::asset('assets/plugins/jquery-validation/dist/jquery.validate.min.js'); }} "></script>
         <script src="{{ URL::asset('assets/js/modifiedJs/login.js'); }} "></script>
         <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-        <script>
-jQuery(document).ready(function() {
-    Main.init();
-    Login.init();
-});
-        </script>
+        @yield('scripts')
     </body>
     <!-- end: BODY -->
 </html>

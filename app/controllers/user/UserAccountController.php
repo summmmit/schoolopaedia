@@ -27,7 +27,7 @@ class UserAccountController  extends BaseController {
             )
         );
         if($validator->fails()){
-            return Redirect::route('account-create')
+            return Redirect::route('user-account-create')
                 ->withErrors($validator)
                 ->withInput();
         }else{            
@@ -129,27 +129,33 @@ class UserAccountController  extends BaseController {
 
             $auth = Auth::attempt(array(
                 'email'    => Input::get('email'),
-                'password' =>  Input::get('password'),
-                'active'   => 1
-            ), $remember);
+                'password' =>  Input::get('password')
+            ), $remember);          
 
             if($auth){
+                
+                $active = Auth::user()->active;  
+                
+                if($active == '0'){
+                     Auth::logout();
+                     return Redirect::route('user-sign-in')->with('global', 'Account Not Activated. Activate it.');
+                }
                 return Redirect::intended('/user/home');
+                
             }else{
+                
                 return Redirect::route('user-sign-in')
                     ->with('global', 'Email Address or Password Wrong');
             }
         }
 
-        return Redirect::route('user-sign-in')
-            ->with('global', 'account not activated');
+        return Redirect::route('user-sign-in')->with('global', 'account not activated');
 
     }
 
     public function getSignOut(){
-        Auth::logout();
-                return Redirect::route('user-sign-in')
-                    ->with('global', 'You Have Been Successfully Signed Out');
+                Auth::logout();
+                return Redirect::route('user-sign-in')->with('global', 'You Have Been Successfully Signed Out');
     }
     
     public function getUserHome(){
@@ -274,43 +280,103 @@ class UserAccountController  extends BaseController {
                          $user->email_updated_at           = $now;
                   }
             }
-            
-            if(Input::get('password') != NULL && Input::get('old_password') != NULL){
 
-                $updated = true;
-                
-                $validator = Validator::make(Input::all(),
-                    array(
-                          'old_password'   => 'required',
-                          'password'       => 'required|min:3',
-                          'password_again' => 'required|same:password'
-                         )
-                 );
-                
-                if($validator->fails()){
-                          return Redirect::route('user-profile')->withErrors($validator);
-                  }else{
-
-                      $auth = Auth::attempt(array('password' => Input::get('old_password')));
+            $auth = Auth::attempt(array('password' => Input::get('old_password')));
                       
-                      if($auth){
-                          $user->password                 =  Hash::make(Input::get('password'));
-                          $user->password_updated_at      =  $now;
-                      }else{
-                          return Redirect::route('user-profile')->with('details-not-changed', 'Your Old Password is not matched. Try Again');
-                      }
-                  }
+            if($auth){
+                if(Input::get('password') != NULL){
+
+                        $updated = true;
+                
+                        $validator = Validator::make(Input::all(),
+                                     array(
+                                             'password'       => 'required|min:3',
+                                             'password_again' => 'required|same:password'
+                                          )
+                                    );
+                        if($validator->fails()){
+                                    return Redirect::route('user-profile')->withErrors($validator);
+                        }else{
+                                    $user->password                 =  Hash::make(Input::get('password'));
+                                    $user->password_updated_at      =  $now;
+                        }
+                }                
+            }else{
+                    return Redirect::route('user-profile')->with('details-not-changed', 'Your Current Password is not matched. Try Again');
             }
             
             if($updated){
                 if($user->save()){
-                    return Redirect::route('user-profile')->with('details-changed', 'sumit Your Details is Changed');
+                    return Redirect::route('user-profile')->with('details-changed', ' Your Details are Changed');
                 }else{
                     return Redirect::route('user-profile')->with('details-not-changed', 'Your details Not Changed . Try Again');
                 }
             }else{
                     return Redirect::route('user-profile')->with('details-not-changed', ' You didn\'t changed any details. Check and Try Again');
             }
+    }
+
+    public function getForgotPassword(){
+        return View::make('user.account.forgotPassword');
+    }
+
+    public function postForgotPassword(){
+        $validator = Validator::make(Input::all(),
+            array(
+                'email' => 'required|email'
+            )
+        );
+        if($validator->fails()){
+            return Redirect::route('user-forgot-password')
+                ->withErrors($validator)
+                ->withInput();
+        }else{
+            $user = User::where('email' , '=', Input::get('email'));
+
+            if($user->count()) {
+                $user = $user->first();
+            }else{
+                return Redirect::route('user-forgot-password')->with('global', 'No such Email in our database. Enter Correct Email of yours');
+            }
+
+            //generate code and password
+
+            $code                 = str_random(60);
+            $password_temp        = str_random(10);
+
+            $user->code           = $code;
+            $user->password_temp  = Hash::make($password_temp);
+
+            if($user->save()){
+                //send email
+                Mail::send('emails.auth.recover', array('link' => URL::route('user-account-recover', $code), 'username' => $user->username, 'password' => $password), function($message) use ($user){
+                    $message->to($user->email, $user->username)->subject('Change Password for Your Account');
+                });
+                return Redirect::route('user-sign-in')->with('global', 'We have sent the Password to ur email. Check Your Email Account for directions.');
+            }
+        }
+        return Redirect::route('account-forgot-password')->with('global', 'Password could Not Changed . Try Again');
+    }
+
+    public function getRecover($code){
+        $user = User::where('code', '=', $code)
+        ->where('password_temp', '!=', '');
+
+        if($user->count()){
+            $user = $user->first();
+
+            $user->password = $user->password_temp;
+            $user->password_temp = '';
+            $user->code =  '';
+
+            if($user->save()){
+                return Redirect::route('user-sign-in')
+                    ->with('global', 'We have changed your password to new one.');
+            }
+
+            return Redirect::route('account-forgot-password')
+                ->with('global', 'Password could Not Changed . Try Again');
+        }
     }
 
 }

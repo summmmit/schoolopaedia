@@ -38,6 +38,13 @@ Route::group(array('before' => 'guest'), function() {
             'as' => 'account-create-post',
             'uses' => 'AccountController@postCreate'
         ));
+        /*
+         *  User Sign-in (post)
+         */
+        Route::Post('/user/forgot/password/post', array(
+            'as' => 'user-forgot-password-post',
+            'uses' => 'UserAccountController@postForgotPassword'
+        ));
     });
     /*
      * User Create Account (get)
@@ -59,6 +66,20 @@ Route::group(array('before' => 'guest'), function() {
     Route::get('/user/account/activate/{code}', array(
         'as'  => 'user-account-activate',
         'uses' => 'UserAccountController@getActivate'
+    ));
+    /*
+     * User Forgot password (get)
+     */
+    Route::get('/user/forgot/password', array(
+        'as' => 'user-forgot-password',
+        'uses' => 'UserAccountController@getForgotPassword'
+    ));
+    /*
+     * User Recover Account (get)
+     */
+    Route::get('/user/account/recover/{code}', array(
+        'as'  => 'user-account-recover',
+        'uses' => 'UserAccountController@getRecover'
     ));
 });
 

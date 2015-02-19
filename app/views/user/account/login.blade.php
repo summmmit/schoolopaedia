@@ -8,26 +8,25 @@
     </p>
     <form class="form-login" action="{{ URL::route('user-sign-in-post'); }}" method="post">        
         <!-- Some Message to be Displayed start-->
+        <div class="errorHandler alert alert-danger no-display">
+            <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+        </div>
         @if(Session::has('global'))
         <div class="errorHandler alert alert-danger">
             <i class="fa fa-remove-sign"></i>{{ Session::get('global') }}
         </div>
-        @endif       
-        <!-- Some Message to be Displayed End-->
-        <div class="errorHandler alert alert-danger no-display">
-            <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
-        </div>
+        @endif      
         <fieldset>
             <div class="form-group">
                 <span class="input-icon">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address">
+                    <input type="email" class="form-control" name="email" placeholder="Email Address" value="{{ Input::old('email') or '' }}">
                     <i class="fa fa-user"></i> </span>
             </div>
             <div class="form-group form-actions">
                 <span class="input-icon">
                     <input type="password" class="form-control password" name="password" placeholder="Password">
                     <i class="fa fa-lock"></i>
-                    <a class="forgot" href="#">
+                    <a class="forgot" href="{{ URL::route('user-forgot-password'); }}">
                         I forgot my password
                     </a> </span>
             </div>
@@ -56,5 +55,13 @@
     <!-- end: COPYRIGHT -->
 </div>
 <!-- end: LOGIN BOX -->
+@stop
+@section('scripts')
+<script>
+    jQuery(document).ready(function() {
+        Main.init();
+        Login.init();
+    });
+</script>
 
 @stop

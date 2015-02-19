@@ -31,12 +31,14 @@ $now = \Carbon\Carbon::createFromDate();
         <div class="errorHandler alert alert-danger">
             <i class="fa fa-remove-sign"></i>{{ Session::get('details-not-changed') }}
         </div>
-        @elseif(count($errors))
-        <div class="errorHandler alert alert-warning">
-            <i class="fa fa-remove-sign"></i>
-            <?php print_r($errors) ?>
+        @endif 
+        @if ($errors->has())
+        <div class="errorHandler alert alert-danger">
+            @foreach ($errors->all() as $error)
+            {{ $error }}<br>        
+            @endforeach
         </div>
-        @endif  
+        @endif
     </div>
     <div class="col-md-12">
         <div class="tabbable">
@@ -456,10 +458,10 @@ $now = \Carbon\Carbon::createFromDate();
                                     <thead>
                                         <tr>
                                             <th colspan="3"><h3>Login Details</h3></th>
-                                        </tr>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -475,9 +477,9 @@ $now = \Carbon\Carbon::createFromDate();
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
-                                        Old Password
+                                        Current Password
                                     </label>
-                                    <input type="password" placeholder="Old Password" class="form-control" name="old_password" id="old_password">
+                                    <input type="password" placeholder="Old Password" class="form-control" name="old_password" id="old_password" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
@@ -521,11 +523,26 @@ $now = \Carbon\Carbon::createFromDate();
     <script src="{{ URL::asset('assets/js/pages-user-profile.js'); }}"></script>
     <script src="{{ URL::asset('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js'); }}"></script>
     <script>
-jQuery(document).ready(function() {
+
+jQuery(document).ready(function() {    
+    
+    if (location.hash) {
+        $('a[href=' + location.hash + ']').tab('show');
+    }
+    $(document.body).on("click", "a[data-toggle]", function(event) {
+        location.hash = this.getAttribute("href");
+    });
+    
     Main.init();
     SVExamples.init();
     PagesUserProfile.init();
     FormElements.init();
+
+});
+        
+$(window).on('popstate', function() {
+    var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+    $('a[href=' + anchor + ']').tab('show');
 });
     </script>
 
