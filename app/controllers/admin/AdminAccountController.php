@@ -15,7 +15,7 @@
 class AdminAccountController  extends BaseController {
 
     public function getCreate(){
-        return View::make('user.account.register');
+        return View::make('admin.account.register');
     }
 
     public function postCreate(){
@@ -33,7 +33,7 @@ class AdminAccountController  extends BaseController {
             )
         );
         if($validator->fails()){
-            return Redirect::route('user-account-create')
+            return Redirect::route('admin-account-create')
                 ->withErrors($validator)
                 ->withInput();
         }else{            
@@ -79,13 +79,13 @@ class AdminAccountController  extends BaseController {
             if($User){
 
                 //send email
-                Mail::send('emails.auth.activate', array('link' => URL::route('user-account-activate', $code), 'voter_id' => $voter_id), function($message) use ($User){
+                Mail::send('emails.auth.activate', array('link' => URL::route('admin-account-activate', $code), 'voter_id' => $voter_id), function($message) use ($User){
                     $message->to($User->email, $User->voter_id)->subject('Activate Your Account');
                 });
-                return Redirect::route('user-sign-in')
+                return Redirect::route('admin-sign-in')
                     ->with('global', 'You have been Registered. You can activate Now.');
             }else{
-                return Redirect::route('user-sign-in')
+                return Redirect::route('admin-sign-in')
                     ->with('global', 'You have not Been Registered. Try Again Later Some time.');
             }
         }
@@ -105,16 +105,16 @@ class AdminAccountController  extends BaseController {
             $user->code = "";
 
             if($user->save()){
-                return Redirect::route('user-sign-in')
+                return Redirect::route('admin-sign-in')
                     ->with('global', 'Activted thanks');
             }
         }
-        return Redirect::route('user-sign-in')
+        return Redirect::route('admin-sign-in')
             ->with('global', 'Cant activate do after some time');
     }
 
     public function getSignIn(){
-        return View::make('user.account.login');
+        return View::make('admin.account.login');
 
     }
 
@@ -126,7 +126,7 @@ class AdminAccountController  extends BaseController {
             )
         );
         if($validator->fails()){
-            return Redirect::route('user-sign-in')
+            return Redirect::route('admin-sign-in')
                 ->withErrors($validator)
                 ->withInput();
         }else{
@@ -144,33 +144,33 @@ class AdminAccountController  extends BaseController {
                 
                 if($active == '0'){
                      Auth::logout();
-                     return Redirect::route('user-sign-in')->with('global', 'Account Not Activated. Activate it.');
+                     return Redirect::route('admin-sign-in')->with('global', 'Account Not Activated. Activate it.');
                 }
-                return Redirect::intended('/user/home');
+                return Redirect::intended('/admin/home');
                 
             }else{
                 
-                return Redirect::route('user-sign-in')
+                return Redirect::route('admin-sign-in')
                     ->with('global', 'Email Address or Password Wrong');
             }
         }
 
-        return Redirect::route('user-sign-in')->with('global', 'account not activated');
+        return Redirect::route('admin-sign-in')->with('global', 'account not activated');
 
     }
 
     public function getSignOut(){
                 Auth::logout();
-                return Redirect::route('user-sign-in')->with('global', 'You Have Been Successfully Signed Out');
+                return Redirect::route('admin-sign-in')->with('global', 'You Have Been Successfully Signed Out');
     }
     
-    public function getUserHome(){
-        return View::make('user.userHome');
+    public function getAdminHome(){
+        return View::make('admin.adminHome');
     }
     
-    public function getUserProfile(){
+    public function getAdminProfile(){
         $user = Auth::user();            
-        return View::make('user.UserProfile')->withuser($user);
+        return View::make('admin.AdminProfile')->withuser($user);
     }
 
     public function postEdit(){
@@ -211,7 +211,7 @@ class AdminAccountController  extends BaseController {
             )
         );
         if($validator->fails()){
-            return Redirect::route('user-profile')
+            return Redirect::route('admin-profile')
                 ->withErrors($validator)
                 ->withInput();
         }else{
@@ -258,9 +258,9 @@ class AdminAccountController  extends BaseController {
             }
                 
             if($user->save()){
-                return Redirect::route('user-profile')->with('details-changed', 'Your Details are updated');
+                return Redirect::route('admin-profile')->with('details-changed', 'Your Details are updated');
             }else{
-                return Redirect::route('user-profile')->with('details-not-changed', 'Your Details Couldnt updated. Some Error Occured');
+                return Redirect::route('admin-profile')->with('details-not-changed', 'Your Details Couldnt updated. Some Error Occured');
             }
 
         }
@@ -280,7 +280,7 @@ class AdminAccountController  extends BaseController {
                 
                   $validator = Validator::make(Input::all(), array('email'  => 'sometimes|max:60|email|unique:users' ));
                   if($validator->fails()){
-                         return Redirect::route('user-profile')->withErrors($validator)->withInput();
+                         return Redirect::route('admin-profile')->withErrors($validator)->withInput();
                   }else{
                          $user->email                      = Input::get('email');
                          $user->email_updated_at           = $now;
@@ -301,29 +301,29 @@ class AdminAccountController  extends BaseController {
                                           )
                                     );
                         if($validator->fails()){
-                                    return Redirect::route('user-profile')->withErrors($validator);
+                                    return Redirect::route('admin-profile')->withErrors($validator);
                         }else{
                                     $user->password                 =  Hash::make(Input::get('password'));
                                     $user->password_updated_at      =  $now;
                         }
                 }                
             }else{
-                    return Redirect::route('user-profile')->with('details-not-changed', 'Your Current Password is not matched. Try Again');
+                    return Redirect::route('admin-profile')->with('details-not-changed', 'Your Current Password is not matched. Try Again');
             }
             
             if($updated){
                 if($user->save()){
-                    return Redirect::route('user-profile')->with('details-changed', ' Your Details are Changed');
+                    return Redirect::route('admin-profile')->with('details-changed', ' Your Details are Changed');
                 }else{
-                    return Redirect::route('user-profile')->with('details-not-changed', 'Your details Not Changed . Try Again');
+                    return Redirect::route('admin-profile')->with('details-not-changed', 'Your details Not Changed . Try Again');
                 }
             }else{
-                    return Redirect::route('user-profile')->with('details-not-changed', ' You didn\'t changed any details. Check and Try Again');
+                    return Redirect::route('admin-profile')->with('details-not-changed', ' You didn\'t changed any details. Check and Try Again');
             }
     }
 
     public function getForgotPassword(){
-        return View::make('user.account.forgotPassword');
+        return View::make('admin.account.forgotPassword');
     }
 
     public function postForgotPassword(){
@@ -333,7 +333,7 @@ class AdminAccountController  extends BaseController {
             )
         );
         if($validator->fails()){
-            return Redirect::route('user-forgot-password')
+            return Redirect::route('admin-forgot-password')
                 ->withErrors($validator)
                 ->withInput();
         }else{
@@ -342,7 +342,7 @@ class AdminAccountController  extends BaseController {
             if($user->count()) {
                 $user = $user->first();
             }else{
-                return Redirect::route('user-forgot-password')->with('global', 'No such Email in our database. Enter Correct Email of yours');
+                return Redirect::route('admin-forgot-password')->with('global', 'No such Email in our database. Enter Correct Email of yours');
             }
 
             //generate code and password
@@ -355,10 +355,10 @@ class AdminAccountController  extends BaseController {
 
             if($user->save()){
                 //send email
-                Mail::send('emails.auth.recover', array('link' => URL::route('user-account-recover', $code), 'username' => $user->username, 'password' => $password), function($message) use ($user){
+                Mail::send('emails.auth.recover', array('link' => URL::route('admin-account-recover', $code), 'username' => $user->username, 'password' => $password), function($message) use ($user){
                     $message->to($user->email, $user->username)->subject('Change Password for Your Account');
                 });
-                return Redirect::route('user-sign-in')->with('global', 'We have sent the Password to ur email. Check Your Email Account for directions.');
+                return Redirect::route('admin-sign-in')->with('global', 'We have sent the Password to ur email. Check Your Email Account for directions.');
             }
         }
         return Redirect::route('account-forgot-password')->with('global', 'Password could Not Changed . Try Again');
@@ -376,7 +376,7 @@ class AdminAccountController  extends BaseController {
             $user->code =  '';
 
             if($user->save()){
-                return Redirect::route('user-sign-in')
+                return Redirect::route('admin-sign-in')
                     ->with('global', 'We have changed your password to new one.');
             }
 
