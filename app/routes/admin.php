@@ -7,7 +7,6 @@ Route::get('/', array(
     'as' => 'home',
     'uses' => 'HomeController@showWelcome'
 ));
-
 /*
  * Unauthenticated Group
  */
@@ -122,7 +121,7 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
      * Admin Home (get)
      */
     Route::get('/admin/home', array(
-        'as'  => 'admin-home',
+        'as'  => 'admin-dashboard',
         'uses' => 'AdminAccountController@getAdminHome'
     ));
     

@@ -106,7 +106,7 @@ class AdminAccountController  extends BaseController {
 
             if($user->save()){
                 return Redirect::route('admin-sign-in')
-                    ->with('global', 'Activted thanks');
+                    ->with('global', 'Activated thanks. You can login now');
             }
         }
         return Redirect::route('admin-sign-in')
@@ -134,19 +134,21 @@ class AdminAccountController  extends BaseController {
             $remember = (Input::has('remember')) ? true : false;
 
             $auth = Auth::attempt(array(
-                'email'    => Input::get('email'),
-                'password' =>  Input::get('password')
+                'email'       => Input::get('email'),
+                'password'    => Input::get('password'),
+                'permissions' => 2
             ), $remember);          
 
             if($auth){
                 
-                $active = Auth::user()->active;  
+                $active = Auth::user()->active; 
                 
-                if($active == '0'){
+                if($active == 0){
                      Auth::logout();
                      return Redirect::route('admin-sign-in')->with('global', 'Account Not Activated. Activate it.');
+                }elseif($active == 1){
+                     return Redirect::intended('/administrator/admin/home');
                 }
-                return Redirect::intended('/admin/home');
                 
             }else{
                 

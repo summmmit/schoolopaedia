@@ -1,4 +1,4 @@
-@extends('admin.layout.UserLayout')
+@extends('admin.layout.adminLayout')
 
 @section('page_header')
 <h1><i class="fa fa-pencil-square"></i> Your Details<small>These are the details of you as per our database.</small></h1>
