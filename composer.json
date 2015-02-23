@@ -6,8 +6,10 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-	        "xethron/migrations-generator": "dev-master",
-                "intervention/image": "dev-master"
+	    "xethron/migrations-generator": "dev-master",
+        "intervention/image": "dev-master",
+        "orangehill/iseed": "dev-master",
+        "stevebauman/location": "1.1.*"
 	},
 	"autoload": {
 		"classmap": [
