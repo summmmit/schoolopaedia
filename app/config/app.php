@@ -124,6 +124,8 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider',
         'Intervention\Image\ImageServiceProvider',
+        'Orangehill\Iseed\IseedServiceProvider',
+        'Stevebauman\Location\LocationServiceProvider',
 
 	),
 
@@ -192,6 +194,7 @@ return array(
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
         'Image'             => 'Intervention\Image\Facades\Image',
+        'Location'          => 'Stevebauman\Location\Facades\Location',
 
 	),
 

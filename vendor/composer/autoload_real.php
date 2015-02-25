@@ -52,7 +52,6 @@ class ComposerAutoloaderInit72036b842faaff5d5c5682e7129a0d70
         return $loader;
     }
 }
-
 function composerRequire72036b842faaff5d5c5682e7129a0d70($file)
 {
     require $file;

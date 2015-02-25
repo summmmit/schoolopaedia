@@ -129,18 +129,20 @@ class UserAccountController  extends BaseController {
 
             $auth = Auth::attempt(array(
                 'email'    => Input::get('email'),
-                'password' =>  Input::get('password')
+                'password' =>  Input::get('password'),
+                'permissions' => 1
             ), $remember);          
 
             if($auth){
                 
                 $active = Auth::user()->active;  
                 
-                if($active == '0'){
+                if($active == 0){
                      Auth::logout();
                      return Redirect::route('user-sign-in')->with('global', 'Account Not Activated. Activate it.');
+                }else if($active == 1){
+                     return Redirect::intended('/user/home');
                 }
-                return Redirect::intended('/user/home');
                 
             }else{
                 
@@ -163,7 +165,7 @@ class UserAccountController  extends BaseController {
     }
     
     public function getUserProfile(){
-        $user = Auth::user();            
+        $user = Auth::user();
         return View::make('user.UserProfile')->withuser($user);
     }
 
