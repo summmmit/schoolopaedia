@@ -72,7 +72,7 @@ return array(
     /*
      *  IP to check for localhost testing *default is Google Host in US*
      */
-    'localhost_testing_ip' => '66.102.0.0',
+    'localhost_testing_ip' => true,
 
     /*
      * Default Dropdown Configuration:

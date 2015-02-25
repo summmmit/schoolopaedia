@@ -163,7 +163,10 @@ class UserAccountController  extends BaseController {
     }
     
     public function getUserProfile(){
-        $user = Auth::user();            
+               $local = new \Stevebauman\Location\Location;
+        print_r($local->get());
+        die();
+        $user = Auth::user();
         return View::make('user.UserProfile')->withuser($user);
     }
 
