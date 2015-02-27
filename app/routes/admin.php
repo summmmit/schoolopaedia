@@ -106,6 +106,13 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
             'as' => 'admin-login-details-post',
             'uses' => 'AdminAccountController@postChangePassword'
         ));
+        /*
+         * Admin Time Table Set (post)
+         */
+        Route::Post('/admin/time/table', array(
+            'as' => 'admin-time-table-post',
+            'uses' => 'AdminTimeTableController@postTimeTableCreate'
+        ));
     });
     /*
      * non - protection Routes
@@ -115,8 +122,7 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
     Route::get('/admin/account/sign/out', array(
         'as'  => 'admin-sign-out',
         'uses' => 'AdminAccountController@getSignOut'
-    ));
-    
+    ));    
     /*
      * Admin Home (get)
      */
@@ -124,13 +130,19 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
         'as'  => 'admin-dashboard',
         'uses' => 'AdminAccountController@getAdminHome'
     ));
-    
-    /*
+        /*
      * Admin Profile (get)
      */
     Route::get('/admin/profile', array(
         'as'  => 'admin-profile',
         'uses' => 'AdminAccountController@getAdminProfile'
+    ));    
+    /*
+     * Admin Time Table Set (get)
+     */
+    Route::get('/admin/time/table', array(
+        'as'  => 'admin-time-table',
+        'uses' => 'AdminTimeTableController@getTimeTableCreate'
     ));
     
 });

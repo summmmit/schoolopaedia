@@ -80,7 +80,7 @@
             </ul>
         </li>
         <li>
-            <a href="javascript:void(0)"><i class="fa fa-desktop"></i> <span class="title"> Add or Edit Events </span></a>
+            <a href="{{ URL::route('admin-time-table'); }}"><i class="fa fa-desktop"></i> <span class="title"> Add or Edit TimeTable </span></a>
         </li>
     </ul>
     <!-- end: MAIN NAVIGATION MENU -->

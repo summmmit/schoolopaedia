@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of AdminAccountController
  *
@@ -54,6 +47,8 @@ class AdminAccountController  extends BaseController {
 
             $now                        = date("Y-m-d H-i-s");
             
+            $groups = Groups::find(2);
+            
             $User = User::create(array(
                 'first_name'                => $first_name,
                 'last_name'                 => $last_name,
@@ -72,8 +67,8 @@ class AdminAccountController  extends BaseController {
 
                 'code'                      => $code,
                 'active'                    => 0,
-                'mobile_verified'           => 0
-                
+                'mobile_verified'           => 0,
+                'permissions'               => $groups->id                
                 ));
             
             if($User){

@@ -39,6 +39,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'address_updated_at',
 		'pic',
 		'pic_updated_at',
+                'permissions',
 		'newsletter'
 	);
 
@@ -55,5 +56,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	protected $hidden = array('password', 'remember_token');
+        
+        /**
+         * for the foreign key permissions to the group table
+         */
+        public function groups(){
+            return $this->hasone('Groups', 'permissions', 'id');
+        }
 
 }

@@ -66,7 +66,8 @@ class UserAccountController  extends BaseController {
 
                 'code'                      => $code,
                 'active'                    => 0,
-                'mobile_verified'           => 0
+                'mobile_verified'           => 0,
+                'permissions'               => 1
                 
                 ));
             
