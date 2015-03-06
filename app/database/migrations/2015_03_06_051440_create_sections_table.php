@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateGroupsTable extends Migration {
+class CreateSectionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,12 @@ class CreateGroupsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('groups', function(Blueprint $table)
+		Schema::create('sections', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('type');
-			$table->text('permissions', 65535);
+			$table->string('section_name', 15);
+			$table->integer('class_id')->index('class_id');
+			$table->dateTime('deleted_at');
 			$table->timestamps();
 		});
 	}
@@ -29,7 +30,7 @@ class CreateGroupsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('groups');
+		Schema::drop('sections');
 	}
 
 }

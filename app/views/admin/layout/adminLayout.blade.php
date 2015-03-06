@@ -179,6 +179,9 @@
         </div>
     </footer>
     <!-- end: FOOTER -->
+    <!-- start: Subview For other Pages -->
+                @yield('subview')
+    <!-- end : Subview For other Pages -->
     <!-- start: SUBVIEW SAMPLE CONTENTS -->
     <!-- *** NEW NOTE *** -->
     <div id="newNote">

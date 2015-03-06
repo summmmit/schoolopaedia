@@ -44,9 +44,10 @@ class CreateUsersTable extends Migration {
 			$table->dateTime('address_updated_at');
 			$table->string('pic', 100);
 			$table->dateTime('pic_updated_at');
-			$table->boolean('permissions');
+			$table->integer('permissions')->index('permissions');
 			$table->boolean('newsletter');
 			$table->string('remember_token', 100);
+			$table->dateTime('deleted_at');
 			$table->timestamps();
 		});
 	}
