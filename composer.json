@@ -9,7 +9,8 @@
 	    "xethron/migrations-generator": "dev-master",
         "intervention/image": "dev-master",
         "orangehill/iseed": "dev-master",
-        "stevebauman/location": "1.1.*"
+        "stevebauman/location": "1.1.*",
+        "bllim/datatables": "*"
 	},
 	"autoload": {
 		"classmap": [
