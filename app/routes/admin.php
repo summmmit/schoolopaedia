@@ -143,6 +143,13 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
     Route::get('/admin/time/table', array(
         'as'  => 'admin-time-table',
         'uses' => 'AdminTimeTableController@getTimeTableCreate'
+    ));  
+    /*
+     * Admin Classes Set (get)
+     */
+    Route::get('/admin/time/table/classes', array(
+        'as'  => 'admin-time-table-classes',
+        'uses' => 'AdminTimeTableController@apiClasses'
     ));
     
 });
