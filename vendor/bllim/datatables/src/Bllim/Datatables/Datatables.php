@@ -415,7 +415,7 @@ class Datatables
      *
      * @return string
      */
-    public function blader($str,$data = array())
+    protected function blader($str,$data = array())
     {
         $empty_filesystem_instance = new Filesystem;
         $blade = new BladeCompiler($empty_filesystem_instance,'datatables');

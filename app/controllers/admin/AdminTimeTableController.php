@@ -15,10 +15,8 @@
 class AdminTimeTableController  extends BaseController {
 
     public function getTimeTableCreate(){
-        $classes = Classes::select(array('class'))->where('school_id', '=', 1);
-        $dataTables = Datatables::of($classes)->make()->blader('admin.timetableset');
-
-        return $dataTables;
+        $classes = Classes::where('school_id', '=', 1)->get();
+        return View::make('admin.timetableset')->with('classes', $classes);
     }
 
     public function postTimeTableCreate(){
@@ -26,14 +24,8 @@ class AdminTimeTableController  extends BaseController {
     }
     
     public function apiClasses(){
-        $classes = Classes::where('school_id', '=', 1);
-        $classes = Classes::select(array('class'))->where('school_id', '=', 1);
-        $dataTables = Datatables::of($classes)->make();
-
-        echo "<pre>";
-        print_r($dataTables);
-
-        //return View::make('admin.timetableset')->with('classes', $classes);
+        $classes = Classes::where('school_id', '=', 1)->get()->toJson();
+        return View::make('admin.timetableset')->with('classes', $classes);
     }
     
 }
