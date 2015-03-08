@@ -10,7 +10,7 @@
         "intervention/image": "dev-master",
         "orangehill/iseed": "dev-master",
         "stevebauman/location": "1.1.*",
-        "bllim/datatables": "*"
+        "chumper/datatable": "2.*"
 	},
 	"autoload": {
 		"classmap": [

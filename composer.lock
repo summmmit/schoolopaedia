@@ -4,41 +4,37 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "70e55216c6b2b2351467bc91c0ef4665",
+    "hash": "3618912909251950f010cf1f5be21d95",
     "packages": [
         {
-            "name": "bllim/datatables",
-            "version": "v1.4.4",
+            "name": "chumper/datatable",
+            "version": "2.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bllim/laravel4-datatables-package.git",
-                "reference": "93bba1836b1fa5039137aa3dab4049c7f1c09d4d"
+                "url": "https://github.com/Chumper/Datatable.git",
+                "reference": "cff842783f3f4af60c2be295435b2bd812510ef5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bllim/laravel4-datatables-package/zipball/93bba1836b1fa5039137aa3dab4049c7f1c09d4d",
-                "reference": "93bba1836b1fa5039137aa3dab4049c7f1c09d4d",
+                "url": "https://api.github.com/repos/Chumper/Datatable/zipball/cff842783f3f4af60c2be295435b2bd812510ef5",
+                "reference": "cff842783f3f4af60c2be295435b2bd812510ef5",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": ">=4.0.0",
-                "illuminate/filesystem": ">=4.0.0",
-                "illuminate/support": ">=4.0.0",
-                "illuminate/view": ">=4.0.0",
+                "illuminate/config": "4.*",
+                "illuminate/support": "4.*",
+                "illuminate/view": "4.*",
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "laravel/laravel": ">=4.0.0",
-                "mockery/mockery": "0.7.2",
+                "mockery/mockery": "dev-master",
+                "orchestra/testbench": "2.1.*",
                 "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "src/migrations"
-                ],
                 "psr-0": {
-                    "Bllim\\Datatables": "src/"
+                    "Chumper\\Datatable": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -47,19 +43,21 @@
             ],
             "authors": [
                 {
-                    "name": "Bilal Gultekin",
-                    "email": "bilal@bilal.im"
+                    "name": "Nils Plaschke",
+                    "email": "github@nilsplaschke.de",
+                    "homepage": "http://nilsplaschke.de",
+                    "role": "Developer"
                 }
             ],
-            "description": "Server-side handler of DataTables Jquery Plugin for Laravel 4",
+            "description": "This is a laravel 4 package for the server and client side of datatablaes at http://datatables.net/",
+            "homepage": "http://github.com/Chumper/datatable",
             "keywords": [
-                "datatable",
+                "ajax",
                 "datatables",
-                "datatables jquery plugin",
-                "laravel",
-                "laravel4"
+                "jquery",
+                "laravel"
             ],
-            "time": "2014-09-05 07:55:04"
+            "time": "2014-05-11 14:53:49"
         },
         {
             "name": "classpreloader/classpreloader",

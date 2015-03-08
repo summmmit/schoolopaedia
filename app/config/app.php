@@ -126,7 +126,6 @@ return array(
         'Intervention\Image\ImageServiceProvider',
         'Orangehill\Iseed\IseedServiceProvider',
         'Stevebauman\Location\LocationServiceProvider',
-        'Bllim\Datatables\DatatablesServiceProvider',
 
 	),
 
@@ -196,8 +195,6 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
         'Image'             => 'Intervention\Image\Facades\Image',
         'Location'          => 'Stevebauman\Location\Facades\Location',
-        'Datatables'        => 'Bllim\Datatables\Facade\Datatables',
-
 	),
 
 );
