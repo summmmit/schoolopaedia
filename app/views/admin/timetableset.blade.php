@@ -3,6 +3,8 @@
 @section('stylesheets')
 
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}" />
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.4/css/jquery.dataTables.min.css">
+
 @stop
 
 @section('page_header')
@@ -84,7 +86,7 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table table-striped table-hover" id="classes_table">
+            <table class="table table-striped table-hover" id="data-tables">
                 <thead>
                     <tr>
                         <th>Class</th>
@@ -93,9 +95,8 @@
                     </tr>
                 </thead>
                 <tbody
-                    @foreach($classes as $class => $value)
                     <tr>
-                        <td>{{ $classes[$class]->class }}</td>
+                        <td></td>
                         <td>
                             <a href="#" class="edit-row">
                                 Edit
@@ -105,7 +106,6 @@
                                 Delete
                             </a></td>
                     </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -116,14 +116,20 @@
 @section('scripts')
 <!-- Scripts for This page only -->
 <script type="text/javascript" src="{{ URL::asset('assets/plugins/select2/select2.min.js'); }}"></script>
-<script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data.js'); }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.4/js/jquery.dataTables.min.js"></script>
 <script src="{{ URL::asset('assets/js/ui-subview.js'); }}"></script>             <!-- For Subview -->
 <script>
 jQuery(document).ready(function() {
     Main.init();
     SVExamples.init();
     UISubview.init();
-    TableData.init();
+    // TableData.init();
+    
+    $('#data-tables').dataTable( {
+        "processing": true,
+        "serverSide": true,
+        "ajax": "/admin/time/table/classes"
+    } );
 });
 </script>
 @stop
