@@ -3,7 +3,8 @@
 @section('stylesheets')
 
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}" />
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css'); }}" />
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/bootstrap-modal/css/bootstrap-modal.css'); }}" />
 
 @stop
 
@@ -34,9 +35,9 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <a class="btn btn-green show-sv" href="#subview-add-classes" data-startFrom="right">
-                            Show Right Subview <i class="fa fa-chevron-right"></i>
-                        </a>
+                        <button data-bb="prompt" class="btn btn-orange">
+                            Add New Class <i class="fa fa-plus"></i>
+                        </button>
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-orange add-row">
@@ -80,34 +81,31 @@
         <h3>Classes Present Now</h3>
         <div class="row">
             <div class="col-md-12 space20">
-                <button class="btn btn-orange add-row">
-                    Add New <i class="fa fa-plus"></i>
-                </button>
+                <form action="#" role="form" id="form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="errorHandler alert alert-danger no-display">
+                                <i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+                            </div>
+                            <div class="successHandler alert alert-success no-display">
+                                <i class="fa fa-ok"></i> Your form validation is successful!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <input type="text" placeholder="Add New Class Name" class="form-control" id="firstname" name="class">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-yellow btn-block" type="submit">
+                                Add New Class <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover" id="data-tables">
-                <thead>
-                    <tr>
-                        <th>Class</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody
-                    <tr>
-                        <td></td>
-                        <td>
-                            <a href="#" class="edit-row">
-                                Edit
-                            </a></td>
-                        <td>
-                            <a href="#" class="delete-row">
-                                Delete
-                            </a></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 </div>
@@ -116,20 +114,16 @@
 @section('scripts')
 <!-- Scripts for This page only -->
 <script type="text/javascript" src="{{ URL::asset('assets/plugins/select2/select2.min.js'); }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.4/js/jquery.dataTables.min.js"></script>
 <script src="{{ URL::asset('assets/js/ui-subview.js'); }}"></script>             <!-- For Subview -->
+<script type="text/javascript" src="{{ URL::asset('assets/plugins/bootstrap-modal/js/bootstrap-modal.js'); }}"></script>
+<script type="text/javascript" src="{{ URL::asset('assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js'); }}"></script>
+<script type="text/javascript" src="{{ URL::asset('assets/js/ui-modals.js'); }}"></script>  <!-- For Modals -->
 <script>
 jQuery(document).ready(function() {
     Main.init();
     SVExamples.init();
     UISubview.init();
-    // TableData.init();
-    
-    $('#data-tables').dataTable( {
-        "processing": true,
-        "serverSide": true,
-        "ajax": "/admin/time/table/classes"
-    } );
+    UIModals.init();
 });
 </script>
 @stop
