@@ -147,9 +147,9 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
     /*
      * Admin Classes Set (get)
      */
-    Route::get('/admin/time/table/classes', array(
-        'as'  => 'admin-time-table-classes',
-        'uses' => 'AdminTimeTableController@apiClasses'
+    Route::Post('/admin/time/table/add/classes', array(
+        'as'  => 'admin-time-table-add-classes',
+        'uses' => 'AdminTimeTableController@getAddClasses'
     ));
     
 });

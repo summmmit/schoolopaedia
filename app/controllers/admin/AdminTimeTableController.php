@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of AdminAccountController
  *
@@ -23,9 +17,26 @@ class AdminTimeTableController  extends BaseController {
         //return View::make('');
     }
     
-    public function apiClasses(){
-        $classes = Classes::where('school_id', '=', 1)->get()->toJson();
-        return View::make('admin.timetableset')->with('classes', $classes);
+    public function getAddClasses(){
+
+        $new_class = Input::get('class');
+
+        $class = new Classes();
+        $class->class = $new_class;
+        $class->school_id = 1;
+        if($class->save()){
+
+            $response = array(
+                'status' => 'success',
+                'msg' => 'Setting created successfully',
+                'data_send' => array(
+                    'id' => $class->id,
+                    'class_name' => $class->class
+                ),
+            );
+
+            return Response::json( $response );
+        }
     }
     
 }

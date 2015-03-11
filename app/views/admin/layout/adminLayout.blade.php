@@ -64,7 +64,7 @@
                 </a>
                 <!-- start: LOGO -->
                 <a class="navbar-brand" href="index.html">
-                    <img src="assets/images/logo.png" alt="Rapido"/>
+                    <img src="{{ URL::asset('assets/images/logo.png'); }}" alt="Rapido"/>
                 </a>
                 <!-- end: LOGO -->
             </div>
@@ -250,7 +250,7 @@
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <div class="avatar-note"><img src="assets/images/avatar-2-small.jpg" alt="">
+                            <div class="avatar-note"><img src="{{ URL::asset('assets/images/avatar-2-small.jpg'); }}" alt="">
                             </div>
                             <span class="author-note">Nicole Bell</span>
                             <time class="timestamp" title="2014-02-18T00:00:00-05:00">
@@ -284,7 +284,7 @@
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <div class="avatar-note"><img src="assets/images/avatar-3-small.jpg" alt="">
+                            <div class="avatar-note"><img src="{{ URL::asset('assets/images/avatar-3-small.jpg'); }}" alt="">
                             </div>
                             <span class="author-note">Steven Thompson</span>
                             <time class="timestamp" title="2014-02-18T00:00:00-05:00">
@@ -314,7 +314,7 @@
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <div class="avatar-note"><img src="assets/images/avatar-4-small.jpg" alt="">
+                            <div class="avatar-note"><img src="{{ URL::asset('assets/images/avatar-4-small.jpg'); }}" alt="">
                             </div>
                             <span class="author-note">Ella Patterson</span>
                             <time class="timestamp" title="2014-02-18T00:00:00-05:00">
@@ -527,7 +527,7 @@
                         </div>
                         <div class="form-group">
                             <div class="fileupload fileupload-new contributor-avatar" data-provides="fileupload">
-                                <div class="fileupload-new thumbnail"><img src="assets/images/anonymous.jpg" alt="" width="50" height="50"/>
+                                <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/images/anonymous.jpg'); }}" alt="" width="50" height="50"/>
                                 </div>
                                 <div class="fileupload-preview fileupload-exists thumbnail"></div>
                                 <div class="contributor-avatar-options">

@@ -1,11 +1,6 @@
 @extends('admin.layout.adminLayout')
 
 @section('stylesheets')
-
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}" />
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css'); }}" />
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/bootstrap-modal/css/bootstrap-modal.css'); }}" />
-
 @stop
 
 @section('page_header')
@@ -35,14 +30,14 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <button data-bb="prompt" class="btn btn-orange">
-                            Add New Class <i class="fa fa-plus"></i>
-                        </button>
+                        <a class="btn btn-green show-sv" href="#subview-add-classes" data-startFrom="right">
+                            Show Right Subview <i class="fa fa-chevron-right"></i>
+                        </a>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-orange add-row">
+                        <a class="btn btn-green show-sv" href="#subview-add-streams" data-startFrom="right">
                             Add New Stream <i class="fa fa-plus"></i>
-                        </button>
+                        </a>
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-orange add-row">
@@ -80,22 +75,40 @@
     <div class="col-md-8 col-md-offset-2">
         <h3>Classes Present Now</h3>
         <div class="row">
-            <div class="col-md-12 space20">
-                <form action="#" role="form" id="form">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="errorHandler alert alert-danger no-display">
-                                <i class="fa fa-times-sign"></i> You have some form errors. Please check below.
-                            </div>
-                            <div class="successHandler alert alert-success no-display">
-                                <i class="fa fa-ok"></i> Your form validation is successful!
-                            </div>
-                        </div>
+            <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover table-full-width text-center" id="table-classes">
+                                    <thead >
+                                    <tr>
+                                        <th class="text-center">Class Name</th>
+                                        <th class="text-center">Edit</th>
+                                        <th class="text-center">Delete</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($classes as $class)
+                                        <tr>
+                                            <td>{{ $class->class }}</td>
+                                            <td>
+                                                <a href="#">Edit</a>
+                                            </td>
+                                            <td>
+                                                <a href="#">Delete</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                     </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{{ URL::route('admin-time-table-add-classes'); }}" role="form" name="form-add-classes" method="post">
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <input type="text" placeholder="Add New Class Name" class="form-control" id="firstname" name="class">
+                                <input type="text" placeholder="Add New Class Name" class="form-control" id="input-add-classes" name="class">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -103,27 +116,64 @@
                                 Add New Class <i class="fa fa-arrow-circle-right"></i>
                             </button>
                         </div>
+                        <i class="fa fa-spinner fa-spin" style="display: none;" id="spinner-add-classes"></i>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<div id="subview-add-streams" class="no-display">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>Infinite Subview Page 1</h3>
+        <p>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p>
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+        </p>
+        <a class="btn btn-blue pull-right show-sv" href="#example-subview-3">
+            Continue...
+        </a>
+    </div>
+</div>
 @stop
 
 @section('scripts')
 <!-- Scripts for This page only -->
-<script type="text/javascript" src="{{ URL::asset('assets/plugins/select2/select2.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/js/ui-subview.js'); }}"></script>             <!-- For Subview -->
-<script type="text/javascript" src="{{ URL::asset('assets/plugins/bootstrap-modal/js/bootstrap-modal.js'); }}"></script>
-<script type="text/javascript" src="{{ URL::asset('assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js'); }}"></script>
-<script type="text/javascript" src="{{ URL::asset('assets/js/ui-modals.js'); }}"></script>  <!-- For Modals -->
 <script>
 jQuery(document).ready(function() {
     Main.init();
     SVExamples.init();
     UISubview.init();
-    UIModals.init();
+
+    $('form[name="form-add-classes"]').on('submit', function(e){
+        e.preventDefault();
+
+        var form = $(this);
+        var url = form.prop('action');
+        var data = form.serialize();
+
+        $('#spinner-add-classes').show();
+
+        $.ajax({
+            url : url,
+            async : true,
+            data : data,
+            method : 'POST',
+            dataType : 'json',
+            success : function(data, response){
+                $('#input-add-classes').val('');
+                $('#spinner-add-classes').hide();
+                $('#table-classes').prepend("<tr><td>"+ data.data_send.class_name +"</td></tr>");
+            }
+
+        });
+    });
 });
 </script>
 @stop
