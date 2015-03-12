@@ -14,6 +14,7 @@ class AddForeignKeysToUsersTable extends Migration {
 	{
 		Schema::table('users', function(Blueprint $table)
 		{
+			$table->foreign('school_id', 'users_ibfk_2')->references('id')->on('school')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('permissions', 'users_ibfk_1')->references('id')->on('groups')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
@@ -28,6 +29,7 @@ class AddForeignKeysToUsersTable extends Migration {
 	{
 		Schema::table('users', function(Blueprint $table)
 		{
+			$table->dropForeign('users_ibfk_2');
 			$table->dropForeign('users_ibfk_1');
 		});
 	}

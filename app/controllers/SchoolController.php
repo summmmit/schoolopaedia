@@ -38,11 +38,13 @@ class SchoolController extends BaseController {
             $email                      = Input::get('email');
 
             //Registration Code
-            $registration_code          = str_random(60);
+            $registration_code          = str_random(50);
             //staff Code
-            $staff_code                 = str_random(60);
+            $code_for_teachers          = str_random(60);
             //students Code
-            $students_code              = str_random(60);
+            $code_for_students          = str_random(70);
+            //students Code
+            $code_for_admin             = str_random(80);
 
             $today                      = date("Y-m-d");
 
@@ -58,8 +60,9 @@ class SchoolController extends BaseController {
                 'country'                   => $country,
                 'pin_code'                  => $pin_code,
                 'registration_code'         => $registration_code,
-                'staff_code'                => $staff_code,
-                'students_code'             => $students_code,
+                'code_for_admin'            => $code_for_admin,
+                'code_for_teachers'         => $code_for_teachers,
+                'code_for_students'         => $code_for_students,
                 'active'                    => 0,
                 'registration_date'         => $today,
             ));

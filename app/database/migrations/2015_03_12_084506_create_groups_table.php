@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreatePeriodsTable extends Migration {
+class CreateGroupsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,12 @@ class CreatePeriodsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('periods', function(Blueprint $table)
+		Schema::create('groups', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('period', 5);
-			$table->time('start_time');
-			$table->time('end_time');
-			$table->integer('session_id')->index('session_id');
-			$table->integer('school_id')->index('school_id');
+			$table->string('name', 50);
+			$table->text('permissions', 65535);
+			$table->dateTime('deleted_at');
 			$table->timestamps();
 		});
 	}
@@ -32,7 +30,7 @@ class CreatePeriodsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('periods');
+		Schema::drop('groups');
 	}
 
 }

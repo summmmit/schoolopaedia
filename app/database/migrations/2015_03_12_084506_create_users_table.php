@@ -45,6 +45,7 @@ class CreateUsersTable extends Migration {
 			$table->string('pic', 100);
 			$table->dateTime('pic_updated_at');
 			$table->integer('permissions')->index('permissions');
+			$table->integer('school_id')->index('school_id');
 			$table->boolean('newsletter');
 			$table->string('remember_token', 100);
 			$table->dateTime('deleted_at');

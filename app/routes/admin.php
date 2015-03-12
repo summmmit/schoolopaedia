@@ -144,12 +144,24 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
         'as'  => 'admin-time-table',
         'uses' => 'AdminTimeTableController@getTimeTableCreate'
     ));  
+    
+    /**
+     * Time Table Settings 
+     */
+    
     /*
-     * Admin Classes Set (get)
+     * Admin Classes Set (post)
      */
     Route::Post('/admin/time/table/add/classes', array(
-        'as'  => 'admin-time-table-add-classes',
+        'as'  => 'admin-time-table-add-classes-post',
         'uses' => 'AdminTimeTableController@getAddClasses'
+    ));
+    /*
+     * Admin Streams Set (get)
+     */
+    Route::Post('/admin/time/table/add/stream', array(
+        'as'  => 'admin-time-table-add-stream-post',
+        'uses' => 'AdminTimeTableController@postAddStreams'
     ));
     
 });
