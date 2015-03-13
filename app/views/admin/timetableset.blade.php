@@ -142,7 +142,7 @@
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover" id="sample_2">
+                            <table class="table table-striped table-hover" id="table-add-streams">
                                 <thead>
                                     <tr>
                                         <th>Stream Name</th>
@@ -152,8 +152,8 @@
                                 </thead>
                                 <tbody>
                                     @foreach($streams as $stream)
-                                    <tr>
-                                        <td id="{{ $stream->id }}">{{ $stream->stream_name }}</td>
+                                    <tr id="{{ $stream->id }}">
+                                        <td>{{ $stream->stream_name }}</td>
                                         <td>
                                             <a href="#" class="edit-row">
                                                 Edit
@@ -179,39 +179,17 @@
 
 @section('scripts')
 <!-- Scripts for This page only -->
-<script src="{{ URL::asset('assets/js/ui-subview.js'); }}"></script>             <!-- For Subview -->
 <script src="{{ URL::asset('assets/plugins/select2/select2.min.js'); }}"></script>  
-<script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data.js'); }}"></script>  
+<script src="{{ URL::asset('assets/js/ui-subview.js'); }}"></script>                                                                  <!-- For Subview -->
+<script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-streams.js'); }}"></script>                               <!-- For streams Table -->
+<script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-classes.js'); }}"></script>                               <!-- For classes Table -->
 <script>
 jQuery(document).ready(function() {
     Main.init();
     SVExamples.init();
     UISubview.init();
-    TableData.init();
-
-    $('form[name="form-add-classes"]').on('submit', function(e) {
-        e.preventDefault();
-
-        var form = $(this);
-        var url = form.prop('action');
-        var data = form.serialize();
-
-        $('#spinner-add-classes').show();
-
-        $.ajax({
-            url: url,
-            async: true,
-            data: data,
-            method: 'POST',
-            dataType: 'json',
-            success: function(data, response) {
-                $('#input-add-classes').val('');
-                $('#spinner-add-classes').hide();
-                $('#table-classes').prepend("<tr><td>" + data.data_send.class_name + "</td></tr>");
-            }
-
-        });
-    });
+    TableDataStreams.init();
+    
 });
 </script>
 @stop

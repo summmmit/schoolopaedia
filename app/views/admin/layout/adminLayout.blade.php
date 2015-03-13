@@ -672,7 +672,6 @@
         <script src="{{ URL::asset('assets/plugins/jquery-validation/dist/jquery.validate.min.js'); }} "></script>
         <script src="{{ URL::asset('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js'); }} "></script>
         <script src="{{ URL::asset('assets/plugins/DataTables/media/js/jquery.dataTables.min.js'); }} "></script>
-        <script src="{{ URL::asset('assets/plugins/DataTables/media/js/DT_bootstrap.js'); }} "></script>
         <script src="{{ URL::asset('assets/plugins/truncate/jquery.truncate.js'); }} "></script>
         <script src="{{ URL::asset('assets/plugins/summernote/dist/summernote.min.js'); }} "></script>
         <script src="{{ URL::asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js'); }} "></script>
