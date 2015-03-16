@@ -68,7 +68,8 @@ class AdminTimeTableController extends BaseController {
             $response = array(
                 'status' => 'failed',
                 'msg' => 'Item is not updated',
-                'errors' => $validator,
+                'errors' => $validator->failed(),
+                'error_messages' => $validator->messages()
             );
 
             return Response::json($response);
@@ -87,6 +88,7 @@ class AdminTimeTableController extends BaseController {
                     $response = array(
                         'status' => 'success',
                         'msg' => 'Setting created successfully',
+                        'errors' => null,
                         'data_send' => array(
                             'id' => $streams->id,
                             'inserted_item' => $streams->stream_name
@@ -106,6 +108,7 @@ class AdminTimeTableController extends BaseController {
                     $response = array(
                         'status' => 'success',
                         'msg' => 'Setting created successfully',
+                        'errors' => null,
                         'data_send' => array(
                             'id' => $streams->id,
                             'inserted_item' => $streams->stream_name

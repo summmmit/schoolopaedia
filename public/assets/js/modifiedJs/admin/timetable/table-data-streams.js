@@ -29,8 +29,11 @@ var TableDataStreams = function() {
 		}
 
 		function saveRow(oTable, nRow, dataId) {
-			var jqInputs = $('input', nRow);
-                        nRow = nRow.setAttribute( 'id', dataId);
+			var jqInputs = $('input', nRow);               
+			var isExistsId   = nRow.getAttribute('id');
+                        if(isExistsId === null){
+                           nRow = nRow.setAttribute( 'id', dataId); 
+                        }
 			oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
 			oTable.fnUpdate('<a class="edit-row" href="">Edit</a>', nRow, 1, false);
 			oTable.fnUpdate('<a class="delete-row" href="">Delete</a>', nRow, 2, false);
@@ -75,8 +78,6 @@ var TableDataStreams = function() {
 			var nRow          = $(this).parents('tr')[0];
 			var id            = $(this).parents('tr').attr('id');
 			var stream_name   = $(this).parent().prev().prev().text();
-                        
-                        console.log(stream_name);
                         
                         var data = {
                             stream_id : id,
@@ -124,8 +125,13 @@ var TableDataStreams = function() {
                                                 method : 'POST',
                                                 data : data,
 						success : function(data, response) {
-							        $.unblockUI();                                                        
-								saveRow(oTable, nRow, data.data_send.id);
+							        $.unblockUI();
+                                                                if(data.status == "success"){
+								   saveRow(oTable, nRow, data.data_send.id);
+                                                                }else if(data.status == "failed"){
+                                                                   var errorHandler = $(this).parents('tr').css({"color": "red", "border": "2px solid red"});
+                                                                   console.log(errorHandler);
+                                                                }
 						}
 					});	
 		});
@@ -141,8 +147,6 @@ var TableDataStreams = function() {
 				}
 			}
 			var nRow = $(this).parents('tr')[0];
-                        
-                        console.log(nRow);
                         
 			editRow(oTable, nRow);
 			actualEditingRow = nRow;

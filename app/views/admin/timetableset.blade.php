@@ -141,6 +141,13 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="errorHandler alert alert-danger no-display">
+                                    <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-hover" id="table-add-streams">
                                 <thead>
@@ -189,7 +196,7 @@ jQuery(document).ready(function() {
     SVExamples.init();
     UISubview.init();
     TableDataStreams.init();
-    
+
 });
 </script>
 @stop
