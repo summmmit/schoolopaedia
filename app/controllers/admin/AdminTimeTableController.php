@@ -38,7 +38,8 @@ class AdminTimeTableController extends BaseController {
     public function postAddClasses() {
 
         $validator = Validator::make(Input::all(), array(
-                    'stream_name' => 'required|max:30|min:3'
+                    'class_name' => 'required|max:30|min:3',
+                    'stream_id' => 'required'
         ));
 
         if ($validator->fails()) {
@@ -46,30 +47,37 @@ class AdminTimeTableController extends BaseController {
             $response = array(
                 'status' => 'failed',
                 'msg' => 'Item is not updated',
-                'errors' => $validator,
+                'errors' => $validator->failed(),
                 'error_messages' => $validator->messages()
             );
 
             return Response::json($response);
         } else {
 
-            $new_stream = Input::get('stream_name');
-            $new_stream_id = Input::get('stream_id');
+            $new_class = Input::get('class_name');
+            $class_id = Input::get('class_id');
+            $streams_id = Input::get('stream_id');
 
-            if ($new_stream_id) {
+            $streams_name = Streams::find($streams_id)->stream_name;
 
-                $streams = Streams::find($new_stream_id);
-                $streams->stream_name = $new_stream;
+            if ($class_id) {
 
-                if ($streams->save()) {
+                $classes = Classes::find($class_id);
+                $classes->class = $new_class;
+                $classes->streams_id = $streams_id;
+                $classes->school_id = $this->getSchoolId();
+
+                if ($classes->save()) {
 
                     $response = array(
                         'status' => 'success',
                         'msg' => 'Setting created successfully',
                         'errors' => null,
                         'data_send' => array(
-                            'id' => $streams->id,
-                            'inserted_item' => $streams->stream_name
+                            'id' => $classes->id,
+                            'class_name' => $classes->class,
+                            'streams_id' => $classes->streams_id,
+                            'streams_name' => $streams_name,
                         ),
                     );
 
@@ -77,19 +85,22 @@ class AdminTimeTableController extends BaseController {
                 }
             } else {
 
-                $streams = new Streams();
-                $streams->stream_name = ucfirst($new_stream);
-                $streams->school_id = $this->getSchoolId();
+                $classes = new Classes();
+                $classes->class = $new_class;
+                $classes->streams_id = $streams_id;
+                $classes->school_id = $this->getSchoolId();
 
-                if ($streams->save()) {
+                if ($classes->save()) {
 
                     $response = array(
                         'status' => 'success',
                         'msg' => 'Setting created successfully',
                         'errors' => null,
                         'data_send' => array(
-                            'id' => $streams->id,
-                            'inserted_item' => $streams->stream_name
+                            'id' => $classes->id,
+                            'class_name' => $classes->class,
+                            'streams_id' => $classes->streams_id,
+                            'streams_name' => $streams_name,
                         ),
                     );
 
@@ -108,22 +119,23 @@ class AdminTimeTableController extends BaseController {
 
     public function postDeleteClasses() {
 
-        $new_stream = Input::get('stream_id');
-        $stream_name = Input::get('stream_name');
+        $stream_id = Input::get('stream_id');
+        $class_id = Input::get('class_id');
+        $class_name = Input::get('class_name');
 
 
-        if ($new_stream) {
-            $streams = Streams::find($new_stream);
+        if ($class_id) {
+            $classes = Classes::find($class_id);
         } else {
-            $streams = Streams::where('stream_name', '=', $stream_name);
+            $classes = Classes::where('class', '=', $class_name)->where('streams_id', '=', $stream_id);
         }
 
-        if ($streams->delete()) {
+        if ($classes->delete()) {
 
             $response = array(
                 'status' => 'success',
-                'msg' => 'Setting created successfully',
-                'deleted_item_id' => $new_stream,
+                'msg' => 'Updated successfully',
+                'deleted_class_id' => $class_id,
             );
 
             return Response::json($response);
@@ -132,11 +144,25 @@ class AdminTimeTableController extends BaseController {
             $response = array(
                 'status' => 'failed',
                 'msg' => 'Item is Not deleted',
-                'Item_id' => $new_stream,
+                'Item_id' => $class_id,
             );
 
             return Response::json($response);
         }
+    }
+
+    public function postGetStreams() {
+
+        $streams = Streams::where('school_id', '=', $this->getSchoolId())->get();
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Streams Retrieved successfully',
+            'errors' => null,
+            'streams' => $streams
+        );
+
+        return Response::json($response);
     }
 
     public function postAddStreams() {

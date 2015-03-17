@@ -166,6 +166,13 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
     /*
      * Admin Streams Add or Edit (post)
      */
+    Route::Post('/admin/time/table/get/streams', array(
+        'as'  => 'admin-time-table-get-streams',
+        'uses' => 'AdminTimeTableController@postGetStreams'
+    ));
+    /*
+     * Admin Streams Add or Edit (post)
+     */
     Route::Post('/admin/time/table/add/stream', array(
         'as'  => 'admin-time-table-add-stream-post',
         'uses' => 'AdminTimeTableController@postAddStreams'

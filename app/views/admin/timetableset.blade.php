@@ -109,15 +109,14 @@
                                     @foreach($classes as $class)
                                     <tr id="{{ $class->id }}">
                                         <td>{{ $class->class }}</td>
-                                        <td>{{ Streams::find($class->streams_id)->stream_name }}
-                                        </td>
+                                        <td id="{{ $class->streams_id }}">{{ Streams::find($class->streams_id)->stream_name }}</td>
                                         <td>
-                                            <a href="#" class="edit-row">
+                                            <a href="#" class="edit-row-classes">
                                                 Edit
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="#" class="delete-row">
+                                            <a href="#" class="delete-row-classes">
                                                 Delete
                                             </a>
                                         </td>
@@ -169,12 +168,12 @@
                                     <tr id="{{ $stream->id }}">
                                         <td>{{ $stream->stream_name }}</td>
                                         <td>
-                                            <a href="#" class="edit-row">
+                                            <a href="#" class="edit-row-streams">
                                                 Edit
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="#" class="delete-row">
+                                            <a href="#" class="delete-row-streams">
                                                 Delete
                                             </a>
                                         </td>
