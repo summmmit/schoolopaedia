@@ -24,4 +24,11 @@ class Streams extends Eloquent {
         return $this->belongsto('school', 'id', 'school_id');
     }
 
+    /**
+     * belong to function for classes table
+     */
+    public function classes() {
+        return $this->hasMany('classes', 'streams_id', 'id');
+    }
+
 }

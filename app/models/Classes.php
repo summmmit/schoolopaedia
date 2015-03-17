@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Classes extends Eloquent {
 
-    protected $fillable = array('class', 'school_id');
+    protected $fillable = array('class', 'streams_id', 'school_id');
 
     use SoftDeletingTrait;
 
@@ -23,5 +23,13 @@ class Classes extends Eloquent {
     public function school() {
         return $this->belongsto('school', 'id', 'school_id');
     }
+
+    /**
+     * belong to function for Streams table
+     */
+    public function streams() {
+        return $this->belongsto('streams', 'id', 'streams_id');
+    }
+
 
 }

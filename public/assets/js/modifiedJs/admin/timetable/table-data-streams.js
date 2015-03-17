@@ -4,7 +4,7 @@ var TableDataStreams = function() {
 	//DataTable is a highly flexible tool, based upon the foundations of progressive enhancement,
 	//which will add advanced interaction controls to any HTML table
 	//For more information, please visit https://datatables.net/
-	var runDataTable_example2 = function() {
+	var runDataTable_AddStreams = function() {
 		var newRow = false;
 		var actualEditingRow = null;
 
@@ -42,7 +42,7 @@ var TableDataStreams = function() {
 			actualEditingRow = null;
 		}
 
-		$('body').on('click', '.add-row', function(e) {
+		$('body').on('click', '.add-row-streams', function(e) {
 			e.preventDefault();
 			if (newRow == false) {
 				if (actualEditingRow) {
@@ -67,6 +67,7 @@ var TableDataStreams = function() {
 				restoreRow(oTable, actualEditingRow);
 				actualEditingRow = null;
 			}
+                        oTable.parentsUntil(".panel").find(".errorHandler").addClass("no-display");
 		});
 		$('#table-add-streams').on('click', '.delete-row', function(e) {
 			e.preventDefault();
@@ -129,9 +130,8 @@ var TableDataStreams = function() {
                                                                 if(data.status == "success"){
 								   saveRow(oTable, nRow, data.data_send.id);
                                                                 }else if(data.status == "failed"){
-                                                                   var errorHandler = $(this).parents('tr').css({"color": "red", "border": "2px solid red"});
-                                                                   console.log(errorHandler);
-                                                                }
+                                                                    oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">'+ data.error_messages.stream_name +'</p>');
+                                                                 }
 						}
 					});	
 		});
@@ -186,7 +186,7 @@ var TableDataStreams = function() {
 	return {
 		//main function to initiate template pages
 		init : function() {
-			runDataTable_example2();
+			runDataTable_AddStreams();
 		}
 	};
 }();

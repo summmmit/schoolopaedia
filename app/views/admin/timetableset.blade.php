@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <a class="btn btn-green show-sv" href="#subview-add-classes" data-startFrom="right">
-                            Show Right Subview <i class="fa fa-chevron-right"></i>
+                            Add New Classes <i class="fa fa-chevron-right"></i>
                         </a>
                     </div>
                     <div class="col-md-3">
@@ -42,12 +42,12 @@
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-orange add-row">
-                            Add New Section<i class="fa fa-plus"></i>
+                            Add New Section <i class="fa fa-plus"></i>
                         </button>
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-orange add-row">
-                            Add New Subject<i class="fa fa-plus"></i>
+                            Add New Subject <i class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>
@@ -74,52 +74,60 @@
 @section('subview')
 <div id="subview-add-classes" class="no-display">
     <div class="col-md-8 col-md-offset-2">
-        <h3>Classes Present Now</h3>
         <div class="row">
             <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover table-full-width text-center" id="table-classes">
-                        <thead >
-                            <tr>
-                                <th class="text-center">Class Name</th>
-                                <th class="text-center">Edit</th>
-                                <th class="text-center">Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($classes as $class)
-                            <tr>
-                                <td>{{ $class->class }}</td>
-                                <td>
-                                    <a href="#">Edit</a>
-                                </td>
-                                <td>
-                                    <a href="#">Delete</a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <form action="{{ URL::route('admin-time-table-add-classes-post'); }}" role="form" name="form-add-classes" method="post">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <input type="text" placeholder="Add New Class Name" class="form-control" id="input-add-classes" name="class">
+                <!-- start: DYNAMIC TABLE PANEL -->
+                <div class="panel panel-white panel-add-classes">
+                    <div class="panel-heading">
+                        <h3>Classes Present Now</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12 space20">
+                                <button class="btn btn-green add-row-classes">
+                                    Add New <i class="fa fa-plus"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-yellow btn-block" type="submit">
-                                Add New Class <i class="fa fa-arrow-circle-right"></i>
-                            </button>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="errorHandler alert alert-danger no-display">
+                                </div>
+                            </div>
                         </div>
-                        <i class="fa fa-spinner fa-spin" style="display: none;" id="spinner-add-classes"></i>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="table-add-classes">
+                                <thead>
+                                    <tr>
+                                        <th>Class Name</th>
+                                        <th>Stream</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($classes as $class)
+                                    <tr id="{{ $class->id }}">
+                                        <td>{{ $class->class }}</td>
+                                        <td>{{ Streams::find($class->streams_id)->stream_name }}
+                                        </td>
+                                        <td>
+                                            <a href="#" class="edit-row">
+                                                Edit
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="delete-row">
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -129,14 +137,14 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- start: DYNAMIC TABLE PANEL -->
-                <div class="panel panel-white">
+                <div class="panel panel-white panel-add-streams">
                     <div class="panel-heading">
                         <h3>Streams Present Now</h3>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 space20">
-                                <button class="btn btn-green add-row">
+                                <button class="btn btn-green add-row-streams">
                                     Add New <i class="fa fa-plus"></i>
                                 </button>
                             </div>
@@ -144,7 +152,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="errorHandler alert alert-danger no-display">
-                                    <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
                                 </div>
                             </div>
                         </div>
@@ -196,6 +203,7 @@ jQuery(document).ready(function() {
     SVExamples.init();
     UISubview.init();
     TableDataStreams.init();
+    TableDataClasses.init();
 
 });
 </script>

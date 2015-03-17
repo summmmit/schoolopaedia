@@ -150,21 +150,28 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
      */
     
     /*
-     * Admin Classes Set (post)
+     * Admin Classes Add or Edit (post)
      */
     Route::Post('/admin/time/table/add/classes', array(
         'as'  => 'admin-time-table-add-classes-post',
-        'uses' => 'AdminTimeTableController@getAddClasses'
+        'uses' => 'AdminTimeTableController@postAddClasses'
     ));
     /*
-     * Admin Streams Set (post)
+     * Admin Classes Delete (post)
+     */
+    Route::Post('/admin/time/table/delete/classes', array(
+        'as'  => 'admin-time-table-delete-classes-post',
+        'uses' => 'AdminTimeTableController@postDeleteClasses'
+    ));
+    /*
+     * Admin Streams Add or Edit (post)
      */
     Route::Post('/admin/time/table/add/stream', array(
         'as'  => 'admin-time-table-add-stream-post',
         'uses' => 'AdminTimeTableController@postAddStreams'
     ));
     /*
-     * Admin Streams Set (post)
+     * Admin Streams Delete (post)
      */
     Route::Post('/admin/time/table/delete/stream', array(
         'as'  => 'admin-time-table-delete-stream-post',
