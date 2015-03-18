@@ -16,6 +16,7 @@ class CreateClassesTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->string('class', 60);
+			$table->integer('streams_id')->index('streams_id');
 			$table->integer('school_id')->index('school_id');
 			$table->dateTime('deleted_at');
 			$table->timestamps();

@@ -15,48 +15,39 @@ class StreamsTableSeeder extends Seeder {
 			0 => 
 			array (
 				'id' => 1,
-				'stream_name' => 'Science',
+				'stream_name' => 'Arts',
 				'school_id' => 1,
 				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '2015-03-12 00:00:00',
-				'updated_at' => '2015-03-12 00:00:00',
+				'created_at' => '2015-03-18 02:52:13',
+				'updated_at' => '2015-03-18 02:52:13',
 			),
 			1 => 
 			array (
 				'id' => 2,
-				'stream_name' => 'Comerce',
+				'stream_name' => 'Science',
 				'school_id' => 1,
 				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '2015-03-12 00:00:00',
-				'updated_at' => '2015-03-12 00:00:00',
+				'created_at' => '2015-03-18 02:52:23',
+				'updated_at' => '2015-03-18 02:52:23',
 			),
 			2 => 
 			array (
-				'id' => 43,
-				'stream_name' => 'Arts',
+				'id' => 3,
+				'stream_name' => 'Commerce',
 				'school_id' => 1,
 				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '2015-03-12 07:43:09',
-				'updated_at' => '2015-03-12 07:43:09',
+				'created_at' => '2015-03-18 02:52:31',
+				'updated_at' => '2015-03-18 02:52:31',
 			),
 			3 => 
 			array (
-				'id' => 44,
-				'stream_name' => 'sss',
+				'id' => 4,
+				'stream_name' => 'None',
 				'school_id' => 1,
 				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '2015-03-12 07:43:50',
-				'updated_at' => '2015-03-12 07:43:50',
+				'created_at' => '2015-03-18 02:52:39',
+				'updated_at' => '2015-03-18 02:52:39',
 			),
-			4 => 
-			array (
-				'id' => 45,
-				'stream_name' => 'asdgasdgasdg',
-				'school_id' => 1,
-				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '2015-03-12 08:07:54',
-				'updated_at' => '2015-03-12 08:07:54',
-			)
 		));
 	}
 

@@ -14,8 +14,8 @@ class AddForeignKeysToSubjectsTable extends Migration {
 	{
 		Schema::table('subjects', function(Blueprint $table)
 		{
-			$table->foreign('class_id', 'subjects_ibfk_2')->references('id')->on('classes')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('school_id', 'subjects_ibfk_1')->references('id')->on('school')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('class_id', 'subjects_ibfk_2')->references('id')->on('classes')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 
@@ -29,8 +29,8 @@ class AddForeignKeysToSubjectsTable extends Migration {
 	{
 		Schema::table('subjects', function(Blueprint $table)
 		{
-			$table->dropForeign('subjects_ibfk_2');
 			$table->dropForeign('subjects_ibfk_1');
+			$table->dropForeign('subjects_ibfk_2');
 		});
 	}
 
