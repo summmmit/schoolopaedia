@@ -17,7 +17,10 @@
     <!-- start: MAIN NAVIGATION MENU -->
     <ul class="main-navigation-menu">
         <li>
-            <a href="index.html"><i class="fa fa-home"></i> <span class="title"> Dashboard </span><span class="label label-default pull-right ">LABEL</span> </a>
+            <a href="#"><i class="fa fa-home"></i> <span class="title"> Dashboard </span><span class="label label-default pull-right ">LABEL</span> </a>
+        </li>
+        <li>
+            <a href="{{ URL::route('user-class-students'); }}"><i class="fa fa-home"></i> <span class="title"> Other Class Students </span><span class="label label-default pull-right ">LABEL</span> </a>
         </li>
         <li>
             <a href="javascript:void(0)"><i class="fa fa-desktop"></i> <span class="title"> Check ALL </span><i class="icon-arrow"></i> </a>

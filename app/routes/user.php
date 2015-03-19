@@ -134,4 +134,12 @@ Route::group(array('before' => 'auth'), function(){
         'uses' => 'UserAccountController@getUserProfile'
     ));
     
+    /*
+     * Other Class Users (get)
+     */
+    Route::get('/user/class/students', array(
+        'as'  => 'user-class-students',
+        'uses' => 'UserClassController@getUsers'
+    ));
+    
 });
