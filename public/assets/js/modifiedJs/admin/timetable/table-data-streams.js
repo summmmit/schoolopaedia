@@ -23,8 +23,8 @@ var TableDataStreams = function() {
 			var aData = oTable.fnGetData(nRow);
 			var jqTds = $('>td', nRow);
 			jqTds[0].innerHTML = '<input type="text" class="form-control" id="new-input" value="' + aData[0] + '">';
-			jqTds[1].innerHTML = '<a class="save-row" href="">Save</a>';
-			jqTds[2].innerHTML = '<a class="cancel-row" href="">Cancel</a>';
+			jqTds[1].innerHTML = '<a class="save-row-streams" href="">Save</a>';
+			jqTds[2].innerHTML = '<a class="cancel-row-streams" href="">Cancel</a>';
 
 		}
 
@@ -35,8 +35,8 @@ var TableDataStreams = function() {
                            nRow = nRow.setAttribute( 'id', dataId); 
                         }
 			oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
-			oTable.fnUpdate('<a class="edit-row" href="">Edit</a>', nRow, 1, false);
-			oTable.fnUpdate('<a class="delete-row" href="">Delete</a>', nRow, 2, false);
+			oTable.fnUpdate('<a class="edit-row-streams" href="">Edit</a>', nRow, 1, false);
+			oTable.fnUpdate('<a class="delete-row-streams" href="">Delete</a>', nRow, 2, false);
 			oTable.fnDraw();
 			newRow = false;
 			actualEditingRow = null;
@@ -55,7 +55,7 @@ var TableDataStreams = function() {
 				actualEditingRow = nRow;
 			}
 		});
-		$('#table-add-streams').on('click', '.cancel-row', function(e) {
+		$('#table-add-streams').on('click', '.cancel-row-streams', function(e) {
 			e.preventDefault();
 			if (newRow) {
 				newRow = false;
@@ -69,7 +69,7 @@ var TableDataStreams = function() {
 			}
                         oTable.parentsUntil(".panel").find(".errorHandler").addClass("no-display");
 		});
-		$('#table-add-streams').on('click', '.delete-row', function(e) {
+		$('#table-add-streams').on('click', '.delete-row-streams', function(e) {
 			e.preventDefault();
 			if (newRow && actualEditingRow) {
 				oTable.fnDeleteRow(actualEditingRow);
@@ -98,6 +98,11 @@ var TableDataStreams = function() {
 						success : function(data, response) {
 							$.unblockUI();
 							oTable.fnDeleteRow(nRow);
+                                                        var cTableRows = $('#table-add-classes').find(".sorting_1").parent().parent().find('td[id="'+ data.deleted_item_id +'"]').parent();
+                                                        var i;
+                                                        for(i=0; i< cTableRows.length; i++){
+                                                            cTableRows[i].remove();
+                                                        }
 						}
 					});				
 					
@@ -107,7 +112,7 @@ var TableDataStreams = function() {
 
 			
 		});
-		$('#table-add-streams').on('click', '.save-row', function(e) {
+		$('#table-add-streams').on('click', '.save-row-streams', function(e) {
 			e.preventDefault();
 
 			var nRow = $(this).parents('tr')[0];
@@ -135,7 +140,7 @@ var TableDataStreams = function() {
 						}
 					});	
 		});
-		$('#table-add-streams').on('click', '.edit-row', function(e) {
+		$('#table-add-streams').on('click', '.edit-row-streams', function(e) {
 			e.preventDefault();
 			if (actualEditingRow) {
 				if (newRow) {

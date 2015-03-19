@@ -8,19 +8,19 @@ var TableDataClasses = function() {
         var newRow = false;
         var actualEditingRow = null;
 
-        function restoreRow(oTable, nRow) {
-            var aData = oTable.fnGetData(nRow);
+        function restoreRow(cTable, nRow) {
+            var aData = cTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
 
             for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
-                oTable.fnUpdate(aData[i], nRow, i, false);
+                cTable.fnUpdate(aData[i], nRow, i, false);
             }
 
-            oTable.fnDraw();
+            cTable.fnDraw();
         }
 
-        function editRow(oTable, nRow) {
-            var aData = oTable.fnGetData(nRow);
+        function editRow(cTable, nRow) {
+            var aData = cTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
             jqTds[0].innerHTML = '<input type="text" class="form-control" id="new-input" value="' + aData[0] + '">';
             jqTds[1].innerHTML = '<select class="streams-drop-down form-control"><option>Choose an Stream...</option></select>';
@@ -31,8 +31,8 @@ var TableDataClasses = function() {
                 dataType: 'json',
                 method: 'POST',
                 success: function(data, response) {
-                    var DropdownClass = oTable.find(".streams-drop-down");
-                    var DropdownId = oTable.find(".streams-drop-down").parent().attr('id');
+                    var DropdownClass = cTable.find(".streams-drop-down");
+                    var DropdownId = cTable.find(".streams-drop-down").parent().attr('id');
                     var i;
                     for(i=0; i< data.streams.length; i++){    
                         if(DropdownId == data.streams[i].id){
@@ -46,18 +46,18 @@ var TableDataClasses = function() {
 
         }
 
-        function saveRow(oTable, nRow, dataId, streamId, streamName) {
+        function saveRow(cTable, nRow, dataId, streamId, streamName) {
             var jqInputs = $('input', nRow); 
             $('select', nRow).parent().attr('id', streamId);
             var isExistsId = nRow.getAttribute('id');
             if (isExistsId === null) {
                 nRow = nRow.setAttribute('id', dataId);
             }
-            oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
-            oTable.fnUpdate(streamName, nRow, 1, false);
-            oTable.fnUpdate('<a class="edit-row-classes" href="">Edit</a>', nRow, 2, false);
-            oTable.fnUpdate('<a class="delete-row-classes" href="">Delete</a>', nRow, 3, false);
-            oTable.fnDraw();
+            cTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
+            cTable.fnUpdate(streamName, nRow, 1, false);
+            cTable.fnUpdate('<a class="edit-row-classes" href="">Edit</a>', nRow, 2, false);
+            cTable.fnUpdate('<a class="delete-row-classes" href="">Delete</a>', nRow, 3, false);
+            cTable.fnDraw();
             newRow = false;
             actualEditingRow = null;
         }
@@ -66,12 +66,12 @@ var TableDataClasses = function() {
             e.preventDefault();
             if (newRow == false) {
                 if (actualEditingRow) {
-                    restoreRow(oTable, actualEditingRow);
+                    restoreRow(cTable, actualEditingRow);
                 }
                 newRow = true;
-                var aiNew = oTable.fnAddData(['', '', '', '']);
-                var nRow = oTable.fnGetNodes(aiNew[0]);
-                editRow(oTable, nRow);
+                var aiNew = cTable.fnAddData(['', '', '', '']);
+                var nRow = cTable.fnGetNodes(aiNew[0]);
+                editRow(cTable, nRow);
                 actualEditingRow = nRow;
             }
         });
@@ -81,18 +81,18 @@ var TableDataClasses = function() {
                 newRow = false;
                 actualEditingRow = null;
                 var nRow = $(this).parents('tr')[0];
-                oTable.fnDeleteRow(nRow);
+                cTable.fnDeleteRow(nRow);
 
             } else {
-                restoreRow(oTable, actualEditingRow);
+                restoreRow(cTable, actualEditingRow);
                 actualEditingRow = null;
             }
-            oTable.parentsUntil(".panel").find(".errorHandler").addClass("no-display");
+            cTable.parentsUntil(".panel").find(".errorHandler").addClass("no-display");
         });
         $('#table-add-classes').on('click', '.delete-row-classes', function(e) {
             e.preventDefault();
             if (newRow && actualEditingRow) {
-                oTable.fnDeleteRow(actualEditingRow);
+                cTable.fnDeleteRow(actualEditingRow);
                 newRow = false;
 
             }
@@ -120,7 +120,7 @@ var TableDataClasses = function() {
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
-                            oTable.fnDeleteRow(nRow);
+                            cTable.fnDeleteRow(nRow);
                         }
                     });
 
@@ -153,9 +153,9 @@ var TableDataClasses = function() {
                 success: function(data, response) {
                     $.unblockUI();
                     if (data.status == "success") {
-                        saveRow(oTable, nRow, data.data_send.id, data.data_send.streams_id, data.data_send.streams_name);
+                        saveRow(cTable, nRow, data.data_send.id, data.data_send.streams_id, data.data_send.streams_name);
                     } else if (data.status == "failed") {
-                        oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.class_name + '</p>');
+                        cTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.class_name + '</p>');
                     }
                 }
             });
@@ -164,20 +164,20 @@ var TableDataClasses = function() {
             e.preventDefault();
             if (actualEditingRow) {
                 if (newRow) {
-                    oTable.fnDeleteRow(actualEditingRow);
+                    cTable.fnDeleteRow(actualEditingRow);
                     newRow = false;
                 } else {
-                    restoreRow(oTable, actualEditingRow);
+                    restoreRow(cTable, actualEditingRow);
 
                 }
             }
             var nRow = $(this).parents('tr')[0];
 
-            editRow(oTable, nRow);
+            editRow(cTable, nRow);
             actualEditingRow = nRow;
 
         });
-        var oTable = $('#table-add-classes').dataTable({
+        var cTable = $('#table-add-classes').dataTable({
             "aoColumnDefs": [{
                     "aTargets": [0]
                 }],
@@ -204,8 +204,8 @@ var TableDataClasses = function() {
         $('#table-add-classes_column_toggler input[type="checkbox"]').change(function() {
             /* Get the DataTables object again - this is not a recreation, just a get of the object */
             var iCol = parseInt($(this).attr("data-column"));
-            var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
-            oTable.fnSetColumnVis(iCol, (bVis ? false : true));
+            var bVis = cTable.fnSettings().aoColumns[iCol].bVisible;
+            cTable.fnSetColumnVis(iCol, (bVis ? false : true));
         });
     };
     return {

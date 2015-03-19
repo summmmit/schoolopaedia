@@ -247,8 +247,14 @@ class AdminTimeTableController extends BaseController {
         } else {
             $streams = Streams::where('stream_name', '=', $stream_name);
         }
+            
+        $classes = Classes::where('streams_id', '=', $streams->id)->get();
 
         if ($streams->delete()) {
+            
+            foreach($classes as $class){
+                Classes::find($class->id)->delete();
+            }
 
             $response = array(
                 'status' => 'success',
