@@ -3,6 +3,121 @@
 
 @section('stylesheets')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/modifiedCss/user/classusers.css'); }}" />
+<style>
+
+
+    /* ============================================================
+      GLOBAL
+    ============================================================ */
+    .effects .img {
+        position: relative;
+        float: left;
+        margin-bottom: 5px;
+        width: 100%;
+        overflow: hidden;
+    }
+    .effects .img img {
+        display: block;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .overlay {
+        display: block;
+        position: absolute;
+        z-index: 20;
+        background: rgba(0, 0, 0, 0.8);
+        overflow: hidden;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+    a.close-overlay {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 100;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+        line-height: 45px;
+        text-align: center;
+        background-color: #000;
+        cursor: pointer;
+    }
+    a.close-overlay.hidden {
+        display: none;
+    }
+
+    a.expand {
+        display: block;
+        position: absolute;
+        z-index: 100;
+        width: 60px;
+        height: 60px;
+        border: solid 5px #fff;
+        text-align: center;
+        color: #fff;
+        line-height: 50px;
+        font-weight: 700;
+        font-size: 30px;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        -ms-border-radius: 30px;
+        -o-border-radius: 30px;
+        border-radius: 30px;
+    }
+
+
+    /* ============================================================
+      EFFECT 5 - ICON BORDER ANIMATE
+    ============================================================ */
+    #effect-5 .overlay {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        opacity: 0;
+    }
+    #effect-5 .overlay a.expand {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        -o-border-radius: 0;
+        border-radius: 0;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+    #effect-5 .img.hover .overlay {
+        opacity: 1;
+    }
+    #effect-5 .img.hover .overlay a.expand {
+        width: 60px;
+        height: 60px;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        -ms-border-radius: 30px;
+        -o-border-radius: 30px;
+        border-radius: 30px;
+    }
+
+</style>
 @stop
 
 @section('page_header')
@@ -33,91 +148,101 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-3 col-xs-12 col-sm-6">
-                        <div id="make-3D-space">
-                            <div id="product-card">
-                                <div id="product-front">
-                                    <div class="shadow"></div>
-                                    <img src="{{ URL::asset('assets/projects/images/profilepics/9e589fd4126287cabccecd995f26923c.png'); }}" alt="" class="thumbnail" />
-                                    <div class="image_overlay"></div>
-                                    <div id="view_details">View details</div>
-                                    <div class="stats">        	
-                                        <div class="stats-container">
-                                            <span class="product_price">CS0157</span>
-                                            <span class="product_name">Sumit Singh</span>    
-                                            <p>Men's running shirt</p>    
-                                        </div>                         
-                                    </div>
+                    <div class="col-md-3">
+                        <div id="effect-5" class="effects clearfix">
+                            <div class="img">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt.png" alt="" />
+                                <div class="overlay">
+                                    <a href="#" class="expand">+</a>
+                                    <a class="close-overlay hidden">x</a>
                                 </div>
-                                <div id="product-back">
-                                    <div class="shadow"></div>
-                                    <div id="carousel">
-                                        <ul>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large.png" alt="" /></li>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large2.png" alt="" /></li>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large3.png" alt="" /></li>
-                                        </ul>
-                                        <div class="arrows-perspective">
-                                            <div class="carouselPrev">
-                                                <div class="y"></div>
-                                                <div class="x"></div>
-                                            </div>
-                                            <div class="carouselNext">
-                                                <div class="y"></div>
-                                                <div class="x"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="flip-back">
-                                        <div id="cy"></div>
-                                        <div id="cx"></div>
-                                    </div>
-                                </div>	  
-                            </div>	
-                        </div>	
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3 col-xs-12 col-sm-6">
-                        <div id="make-3D-space">
-                            <div id="product-card">
-                                <div id="product-front">
-                                    <div class="shadow"></div>
-                                    <img src="{{ URL::asset('assets/projects/images/profilepics/9e589fd4126287cabccecd995f26923c.png'); }}" alt="" class="thumbnail" />
-                                    <div class="image_overlay"></div>
-                                    <div id="view_details">View details</div>
-                                    <div class="stats">        	
-                                        <div class="stats-container">
-                                            <span class="product_price">CS0157</span>
-                                            <span class="product_name">Sumit Singh</span>    
-                                            <p>Men's running shirt</p>    
-                                        </div>                         
-                                    </div>
+                    <div class="col-md-3">
+                        <div id="effect-5" class="effects clearfix">
+                            <div class="img">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt.png" alt="" />
+                                <div class="overlay">
+                                    <a href="#" class="expand">+</a>
+                                    <a class="close-overlay hidden">x</a>
                                 </div>
-                                <div id="product-back">
-                                    <div class="shadow"></div>
-                                    <div id="carousel">
-                                        <ul>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large.png" alt="" /></li>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large2.png" alt="" /></li>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large3.png" alt="" /></li>
-                                        </ul>
-                                        <div class="arrows-perspective">
-                                            <div class="carouselPrev">
-                                                <div class="y"></div>
-                                                <div class="x"></div>
-                                            </div>
-                                            <div class="carouselNext">
-                                                <div class="y"></div>
-                                                <div class="x"></div>
-                                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="product-card">
+                            <div id="product-front">
+                                <div id="effect-5" class="effects clearfix">
+                                    <div class="img">
+                                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt.png" alt="" />
+                                        <div class="overlay">
+                                            <a href="#" class="expand">+</a>
+                                            <a class="close-overlay hidden">x</a>
                                         </div>
                                     </div>
-                                    <div id="flip-back">
-                                        <div id="cy"></div>
-                                        <div id="cx"></div>
+                                </div>
+                                <div class="stats">        	
+                                    <div class="stats-container">
+                                        <span class="product_price">CS0157</span>
+                                        <span class="product_name">Sumit Singh</span>    
+                                        <p>Men's running shirt</p>                                                  
+
+                                        <div class="product-options">
+                                            <strong>SIZES</strong>
+                                            <span>XS, S, M, L, XL, XXL</span>
+                                            <strong>COLORS</strong>
+                                            <div class="colors">
+                                                <div class="c-blue"><span></span></div>
+                                                <div class="c-red"><span></span></div>
+                                                <div class="c-white"><span></span></div>
+                                                <div class="c-green"><span></span></div>
+                                            </div> 
+                                        </div>                        
+                                    </div>                         
+                                </div>
+                            </div>       
+                            <div id="product-back">
+
+                            </div>                     
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="product-card">
+                            <div id="product-front">
+                                <div id="effect-5" class="effects clearfix">
+                                    <div class="img">
+                                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt.png" alt="" />
+                                        <div class="overlay">
+                                            <a href="#" class="expand">+</a>
+                                            <a class="close-overlay hidden">x</a>
+                                        </div>
                                     </div>
-                                </div>	  
-                            </div>	
-                        </div>	
+                                </div>
+                                <div class="stats">        	
+                                    <div class="stats-container">
+                                        <span class="product_price">CS0157</span>
+                                        <span class="product_name">Sumit Singh</span>    
+                                        <p>Men's running shirt</p>                                                  
+
+                                        <div class="product-options">
+                                            <strong>SIZES</strong>
+                                            <span>XS, S, M, L, XL, XXL</span>
+                                            <strong>COLORS</strong>
+                                            <div class="colors">
+                                                <div class="c-blue"><span></span></div>
+                                                <div class="c-red"><span></span></div>
+                                                <div class="c-white"><span></span></div>
+                                                <div class="c-green"><span></span></div>
+                                            </div> 
+                                        </div>                        
+                                    </div>                         
+                                </div>
+                            </div>       
+                            <div id="product-back">
+
+                            </div>                     
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,117 +261,43 @@
     jQuery(document).ready(function() {
         Main.init();
         SVExamples.init();
-
-        // Lift card and show stats on Mouseover
-        $('#product-card').hover(function() {
-            $(this).addClass('animate');
-            $('div.carouselNext, div.carouselPrev').addClass('visible');
-        }, function() {
-            $(this).removeClass('animate');
-            $('div.carouselNext, div.carouselPrev').removeClass('visible');
-        });
-
-        // Flip card to the back side
-        $('#view_details').click(function() {
-            $('div.carouselNext, div.carouselPrev').removeClass('visible');
-            $('#product-card').addClass('flip-10');
-            setTimeout(function() {
-                $('#product-card').removeClass('flip-10').addClass('flip90').find('div.shadow').show().fadeTo(80, 1, function() {
-                    $('#product-front, #product-front div.shadow').hide();
-                });
-            }, 50);
-
-            setTimeout(function() {
-                $('#product-card').removeClass('flip90').addClass('flip190');
-                $('#product-back').show().find('div.shadow').show().fadeTo(90, 0);
-                setTimeout(function() {
-                    $('#product-card').removeClass('flip190').addClass('flip180').find('div.shadow').hide();
-                    setTimeout(function() {
-                        $('#product-card').css('transition', '100ms ease-out');
-                        $('#cx, #cy').addClass('s1');
-                        setTimeout(function() {
-                            $('#cx, #cy').addClass('s2');
-                        }, 100);
-                        setTimeout(function() {
-                            $('#cx, #cy').addClass('s3');
-                        }, 200);
-                        $('div.carouselNext, div.carouselPrev').addClass('visible');
-                    }, 100);
-                }, 100);
-            }, 150);
-        });
-
-        // Flip card back to the front side
-        $('#flip-back').click(function() {
-
-            $('#product-card').removeClass('flip180').addClass('flip190');
-            setTimeout(function() {
-                $('#product-card').removeClass('flip190').addClass('flip90');
-
-                $('#product-back div.shadow').css('opacity', 0).fadeTo(100, 1, function() {
-                    $('#product-back, #product-back div.shadow').hide();
-                    $('#product-front, #product-front div.shadow').show();
-                });
-            }, 50);
-
-            setTimeout(function() {
-                $('#product-card').removeClass('flip90').addClass('flip-10');
-                $('#product-front div.shadow').show().fadeTo(100, 0);
-                setTimeout(function() {
-                    $('#product-front div.shadow').hide();
-                    $('#product-card').removeClass('flip-10').css('transition', '100ms ease-out');
-                    $('#cx, #cy').removeClass('s1 s2 s3');
-                }, 100);
-            }, 150);
-
-        });
-
-
-        /* ----  Image Gallery Carousel   ---- */
-
-        var carousel = $('#carousel ul');
-        var carouselSlideWidth = 335;
-        var carouselWidth = 0;
-        var isAnimating = false;
-
-        // building the width of the casousel
-        $('#carousel li').each(function() {
-            carouselWidth += carouselSlideWidth;
-        });
-        $(carousel).css('width', carouselWidth);
-
-        // Load Next Image
-        $('div.carouselNext').on('click', function() {
-            var currentLeft = Math.abs(parseInt($(carousel).css("left")));
-            var newLeft = currentLeft + carouselSlideWidth;
-            if (newLeft == carouselWidth || isAnimating === true) {
-                return;
-            }
-            $('#carousel ul').css({'left': "-" + newLeft + "px",
-                "transition": "300ms ease-out"
-            });
-            isAnimating = true;
-            setTimeout(function() {
-                isAnimating = false;
-            }, 300);
-        });
-
-        // Load Previous Image
-        $('div.carouselPrev').on('click', function() {
-            var currentLeft = Math.abs(parseInt($(carousel).css("left")));
-            var newLeft = currentLeft - carouselSlideWidth;
-            if (newLeft < 0 || isAnimating === true) {
-                return;
-            }
-            $('#carousel ul').css({'left': "-" + newLeft + "px",
-                "transition": "300ms ease-out"
-            });
-            isAnimating = true;
-            setTimeout(function() {
-                isAnimating = false;
-            }, 300);
-        });
     });
 </script>
-
+<script src="{{ URL::asset('assets/js/modifiedJs/modernizr.js'); }}"></script>
+<script>
+    $(document).ready(function() {
+        if (Modernizr.touch) {
+            // show the close overlay button
+            $(".close-overlay").removeClass("hidden");
+            // handle the adding of hover class when clicked
+            $(".img").click(function(e) {
+                if (!$(this).hasClass("hover")) {
+                    $(this).addClass("hover");
+                }
+            });
+            // handle the closing of the overlay
+            $(".close-overlay").click(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if ($(this).closest(".img").hasClass("hover")) {
+                    $(this).closest(".img").removeClass("hover");
+                }
+            });
+        } else {
+            // handle the mouseenter functionality
+//            $().mouseenter(function() {
+//                console.log(this);
+//                $(this).addClass("animate");
+//                $(this).find(".img").addClass("hover");
+//            })
+//                    .mouseleave(function() {
+//                        $(this).removeClass("animate");
+//                        $(this).find(".img").removeClass("hover");
+//                    });
+            $("#product-card").each(function(i){
+                console.log(this);
+            });
+        }
+    });
+</script>
 @stop
