@@ -21,12 +21,22 @@ class UserAccountController  extends BaseController {
                 'city'                  => 'required|max:30',
                 'state'                 => 'required|max:30',
                 'sex'                   => 'required',
+                'school_registration_code' => 'required|max:80',
+                'user_registration_code'=> 'required|max:80',
                 'email'                 => 'max:60|email|unique:users',
                 'password'              => 'required|min:6',
                 'password_again'        => 'required|same:password',
             )
         );
-        if($validator->fails()){
+
+        $school_registration_code                 = Input::get('school_registration_code');
+        $user_registration_code                   = Input::get('user_registration_code');
+
+        $school = School::where('registration_code', '=', $school_registration_code)
+                          ->where('code_for_students', '=', $user_registration_code)
+                          ->where('active', '=', 1);
+
+        if($validator->fails() || $school->count() == 0){
             return Redirect::route('user-account-create')
                 ->withErrors($validator)
                 ->withInput();

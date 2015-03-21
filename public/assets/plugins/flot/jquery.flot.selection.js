@@ -110,7 +110,7 @@ The plugin allso adds the following methods to the plot object:
             // cancel out any text selections
             document.body.focus();
 
-            // prevent text selection and drag in old-school browsers
+            // prevent text selection and drag in old-activate browsers
             if (document.onselectstart !== undefined && savedhandlers.onselectstart == null) {
                 savedhandlers.onselectstart = document.onselectstart;
                 document.onselectstart = function () { return false; };
@@ -134,7 +134,7 @@ The plugin allso adds the following methods to the plot object:
         function onMouseUp(e) {
             mouseUpHandler = null;
             
-            // revert drag stuff for old-school browsers
+            // revert drag stuff for old-activate browsers
             if (document.onselectstart !== undefined)
                 document.onselectstart = savedhandlers.onselectstart;
             if (document.ondrag !== undefined)

@@ -18,10 +18,10 @@ class Classes extends Eloquent {
     protected $table = 'classes';
 
     /**
-     * belong to function for school table
+     * belong to function for activate table
      */
     public function school() {
-        return $this->belongsto('school', 'id', 'school_id');
+        return $this->belongsto('activate', 'id', 'school_id');
     }
 
     /**

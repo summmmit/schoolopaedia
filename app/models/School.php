@@ -9,19 +9,21 @@ class School extends Eloquent {
     protected $fillable = array(
         'name',
         'manager_full_name',
+        'phone_number',
+        'email',
         'add_1',
         'add_2',
         'city',
         'state',
         'country',
         'pin_code',
-        'logo',
-        'active',
         'registration_code',
         'code_for_admin',
         'code_for_teachers',
         'code_for_students',
-        'registration_date'
+        'registration_date',
+        'logo',
+        'active',
     );
 
     /**

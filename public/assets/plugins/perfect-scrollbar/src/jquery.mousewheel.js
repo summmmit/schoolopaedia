@@ -58,11 +58,11 @@ function handler(event) {
     event = $.event.fix(orgEvent);
     event.type = "mousewheel";
     
-    // Old school scrollwheel delta
+    // Old activate scrollwheel delta
     if ( orgEvent.wheelDelta ) { delta = orgEvent.wheelDelta/120; }
     if ( orgEvent.detail     ) { delta = -orgEvent.detail/3; }
     
-    // New school multidimensional scroll (touchpads) deltas
+    // New activate multidimensional scroll (touchpads) deltas
     deltaY = delta;
     
     // Gecko
