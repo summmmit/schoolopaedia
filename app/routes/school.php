@@ -15,18 +15,25 @@ Route::group(array('before' => 'guest'), function() {
      */
     Route::group(array('before' => 'csrf'), function() {
         /*
-         *  Admin Sign-in (post)
+         *  School Sign-in (post)
          */
         Route::Post('/register', array(
-            'as' => 'school-account-create-post',
+            'as' => 'activate-account-create-post',
             'uses' => 'SchoolController@postCreate'
         ));
     });
     /*
-     * Admin Create Account (get)
+     * School Create Account (get)
      */
     Route::get('/register', array(
-        'as' => 'school-account-create',
+        'as' => 'activate-account-create',
         'uses' => 'SchoolController@getCreate'
+    ));
+    /*
+     * School Activate Account (get)
+     */
+    Route::get('/activate/account/activate/{code}', array(
+        'as'  => 'activate-account-activate',
+        'uses' => 'SchoolController@getActivate'
     ));
 });

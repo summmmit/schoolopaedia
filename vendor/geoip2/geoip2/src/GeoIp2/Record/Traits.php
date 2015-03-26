@@ -62,7 +62,7 @@ namespace GeoIp2\Record;
  *    <li>military
  *    <li>residential
  *    <li>router
- *    <li>school
+ *    <li>activate
  *    <li>search_engine_spider
  *    <li>traveler
  * </ul>

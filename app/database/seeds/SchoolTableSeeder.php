@@ -9,9 +9,9 @@ class SchoolTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		\DB::table('school')->delete();
+		\DB::table('activate')->delete();
         
-		\DB::table('school')->insert(array (
+		\DB::table('activate')->insert(array (
 			0 => 
 			array (
 				'id' => 1,

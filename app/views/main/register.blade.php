@@ -6,10 +6,15 @@
     <p>
         Enter your School details below:
     </p>
-    <form class="form-register" action="{{ URL::route('school-account-create-post'); }}" method="post">
+    <form class="form-register" action="{{ URL::route('activate-account-create-post'); }}" method="post">
         <div class="errorHandler alert alert-danger no-display">
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
         </div>
+        @if(Session::has('global'))
+            <div class="errorHandler alert alert-danger">
+                <i class="fa fa-remove-sign"></i>{{ Session::get('global') }}
+            </div>
+        @endif
         <fieldset>
             <div class="form-group">
                 <input type="text" class="form-control" name="name" placeholder="School Name" {{ (Input::old('name')) ? 'value = "' .e(Input::old('name')). '" ':'' }}>
