@@ -35,6 +35,19 @@ class AdminTimeTableController extends BaseController {
         //return View::make('');
     }
 
+    public function postGetClasses() {
+        $classes = Classes::where('school_id', '=', $this->getSchoolId())->get();
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Classes fetched successfully',
+            'errors' => null,
+            'classes' => $classes
+        );
+
+        return Response::json($response);
+    }
+
     public function postAddClasses() {
 
         $validator = Validator::make(Input::all(), array(
@@ -247,12 +260,12 @@ class AdminTimeTableController extends BaseController {
         } else {
             $streams = Streams::where('stream_name', '=', $stream_name);
         }
-            
+
         $classes = Classes::where('streams_id', '=', $streams->id)->get();
 
         if ($streams->delete()) {
-            
-            foreach($classes as $class){
+
+            foreach ($classes as $class) {
                 Classes::find($class->id)->delete();
             }
 
@@ -273,6 +286,21 @@ class AdminTimeTableController extends BaseController {
 
             return Response::json($response);
         }
+    }
+
+    public function postGetSections() {
+        $classId = Input::get('class_id');
+
+        $sections = Sections::where('class_id', '=', $classId)->get();
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Setting created successfully',
+            'errors' => null,
+            'sections' => $sections
+        );
+
+        return Response::json($response);
     }
 
 }

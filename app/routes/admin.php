@@ -164,7 +164,14 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
         'uses' => 'AdminTimeTableController@postDeleteClasses'
     ));
     /*
-     * Admin Streams Add or Edit (post)
+     * Admin Classes get (post)
+     */
+    Route::Post('/admin/time/table/get/classes', array(
+        'as'  => 'admin-time-table-get-classes-post',
+        'uses' => 'AdminTimeTableController@postGetClasses'
+    ));
+    /*
+     * Admin Streams  (post)
      */
     Route::Post('/admin/time/table/get/streams', array(
         'as'  => 'admin-time-table-get-streams',
@@ -183,6 +190,13 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
     Route::Post('/admin/time/table/delete/stream', array(
         'as'  => 'admin-time-table-delete-stream-post',
         'uses' => 'AdminTimeTableController@postDeleteStreams'
+    ));
+    /*
+     * Admin Sections  (post)
+     */
+    Route::Post('/admin/time/table/get/sections', array(
+        'as'  => 'admin-time-table-get-streams',
+        'uses' => 'AdminTimeTableController@postGetSections'
     ));
     
 });

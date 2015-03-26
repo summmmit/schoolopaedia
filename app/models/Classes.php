@@ -31,5 +31,12 @@ class Classes extends Eloquent {
         return $this->belongsto('streams', 'id', 'streams_id');
     }
 
+    /**
+     * foreign to function for sections table
+     */
+    public function sections() {
+        return $this->hasmany('sections', 'class_id', 'id');
+    }
+
 
 }
