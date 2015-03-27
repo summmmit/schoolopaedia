@@ -14,7 +14,7 @@ class AddForeignKeysToPeriodsTable extends Migration {
 	{
 		Schema::table('periods', function(Blueprint $table)
 		{
-			$table->foreign('school_id', 'periods_ibfk_1')->references('id')->on('activate')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('school_id', 'periods_ibfk_1')->references('id')->on('school')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('session_id', 'periods_ibfk_2')->references('id')->on('school_session')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}

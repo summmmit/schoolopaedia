@@ -12,7 +12,7 @@ class CreateSchoolTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('activate', function(Blueprint $table)
+		Schema::create('school', function(Blueprint $table)
 		{
 			$table->integer('id', true);
 			$table->string('name', 100);
@@ -43,7 +43,7 @@ class CreateSchoolTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('activate');
+		Schema::drop('school');
 	}
 
 }

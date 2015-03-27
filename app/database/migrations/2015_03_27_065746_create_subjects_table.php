@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSchoolSessionTable extends Migration {
+class CreateSubjectsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,12 @@ class CreateSchoolSessionTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('school_session', function(Blueprint $table)
+		Schema::create('subjects', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->date('session_start');
-			$table->date('session_end');
-			$table->integer('school_id')->index('school_id');
+			$table->string('subject_name', 30);
+			$table->string('subject_code', 15);
+			$table->integer('class_id')->index('class_id');
 			$table->dateTime('deleted_at');
 			$table->timestamps();
 		});
@@ -31,7 +31,7 @@ class CreateSchoolSessionTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('school_session');
+		Schema::drop('subjects');
 	}
 
 }

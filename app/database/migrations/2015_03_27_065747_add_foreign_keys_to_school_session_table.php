@@ -14,7 +14,7 @@ class AddForeignKeysToSchoolSessionTable extends Migration {
 	{
 		Schema::table('school_session', function(Blueprint $table)
 		{
-			$table->foreign('school_id', 'school_session_ibfk_1')->references('id')->on('activate')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('school_id', 'school_session_ibfk_1')->references('id')->on('school')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 
