@@ -198,5 +198,19 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
         'as'  => 'admin-time-table-get-streams',
         'uses' => 'AdminTimeTableController@postGetSections'
     ));
+    /*
+     * Admin Sections Add or Edit (post)
+     */
+    Route::Post('/admin/time/table/add/sections', array(
+        'as'  => 'admin-time-table-add-sections-post',
+        'uses' => 'AdminTimeTableController@postAddSections'
+    ));
+    /*
+     * Admin Sections Delete (post)
+     */
+    Route::Post('/admin/time/table/delete/sections', array(
+        'as'  => 'admin-time-table-delete-sections-post',
+        'uses' => 'AdminTimeTableController@postDeleteSections'
+    ));
     
 });

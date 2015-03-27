@@ -28,12 +28,13 @@ var TableDataSections = function() {
 
         }
 
-        function saveRow(oTable, nRow, dataId) {
+        function saveRow(oTable, nRow, classId, sectionId) {
             var jqInputs = $('input', nRow);
-            var isExistsId = nRow.getAttribute('id');
-            if (isExistsId === null) {
-                nRow = nRow.setAttribute('id', dataId);
-            }
+            var isExistsId = nRow.setAttribute('id', classId);
+            var nTr = oTable.fnSettings().aoData;
+            nTr = nTr[nTr.length-1];
+            nTr = nTr.nTr;
+            $('td', nTr)[0].setAttribute('id', sectionId);
             oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
             oTable.fnUpdate('<a class="edit-row-sections" href="">Edit</a>', nRow, 1, false);
             oTable.fnUpdate('<a class="delete-row-sections" href="">Delete</a>', nRow, 2, false);
@@ -78,11 +79,13 @@ var TableDataSections = function() {
             }
             var nRow = $(this).parents('tr')[0];
             var id = $(this).parents('tr').attr('id');
-            var stream_name = $(this).parent().prev().prev().text();
+            var section_name = $(this).parent().prev().prev().text();
+            var section_id = $(this).parent().prev().prev().attr('id');
 
             var data = {
-                stream_id: id,
-                stream_name: stream_name
+                class_id: id,
+                section_id : section_id,
+                section_name: section_name
             };
 
             bootbox.confirm("Are you sure to delete this row?", function(result) {
@@ -91,18 +94,13 @@ var TableDataSections = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/stream',
+                        url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/sections',
                         dataType: 'json',
                         method: 'POST',
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
                             oTable.fnDeleteRow(nRow);
-                            var cTableRows = $('#table-add-classes').find(".sorting_1").parent().parent().find('td[id="' + data.deleted_item_id + '"]').parent();
-                            var i;
-                            for (i = 0; i < cTableRows.length; i++) {
-                                cTableRows[i].remove();
-                            }
                         }
                     });
 
@@ -117,25 +115,27 @@ var TableDataSections = function() {
 
             var nRow = $(this).parents('tr')[0];
             var input = $(this).parents('tr').find('#new-input').val();
-            var id = $(this).parents('tr').attr('id');
+            var class_id = $('#form-field-select-classes').val();
+            var section_id = $(this).parents('tr').find('#new-input').parent().attr('id');
             var data = {
-                stream_name: input,
-                stream_id: id
+                section_id : section_id,
+                section_name: input,
+                class_id: class_id
             };
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/stream',
+                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/sections',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
                     $.unblockUI();
                     if (data.status == "success") {
-                        saveRow(oTable, nRow, data.data_send.id);
+                        saveRow(oTable, nRow, class_id, data.data_send.id);
                     } else if (data.status == "failed") {
-                        oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.stream_name + '</p>');
+                        oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.section_name + '</p>');
                     }
                 }
             });
@@ -209,16 +209,30 @@ var TableDataSections = function() {
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
-                    $('#table-add-sections').find('tbody').find('tr').remove();
+                    oTable.fnClearTable();
                     $.unblockUI();
                     var i;
                     for (i = 0; i < data.sections.length; i++) {
-                        $('#table-add-sections').find('tbody').append('<tr><td>' + data.sections[i].section_name + '</td><td><a class="edit-row-sections" href="#">Edit</a></td><td><a class="delete-row-sections" href="#">Delete</a></td></tr>');
+                        deleteAndCreateTable(oTable, optionValue, data.sections[i].id, data.sections[i].section_name);
                     }
                 }
             });
 
         });
+        function deleteAndCreateTable(oTable, trId, firstTdId, firstTdData) {
+
+            var aiNew = oTable.fnAddData(['', '', '']);
+            var nRow = oTable.fnGetNodes(aiNew[0]);
+            nRow = nRow.setAttribute('id', trId);
+            var nTr = oTable.fnSettings().aoData[aiNew[0]].nTr;
+            $('td', nTr)[0].setAttribute('id', firstTdId);
+            oTable.fnUpdate(firstTdData, nRow, 0, false);
+            oTable.fnUpdate('<a class="edit-row-sections" href="">Edit</a>', nRow, 1, false);
+            oTable.fnUpdate('<a class="delete-row-sections" href="">Delete</a>', nRow, 2, false);
+            oTable.fnDraw();
+
+            nRow = false;
+        }
     };
 
     var fetchClasses = function() {

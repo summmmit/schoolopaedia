@@ -303,4 +303,109 @@ class AdminTimeTableController extends BaseController {
         return Response::json($response);
     }
 
+    public function postAddSections() {
+
+        $validator = Validator::make(Input::all(), array(
+                    'section_name' => 'required|max:30|min:3'
+        ));
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status' => 'failed',
+                'msg' => 'Item is not updated',
+                'errors' => $validator,
+                'error_messages' => $validator->messages()
+            );
+
+            return Response::json($response);
+        } else {
+
+            $section_name = Input::get('section_name');
+            $section_id = Input::get('section_id');
+            $class_id = Input::get('class_id');
+
+            if ($section_id) {
+                $section = Sections::find($section_id);
+                $section->section_name = ucwords($section_name);
+
+                if ($section->save()) {
+
+                    $response = array(
+                        'status' => 'success',
+                        'msg' => 'Setting created successfully',
+                        'errors' => null,
+                        'data_send' => array(
+                            'id' => $section->id,
+                            'section_name' => $section->section_name
+                        ),
+                    );
+
+                    return Response::json($response);
+                }
+            } else {
+
+                $section = new Sections();
+                $section->section_name = ucwords($section_name);
+                $section->class_id = $class_id;
+
+                if ($section->save()) {
+
+                    $response = array(
+                        'status' => 'success',
+                        'msg' => 'Setting created successfully',
+                        'errors' => null,
+                        'data_send' => array(
+                            'id' => $section->id,
+                            'section_name' => $section->section_name
+                        ),
+                    );
+
+                    return Response::json($response);
+                }
+            }
+        }
+
+        $response = array(
+            'status' => 'failed',
+            'msg' => 'Item is not updated'
+        );
+
+        return Response::json($response);
+    }
+
+    public function postDeleteSections() {
+
+        $section_id = Input::get('section_id');
+        $section_name = Input::get('section_name');
+        $class_id = Input::get('class_id');
+
+
+        if ($section_id) {
+            $sections = Sections::find($section_id);
+        } else {
+            $sections = Sections::where('section_name', '=', $section_name)->where('class_id', '=', $class_id);
+        }
+
+        if ($sections->delete()) {
+
+            $response = array(
+                'status' => 'success',
+                'msg' => 'Setting created successfully',
+                'deleted_item_id' => $section_id,
+            );
+
+            return Response::json($response);
+        } else {
+
+            $response = array(
+                'status' => 'failed',
+                'msg' => 'Item is Not deleted',
+                'Item_id' => $section_id,
+            );
+
+            return Response::json($response);
+        }
+    }
+
 }

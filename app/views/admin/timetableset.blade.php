@@ -46,9 +46,9 @@
                         </a>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-orange add-row">
-                            Add New Subject <i class="fa fa-plus"></i>
-                        </button>
+                        <a class="btn btn-green show-sv" href="#subview-add-subjects" data-startFrom="top">
+                            Add New Section <i class="fa fa-chevron-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -227,6 +227,61 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-hover" id="table-add-sections">
+                                <thead>
+                                    <tr>
+                                        <th>Section Name</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="subview-add-subjects" class="no-display">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- start: DYNAMIC TABLE PANEL -->
+                <div class="panel panel-white panel-add-classes">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h3>Select a Class ...</h3>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                    </label>
+                                    <select id="form-field-select-classes" class="form-control">
+                                        <option value="">Select a Class...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12 space20">
+                                <button class="btn btn-green add-row-sections no-display" id="add-section-button">
+                                    Add New <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="errorHandler alert alert-danger no-display">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="table-add-subjects">
                                 <thead>
                                     <tr>
                                         <th>Section Name</th>
