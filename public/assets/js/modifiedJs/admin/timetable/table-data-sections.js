@@ -100,6 +100,7 @@ var TableDataSections = function() {
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
+                            toastr.success('You have deleted Section : ' + section_name);
                             oTable.fnDeleteRow(nRow);
                         }
                     });

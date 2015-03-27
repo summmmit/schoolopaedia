@@ -120,6 +120,7 @@ var TableDataClasses = function() {
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
+                            toastr.success('You have deleted Class : ' + class_name + ' and Subjects and Sections associated with it.');
                             cTable.fnDeleteRow(nRow);
                         }
                     });
