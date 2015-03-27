@@ -408,4 +408,131 @@ class AdminTimeTableController extends BaseController {
         }
     }
 
+    public function postGetSubjects() {
+        $classId = Input::get('class_id');
+
+        $subjects = Subjects::where('class_id', '=', $classId)->get();
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Setting created successfully',
+            'errors' => null,
+            'subjects' => $subjects
+        );
+
+        return Response::json($response);
+    }
+
+    public function postAddSubjects() {
+
+        $validator = Validator::make(Input::all(), array(
+                    'subject_name' => 'required|max:30|min:3',
+                    'subject_code' => 'required|max:30|min:2'
+        ));
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status' => 'failed',
+                'msg' => 'Item is not updated',
+                'errors' => $validator,
+                'error_messages' => $validator->messages()
+            );
+
+            return Response::json($response);
+        } else {
+
+            $subject_id = Input::get('subject_id');
+            $subject_name = Input::get('subject_name');
+            $subject_code = Input::get('subject_code');
+            $class_id = Input::get('class_id');
+
+            if ($subject_id) {
+                $subjects = Subjects::find($subject_id);
+                $subjects->subject_name = ucwords($subject_name);
+                $subjects->subject_code = ucwords($subject_code);
+
+                if ($subjects->save()) {
+
+                    $response = array(
+                        'status' => 'success',
+                        'msg' => 'Setting created successfully',
+                        'errors' => null,
+                        'data_send' => array(
+                            'id' => $subjects->id,
+                            'subject_name' => $subjects->subject_name,
+                            'subject_code' => $subjects->subject_code
+                        ),
+                    );
+
+                    return Response::json($response);
+                }
+            } else {
+
+                $subjects = new Subjects();
+                $subjects->subject_name = ucwords($subject_name);
+                $subjects->subject_code = ucwords($subject_code);
+                $subjects->class_id = $class_id;
+
+                if ($subjects->save()) {
+
+                    $response = array(
+                        'status' => 'success',
+                        'msg' => 'Setting created successfully',
+                        'errors' => null,
+                        'data_send' => array(
+                            'id' => $subjects->id,
+                            'subject_name' => $subjects->subject_name,
+                            'subject_code' => $subjects->subject_code
+                        ),
+                    );
+
+                    return Response::json($response);
+                }
+            }
+        }
+
+        $response = array(
+            'status' => 'failed',
+            'msg' => 'Item is not updated'
+        );
+
+        return Response::json($response);
+    }
+
+    public function postDeleteSubjects() {
+
+        $subject_id = Input::get('subject_id');
+        $subject_name = Input::get('subject_name');
+        $subject_code = Input::get('subject_code');
+        $class_id = Input::get('class_id');
+
+
+        if ($subject_id) {
+            $subjects = Subjects::find($subject_id);
+        } else {
+            $subjects = Subjects::where('subject_name', '=', $subject_name)->where('subject_code', '=', $subject_code)->where('class_id', '=', $class_id);
+        }
+
+        if ($subjects->delete()) {
+
+            $response = array(
+                'status' => 'success',
+                'msg' => 'Setting created successfully',
+                'deleted_item_id' => $subjects->id,
+            );
+
+            return Response::json($response);
+        } else {
+
+            $response = array(
+                'status' => 'failed',
+                'msg' => 'Item is Not deleted',
+                'Item_id' => $subject_id,
+            );
+
+            return Response::json($response);
+        }
+    }
+
 }

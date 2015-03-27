@@ -38,5 +38,12 @@ class Classes extends Eloquent {
         return $this->hasmany('sections', 'class_id', 'id');
     }
 
+    /**
+     * foreign to function for subjects table
+     */
+    public function subjects() {
+        return $this->hasmany('subjects', 'class_id', 'id');
+    }
+
 
 }

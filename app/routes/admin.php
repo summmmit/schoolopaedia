@@ -212,5 +212,26 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
         'as'  => 'admin-time-table-delete-sections-post',
         'uses' => 'AdminTimeTableController@postDeleteSections'
     ));
+    /*
+     * Admin Subjects  (post)
+     */
+    Route::Post('/admin/time/table/get/subjects', array(
+        'as'  => 'admin-time-table-get-subjects',
+        'uses' => 'AdminTimeTableController@postGetSubjects'
+    ));
+    /*
+     * Admin Sections Add or Edit (post)
+     */
+    Route::Post('/admin/time/table/add/subjects', array(
+        'as'  => 'admin-time-table-add-subjects-post',
+        'uses' => 'AdminTimeTableController@postAddSubjects'
+    ));
+    /*
+     * Admin Sections Delete (post)
+     */
+    Route::Post('/admin/time/table/delete/subjects', array(
+        'as'  => 'admin-time-table-delete-subjects-post',
+        'uses' => 'AdminTimeTableController@postDeleteSubjects'
+    ));
     
 });

@@ -37,17 +37,17 @@
                     </div>
                     <div class="col-md-3">
                         <a class="btn btn-green show-sv" href="#subview-add-streams" data-startFrom="right">
-                            Add New Stream <i class="fa fa-plus"></i>
+                            Add New Streams <i class="fa fa-plus"></i>
                         </a>
                     </div>
                     <div class="col-md-3">
                         <a class="btn btn-green show-sv" href="#subview-add-sections" data-startFrom="right">
-                            Add New Section <i class="fa fa-chevron-right"></i>
+                            Add New Sections <i class="fa fa-chevron-right"></i>
                         </a>
                     </div>
                     <div class="col-md-3">
                         <a class="btn btn-green show-sv" href="#subview-add-subjects" data-startFrom="top">
-                            Add New Section <i class="fa fa-chevron-right"></i>
+                            Add New Subjects <i class="fa fa-chevron-right"></i>
                         </a>
                     </div>
                 </div>
@@ -249,7 +249,7 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- start: DYNAMIC TABLE PANEL -->
-                <div class="panel panel-white panel-add-classes">
+                <div class="panel panel-white panel-add-subjects">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-8">
@@ -259,7 +259,7 @@
                                 <div class="form-group">
                                     <label>
                                     </label>
-                                    <select id="form-field-select-classes" class="form-control">
+                                    <select id="form-field-select-subjects-classes" class="form-control">
                                         <option value="">Select a Class...</option>
                                     </select>
                                 </div>
@@ -269,7 +269,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 space20">
-                                <button class="btn btn-green add-row-sections no-display" id="add-section-button">
+                                <button class="btn btn-green add-row-subjects no-display" id="add-subjects-button">
                                     Add New <i class="fa fa-plus"></i>
                                 </button>
                             </div>
@@ -284,7 +284,8 @@
                             <table class="table table-striped table-hover" id="table-add-subjects">
                                 <thead>
                                     <tr>
-                                        <th>Section Name</th>
+                                        <th>Subject Name</th>
+                                        <th>Subject Code</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -309,6 +310,7 @@
 <script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-streams.js'); }}"></script>                               <!-- For streams Table -->
 <script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-classes.js'); }}"></script>                               <!-- For classes Table -->
 <script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-sections.js'); }}"></script>                              <!-- For sections Table -->
+<script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-subjects.js'); }}"></script>                              <!-- For subjects Table -->
 <script>
 jQuery(document).ready(function() {
     Main.init();
@@ -317,6 +319,7 @@ jQuery(document).ready(function() {
     TableDataStreams.init();
     TableDataClasses.init();
     TableDataSections.init();
+    TableDataSubjects.init();
 
 });
 </script>
