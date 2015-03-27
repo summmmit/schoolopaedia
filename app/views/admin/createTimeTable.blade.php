@@ -31,16 +31,18 @@
                     <table class="table table-striped table-hover" id="table-add-classes">
                         <thead>
                             <tr>
-                                <th>Class Name</th>
-                                <th>Stream</th>
+                                <th>Period</th>
+                                <th>Subject</th>
+                                <th>Teacher</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="">
+                            <tr>
                                 <td></td>
-                                <td id=""></td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     <a href="#" class="edit-row-classes">
                                         Edit
