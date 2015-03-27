@@ -94,6 +94,7 @@ var TableDataStreams = function() {
                         url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/stream',
                         dataType: 'json',
                         method: 'POST',
+                        cache: false,
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
@@ -133,12 +134,13 @@ var TableDataStreams = function() {
                 url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/stream',
                 dataType: 'json',
                 method: 'POST',
+                cache: false,
                 data: data,
                 success: function(data, response) {
                     $.unblockUI();
                     if (data.status == "success") {
                         saveRow(oTable, nRow, data.data_send.id);
-                        toastr.info('You have successfully Created new stream: '+ stream_name);
+                        toastr.info('You have successfully Created new stream: ' + stream_name);
                     } else if (data.status == "failed") {
                         oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.stream_name + '</p>');
                     }

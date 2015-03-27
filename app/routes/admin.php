@@ -233,5 +233,12 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
         'as'  => 'admin-time-table-delete-subjects-post',
         'uses' => 'AdminTimeTableController@postDeleteSubjects'
     ));
+    /*
+     * Admin Subjects  (post)
+     */
+    Route::get('/admin/time/table/get/new', array(
+        'as'  => 'admin-new-time-table-create',
+        'uses' => 'AdminTimeTableController@getNewTimeTable'
+    ));
     
 });

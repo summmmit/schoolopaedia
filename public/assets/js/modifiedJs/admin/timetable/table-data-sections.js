@@ -32,7 +32,7 @@ var TableDataSections = function() {
             var jqInputs = $('input', nRow);
             var isExistsId = nRow.setAttribute('id', classId);
             var nTr = oTable.fnSettings().aoData;
-            nTr = nTr[nTr.length-1];
+            nTr = nTr[nTr.length - 1];
             nTr = nTr.nTr;
             $('td', nTr)[0].setAttribute('id', sectionId);
             oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
@@ -84,7 +84,7 @@ var TableDataSections = function() {
 
             var data = {
                 class_id: id,
-                section_id : section_id,
+                section_id: section_id,
                 section_name: section_name
             };
 
@@ -97,6 +97,7 @@ var TableDataSections = function() {
                         url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/sections',
                         dataType: 'json',
                         method: 'POST',
+                        cache: false,
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
@@ -119,7 +120,7 @@ var TableDataSections = function() {
             var class_id = $('#form-field-select-classes').val();
             var section_id = $(this).parents('tr').find('#new-input').parent().attr('id');
             var data = {
-                section_id : section_id,
+                section_id: section_id,
                 section_name: input,
                 class_id: class_id
             };
@@ -129,13 +130,14 @@ var TableDataSections = function() {
             $.ajax({
                 url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/sections',
                 dataType: 'json',
+                cache: false,
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
                     $.unblockUI();
                     if (data.status == "success") {
                         saveRow(oTable, nRow, class_id, data.data_send.id);
-                        toastr.info('You have successfully Created new Section: '+ section_name);
+                        toastr.info('You have successfully Created new Section: ' + section_name);
                     } else if (data.status == "failed") {
                         oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.section_name + '</p>');
                     }

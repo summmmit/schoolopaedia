@@ -82,6 +82,9 @@
         <li>
             <a href="{{ URL::route('admin-time-table'); }}"><i class="fa fa-desktop"></i> <span class="title"> Add or Edit TimeTable </span></a>
         </li>
+        <li>
+            <a href="{{ URL::route('admin-new-time-table-create'); }}"><i class="fa fa-desktop"></i> <span class="title"> Create TimeTable </span></a>
+        </li>
     </ul>
     <!-- end: MAIN NAVIGATION MENU -->
 </div>
