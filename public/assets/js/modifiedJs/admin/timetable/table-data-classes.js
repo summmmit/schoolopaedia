@@ -154,6 +154,7 @@ var TableDataClasses = function() {
                     $.unblockUI();
                     if (data.status == "success") {
                         saveRow(cTable, nRow, data.data_send.id, data.data_send.streams_id, data.data_send.streams_name);
+                        toastr.info('You Have successfully added class :' + class_name);
                     } else if (data.status == "failed") {
                         cTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.class_name + '</p>');
                     }

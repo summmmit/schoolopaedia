@@ -134,6 +134,7 @@ var TableDataSections = function() {
                     $.unblockUI();
                     if (data.status == "success") {
                         saveRow(oTable, nRow, class_id, data.data_send.id);
+                        toastr.info('You have successfully Created new Section: '+ section_name);
                     } else if (data.status == "failed") {
                         oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.section_name + '</p>');
                     }

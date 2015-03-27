@@ -48,6 +48,33 @@ class StreamsTableSeeder extends Seeder {
 				'created_at' => '2015-03-18 02:52:39',
 				'updated_at' => '2015-03-18 02:52:39',
 			),
+			4 => 
+			array (
+				'id' => 5,
+				'stream_name' => 'Biology',
+				'school_id' => 1,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-03-27 07:18:04',
+				'updated_at' => '2015-03-27 07:18:04',
+			),
+			5 => 
+			array (
+				'id' => 6,
+				'stream_name' => 'Computer Science',
+				'school_id' => 1,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-03-27 07:19:08',
+				'updated_at' => '2015-03-27 07:19:08',
+			),
+			6 => 
+			array (
+				'id' => 7,
+				'stream_name' => 'Information Technology',
+				'school_id' => 1,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-03-27 07:19:30',
+				'updated_at' => '2015-03-27 07:19:30',
+			),
 		));
 	}
 

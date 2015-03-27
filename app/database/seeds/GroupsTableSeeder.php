@@ -30,6 +30,24 @@ class GroupsTableSeeder extends Seeder {
 				'created_at' => '0000-00-00 00:00:00',
 				'updated_at' => '0000-00-00 00:00:00',
 			),
+			2 => 
+			array (
+				'id' => 3,
+				'name' => 'teachers',
+				'permissions' => '',
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '0000-00-00 00:00:00',
+				'updated_at' => '0000-00-00 00:00:00',
+			),
+			3 => 
+			array (
+				'id' => 4,
+				'name' => 'moderators',
+				'permissions' => '',
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '0000-00-00 00:00:00',
+				'updated_at' => '0000-00-00 00:00:00',
+			),
 		));
 	}
 

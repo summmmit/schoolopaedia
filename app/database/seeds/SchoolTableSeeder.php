@@ -9,16 +9,16 @@ class SchoolTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		\DB::table('activate')->delete();
+		\DB::table('school')->delete();
         
-		\DB::table('activate')->insert(array (
+		\DB::table('school')->insert(array (
 			0 => 
 			array (
 				'id' => 1,
 				'name' => 'DPS Public School',
 				'manager_full_name' => 'Sumit Singh',
 				'phone_number' => '',
-				'email' => '',
+				'email' => 'summieesngh@gmail.com',
 				'add_1' => '259/68',
 				'add_2' => 'New Defence Colony, Muradnagar',
 				'city' => 'Ghaziabad',
