@@ -1,164 +1,188 @@
-/* --- Product Card ---- */
-#make-3D-space{
-    position: relative;
-    perspective: 800px;
-    -webkit-perspective: 500px; 
-    width:340px;
-    height:500px;
-    transform-style: preserve-3d;
-    transition: transform 5s;
-    position:absolute;    
-    top:80px;
-    left:50%;	
-    margin-left:-167px;
-}
-#product-front, #product-back{
-	width:335px;
-	height:500px;
-	background:#fff;
-	position:absolute;
-	left:-5px;
-	top:-5px;
-	-webkit-transition: all 100ms ease-out; 
-       -moz-transition: all 100ms ease-out; 
-         -o-transition: all 100ms ease-out; 
-            transition: all 100ms ease-out; 
-}
-#product-back{
-	display:none;
-	transform: rotateY( 180deg );
-}
-#product-card.animate #product-back, #product-card.animate #product-front{
-	top:0px;
-	left:0px;
-	-webkit-transition: all 100ms ease-out; 
-       -moz-transition: all 100ms ease-out; 
-         -o-transition: all 100ms ease-out; 
-            transition: all 100ms ease-out; 
-}
-#product-card{
-	width:325px;
-	height:490px;
-	position:absolute;    
-	top:10px;
-	left:10px;	
-	overflow:hidden;
-    transform-style: preserve-3d;
-	-webkit-transition:  100ms ease-out; 
-       -moz-transition:  100ms ease-out; 
-         -o-transition:  100ms ease-out; 
-            transition:  100ms ease-out;
-}
-#product-card.animate{
-	top:5px;
-	left:5px;
-	width:335px;
-	height:500px;
-	box-shadow:0px 13px 21px -5px rgba(0, 0, 0, 0.3);
-	-webkit-transition:  100ms ease-out; 
-       -moz-transition:  100ms ease-out; 
-         -o-transition:  100ms ease-out; 
-            transition:  100ms ease-out; 
-}
-.stats-container{
-	background:#fff;	
-	position:absolute;
-        z-index: 72;
-	top:400px;
-	left:0;
-	width:100%;
-	height:300px;
-	padding:27px 35px 35px;	
-	-webkit-transition: all 200ms ease-out; 
-       -moz-transition: all 200ms ease-out; 
-         -o-transition: all 200ms ease-out; 
-            transition: all 200ms ease-out;
-}
-#product-card.animate .stats-container{
-	top:272px;
-	-webkit-transition: all 200ms ease-out; 
-       -moz-transition: all 200ms ease-out; 
-         -o-transition: all 200ms ease-out; 
-            transition: all 200ms ease-out; 
-}
-.stats-container .product_name{
-	font-size:22px;
-	color:#393c45;	
-}
-.stats-container p{
-	font-size:16px;
-	color:#b1b1b3;	
-	padding:2px 0 20px 0;
-}
-.stats-container .product_price{
-	float:right;
-	color:#48cfad;
-	font-size:22px;
-	font-weight:600;
-}
-.image_overlay{
-	position:absolute;
-	top:0;
-	left:0; 
-	width:100%;
-	height:100%;
-	background:#48daa1;
-	opacity:0;	
-}
-#product-card.animate .image_overlay{
-	opacity:0.7;	
-	-webkit-transition: all 200ms ease-out; 
-       -moz-transition: all 200ms ease-out; 
-         -o-transition: all 200ms ease-out; 
-            transition: all 200ms ease-out; 
-}
-.product-options{
-	padding:2px 0 0;
-}
-.product-options strong{
-	font-weight:700;
-	color:#393c45;
-	font-size:14px;
-}
-.product-options span{	
-	color:#969699;
-	font-size:14px;
-	display:block;
-	margin-bottom:8px;
-}
-#view_details{	
-	position:absolute;
-	top:112px;
-	left:50%;
-	margin-left:-85px;	
-	border:2px solid #fff;
-	color:#fff;
-	font-size:19px;
-	text-align:center;
-	text-transform:uppercase;
-	font-weight:700;
-	padding:10px 0;
-	width:172px;	
-	opacity:0;
-	-webkit-transition: all 200ms ease-out; 
-       -moz-transition: all 200ms ease-out; 
-         -o-transition: all 200ms ease-out; 
-            transition: all 200ms ease-out; 
-}
-#view_details:hover{	
-	background:#fff;
-	color:#48cfad;
-	cursor:pointer;
 
+.btn:hover,
+.btn:focus,
+.btn:active{
+    outline: 0 !important;
 }
-#product-card.animate #view_details{
-	opacity:1;
-	width:152px;
-	font-size:15px;
-	margin-left:-75px;
-	top:115px;
-	-webkit-transition: all 200ms ease-out; 
-       -moz-transition: all 200ms ease-out; 
-         -o-transition: all 200ms ease-out; 
-            transition: all 200ms ease-out; 		
+/* entire container, keeps perspective */
+.card-container {
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+    -o-perspective: 800px;
+    perspective: 800px;
+    margin-bottom: 30px;
+}
+/* flip the pane when hovered */
+.card-container:not(.manual-flip):hover .card,
+.card-container.hover.manual-flip .card{
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
+
+
+.card-container.static:hover .card,
+.card-container.static.hover .card {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -o-transform: none;
+    transform: none;
+}
+/* flip speed goes here */
+.card {
+    -webkit-transition: -webkit-transform .5s;
+    -moz-transition: -moz-transform .5s;
+    -o-transition: -o-transform .5s;
+    transition: transform .5s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #FFF;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.14);
+}
+
+/* front pane, placed above back */
+.front {
+    z-index: 2;
+}
+
+/* back, initially hidden pane */
+.back {
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+    z-index: 3;
+}
+
+.back .btn-simple{
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+}
+/*        Style       */
+
+
+.card{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 4px;
+    color: #444444;
+}
+.card-container, .front, .back {
+    width: 100%;
+    height: 420px;
+    border-radius: 4px;
+}
+.card .cover{
+    height: 105px;
+    overflow: hidden;
+    border-radius: 4px 4px 0 0;
+}
+.card .cover img{
+    width: 100%;
+}
+.card .user{
+    border-radius: 50%;
+    display: block;
+    height: 120px;
+    margin: -55px auto 0;
+    overflow: hidden;
+    width: 120px;
+}
+.card .user img{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 4px solid #FFFFFF;
+    width: 100%;
+}
+
+.card .content{
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
+    padding: 10px 20px 20px;
+}
+.card .content .main {
+    min-height: 160px;
+}
+.card .back .content .main {
+    height: 215px;
+}
+.card .name {
+    font-size: 22px;
+    line-height: 28px;
+    margin: 10px 0 0;
+    text-align: center;
+    text-transform: capitalize;
+}
+.card h5{
+    margin: 5px 0;
+    font-weight: 400;
+    line-height: 20px;
+}
+.card .profession{
+    color: #999999;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.card .footer {
+    border-top: 1px solid #EEEEEE;
+    color: #999999;
+    margin: 30px 0 0;
+    padding: 10px 0 0;
+    text-align: center;
+}
+.card .footer .social-links{
+    font-size: 18px;
+}
+.card .footer .social-links a{
+    margin: 0 7px;
+}
+.card .footer .btn-simple{
+    margin-top: -6px;
+}
+.card .header {
+    padding: 15px 20px;
+    height: 90px;
+}
+.card .motto{
+    border-bottom: 1px solid #EEEEEE;
+    color: #999999;
+    font-size: 14px;
+    font-weight: 400;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+/*       Fix bug for IE      */
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .front, .back{
+        -ms-backface-visibility: visible;
+        backface-visibility: visible;
+    }
+
+    .back {
+        visibility: hidden;
+        -ms-transition: all 0.2s cubic-bezier(.92,.01,.83,.67);
+    }
+    .front{
+        z-index: 4;
+    }
+    .card-container:hover .back{
+        z-index: 5;
+        visibility: visible;
+    }
 }
