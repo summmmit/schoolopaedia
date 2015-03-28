@@ -46,6 +46,21 @@
                 </div>
             </div>
             <p>
+                Enter your School details below:
+            </p>
+            <div class="form-group">
+                <span class="input-icon">
+                    <input type="text" class="form-control" name="school_registration_code" placeholder="School Code" value="{{ Input::old('school_registration_code') or '' }}">
+                    @if ($errors->has('school_registration_code')) <p class="help-block alert-danger">{{ $errors->first('school_registration_code') }}</p> @endif
+                    <i class="fa fa-envelope"></i> </span>
+            </div>
+            <div class="form-group">
+                <span class="input-icon">
+                    <input type="text" class="form-control" name="user_registration_code" placeholder="Student Code" value="{{ Input::old('user_registration_code') or '' }}">
+                    @if ($errors->has('user_registration_code')) <p class="help-block alert-danger">{{ $errors->first('user_registration_code') }}</p> @endif
+                    <i class="fa fa-envelope"></i> </span>
+            </div>
+            <p>
                 Enter your account details below:
             </p>
             <div class="form-group">

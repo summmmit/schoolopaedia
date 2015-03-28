@@ -4,4 +4,8 @@
 
 require_once __DIR__ . '/composer' . '/autoload_real.php';
 
+<<<<<<< HEAD
 return ComposerAutoloaderInit32a0090a961ec972a1c1c7ff1dfc03b7::getLoader();
+=======
+return ComposerAutoloaderInit9af5a844ebf90efb4d8833b47ffd5f59::getLoader();
+>>>>>>> adding-timetable

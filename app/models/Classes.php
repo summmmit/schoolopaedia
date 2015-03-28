@@ -18,10 +18,10 @@ class Classes extends Eloquent {
     protected $table = 'classes';
 
     /**
-     * belong to function for school table
+     * belong to function for activate table
      */
     public function school() {
-        return $this->belongsto('school', 'id', 'school_id');
+        return $this->belongsto('activate', 'id', 'school_id');
     }
 
     /**
@@ -29,6 +29,20 @@ class Classes extends Eloquent {
      */
     public function streams() {
         return $this->belongsto('streams', 'id', 'streams_id');
+    }
+
+    /**
+     * foreign to function for sections table
+     */
+    public function sections() {
+        return $this->hasmany('sections', 'class_id', 'id');
+    }
+
+    /**
+     * foreign to function for subjects table
+     */
+    public function subjects() {
+        return $this->hasmany('subjects', 'class_id', 'id');
     }
 
 

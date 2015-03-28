@@ -29,6 +29,8 @@ class CreateSchoolTable extends Migration {
 			$table->string('code_for_admin', 100);
 			$table->string('code_for_teachers', 100);
 			$table->string('code_for_students', 100);
+            $table->boolean('active');
+            $table->text('logo');
 			$table->dateTime('registration_date');
 			$table->dateTime('deleted_at');
 			$table->timestamps();

@@ -164,7 +164,14 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
         'uses' => 'AdminTimeTableController@postDeleteClasses'
     ));
     /*
-     * Admin Streams Add or Edit (post)
+     * Admin Classes get (post)
+     */
+    Route::Post('/admin/time/table/get/classes', array(
+        'as'  => 'admin-time-table-get-classes-post',
+        'uses' => 'AdminTimeTableController@postGetClasses'
+    ));
+    /*
+     * Admin Streams  (post)
      */
     Route::Post('/admin/time/table/get/streams', array(
         'as'  => 'admin-time-table-get-streams',
@@ -183,6 +190,48 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
     Route::Post('/admin/time/table/delete/stream', array(
         'as'  => 'admin-time-table-delete-stream-post',
         'uses' => 'AdminTimeTableController@postDeleteStreams'
+    ));
+    /*
+     * Admin Sections  (post)
+     */
+    Route::Post('/admin/time/table/get/sections', array(
+        'as'  => 'admin-time-table-get-streams',
+        'uses' => 'AdminTimeTableController@postGetSections'
+    ));
+    /*
+     * Admin Sections Add or Edit (post)
+     */
+    Route::Post('/admin/time/table/add/sections', array(
+        'as'  => 'admin-time-table-add-sections-post',
+        'uses' => 'AdminTimeTableController@postAddSections'
+    ));
+    /*
+     * Admin Sections Delete (post)
+     */
+    Route::Post('/admin/time/table/delete/sections', array(
+        'as'  => 'admin-time-table-delete-sections-post',
+        'uses' => 'AdminTimeTableController@postDeleteSections'
+    ));
+    /*
+     * Admin Subjects  (post)
+     */
+    Route::Post('/admin/time/table/get/subjects', array(
+        'as'  => 'admin-time-table-get-subjects',
+        'uses' => 'AdminTimeTableController@postGetSubjects'
+    ));
+    /*
+     * Admin Sections Add or Edit (post)
+     */
+    Route::Post('/admin/time/table/add/subjects', array(
+        'as'  => 'admin-time-table-add-subjects-post',
+        'uses' => 'AdminTimeTableController@postAddSubjects'
+    ));
+    /*
+     * Admin Sections Delete (post)
+     */
+    Route::Post('/admin/time/table/delete/subjects', array(
+        'as'  => 'admin-time-table-delete-subjects-post',
+        'uses' => 'AdminTimeTableController@postDeleteSubjects'
     ));
     
 });

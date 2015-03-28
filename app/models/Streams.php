@@ -18,10 +18,10 @@ class Streams extends Eloquent {
     protected $table = 'streams';
 
     /**
-     * belong to function for school table
+     * belong to function for activate table
      */
     public function school() {
-        return $this->belongsto('school', 'id', 'school_id');
+        return $this->belongsto('activate', 'id', 'school_id');
     }
 
     /**

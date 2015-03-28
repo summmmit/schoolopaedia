@@ -22,7 +22,7 @@ class SchoolController extends BaseController {
             )
         );
         if($validator->fails()){
-            return Redirect::route('admin-account-create')
+            return Redirect::route('activate-account-create')
                 ->withErrors($validator)
                 ->withInput();
         }else{
@@ -46,11 +46,11 @@ class SchoolController extends BaseController {
             //students Code
             $code_for_admin             = str_random(80);
 
-            $today                      = date("Y-m-d");
+            $today                      = date("Y-m-d H:i:s");
 
-            $User = School::create(array(
+            $school = School::create(array(
                 'name'                      => $name,
-                'manager_name'              => $manager_name,
+                'manager_full_name'         => $manager_name,
                 'phone_number'              => $phone_number,
                 'email'                     => $email,
                 'add_1'                     => $add_1,
@@ -67,16 +67,16 @@ class SchoolController extends BaseController {
                 'registration_date'         => $today,
             ));
 
-            if($User){
+            if($school){
 
                 //send email
-                Mail::send('emails.auth.activate', array('link' => URL::route('admin-account-activate', $code), 'voter_id' => $voter_id), function($message) use ($User){
-                    $message->to($User->email, $User->voter_id)->subject('Activate Your Account');
+                Mail::send('emails.auth.activate.school', array('link' => URL::route('activate-account-activate', $registration_code), 'name' => $name, 'adminCode' => $code_for_admin, 'teachersCode' => $code_for_teachers, 'studentsCode' => $code_for_students), function($message) use ($school){
+                    $message->to($school->email, $school->name)->subject('Activate Your Account');
                 });
-                return Redirect::route('admin-sign-in')
+                return Redirect::route('activate-account-create')
                     ->with('global', 'You have been Registered. You can activate Now.');
             }else{
-                return Redirect::route('admin-sign-in')
+                return Redirect::route('activate-account-create')
                     ->with('global', 'You have not Been Registered. Try Again Later Some time.');
             }
         }
@@ -85,22 +85,21 @@ class SchoolController extends BaseController {
 
     public function getActivate($code){
 
-        $user = User::where('code' , '=', $code)->where('active', '=', 0);
+        $school = School::where('registration_code' , '=', $code)->where('active', '=', 0);
 
-        if($user->count()){
-            $user = $user->first();
+        if($school->count()){
+            $school = $school->first();
 
-            //update user
+            //update school
 
-            $user->active = 1;
-            $user->code = "";
+            $school->active = 1;
 
-            if($user->save()){
-                return Redirect::route('admin-sign-in')
+            if($school->save()){
+                return Redirect::route('activate-account-create')
                     ->with('global', 'Activated thanks. You can login now');
             }
         }
-        return Redirect::route('admin-sign-in')
+        return Redirect::route('activate-account-create')
             ->with('global', 'Cant activate do after some time');
     }
 
