@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 .btn:hover,
 .btn:focus,
@@ -186,3 +187,11 @@
         visibility: visible;
     }
 }
+=======
+.profile-img{
+    position: relative;
+    top: -40px;
+    margin-bottom: 0px;
+    
+}
+>>>>>>> 109f624c6d61de82f28e1cc7f681b0b4ebe1be43
