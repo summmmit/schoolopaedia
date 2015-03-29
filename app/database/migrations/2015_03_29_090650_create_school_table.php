@@ -12,7 +12,7 @@ class CreateSchoolTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('activate', function(Blueprint $table)
+		Schema::create('school', function(Blueprint $table)
 		{
 			$table->integer('id', true);
 			$table->string('name', 100);
@@ -30,6 +30,8 @@ class CreateSchoolTable extends Migration {
 			$table->string('code_for_teachers', 100);
 			$table->string('code_for_students', 100);
 			$table->dateTime('registration_date');
+			$table->text('logo', 65535);
+			$table->boolean('active');
 			$table->dateTime('deleted_at');
 			$table->timestamps();
 		});
@@ -43,7 +45,7 @@ class CreateSchoolTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('activate');
+		Schema::drop('school');
 	}
 
 }

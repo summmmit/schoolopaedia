@@ -456,7 +456,7 @@ class AdminTimeTableController extends BaseController {
 
                     $response = array(
                         'status' => 'success',
-                        'msg' => 'Setting created successfully',
+                        'msg' => 'Subjects created successfully',
                         'errors' => null,
                         'data_send' => array(
                             'id' => $subjects->id,
@@ -533,6 +533,67 @@ class AdminTimeTableController extends BaseController {
 
             return Response::json($response);
         }
+    }
+
+    public function postGetClassStreamPair(){
+        $classes = Classes::where('school_id', '=', $this->getSchoolId())->get();
+
+        $i = 0;
+        $stream_Class_Pairs = array();
+        foreach($classes as $class => $value){
+            $stream = Streams::find($classes[$class]['streams_id']);
+            $stream_Class_Pairs[$i] = array(
+                'classes_id' => $classes[$class]['id'],
+                'streams_id' => $classes[$class]['streams_id'],
+                'stream_class_pair' => $classes[$class]['class']." (".$stream->stream_name.")"
+            );
+            $i++;
+        }
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Classes and Stream Pair fetched successfully',
+            'errors' => null,
+            'stream_class_pairs' => $stream_Class_Pairs,
+        );
+
+        return Response::json($response);
+    }
+
+    public function getCreateTimeTable(){
+        return View::make('admin.adminCreateTimeTable');
+    }
+
+    public function postGetPeriods(){
+        $class_id = Input::get('class_id');
+        $timetables = Timetable::where('classes_id', '=', $class_id)->get();
+
+        $periods = array();
+        $i = 0;
+
+        foreach($timetables as $timetable => $value){
+            $subject = Subjects::find($timetables[$timetable]['subject_id']);
+            $teacher = User::find($timetables[$timetable]['users_id']);
+            $periods[$i] = array(
+                'teacher_name' => $teacher->first_name." ".$teacher->last_name,
+                'teacher_pic' => $teacher->pic,
+                'subject_name' => $subject->subject_name,
+                'subject_code' => $subject->subject_code,
+                'timings' => $timetables[$timetable]
+            );
+            $i++;
+        }
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Setting created successfully',
+            'errors' => null,
+            'periods' => $periods
+
+        );
+
+        return Response::json($response);
+
     }
 
 }

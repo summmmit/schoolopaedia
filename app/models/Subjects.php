@@ -23,5 +23,11 @@ class Subjects extends Eloquent {
     public function classes() {
         return $this->belongsto('classes', 'id', 'class_id');
     }
+    /**
+     * foreign to function for subjects table
+     */
+    public function timetable() {
+        return $this->hasmany('timetable', 'subject_id', 'id');
+    }
 
 }

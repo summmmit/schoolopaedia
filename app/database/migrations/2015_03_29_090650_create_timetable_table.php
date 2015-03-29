@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateGroupsTable extends Migration {
+class CreateTimetableTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,14 @@ class CreateGroupsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('groups', function(Blueprint $table)
+		Schema::create('timetable', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('name', 50);
-			$table->text('permissions', 65535);
+			$table->time('start_time');
+			$table->time('end_time');
+			$table->integer('classes_id')->index('timetable_ibfk_3');
+			$table->integer('subject_id')->index('subject_id');
+			$table->integer('users_id')->index('users_id');
 			$table->dateTime('deleted_at');
 			$table->timestamps();
 		});
@@ -30,7 +33,7 @@ class CreateGroupsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('groups');
+		Schema::drop('timetable');
 	}
 
 }

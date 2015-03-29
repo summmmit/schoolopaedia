@@ -68,5 +68,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         public function groups(){
             return $this->hasone('Groups', 'permissions', 'id');
         }
+    /**
+     * foreign to function for subjects table
+     */
+    public function timetable() {
+        return $this->hasmany('timetable', 'users_id', 'id');
+    }
 
 }

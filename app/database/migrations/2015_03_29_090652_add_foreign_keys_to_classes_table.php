@@ -14,7 +14,7 @@ class AddForeignKeysToClassesTable extends Migration {
 	{
 		Schema::table('classes', function(Blueprint $table)
 		{
-			$table->foreign('school_id', 'classes_ibfk_1')->references('id')->on('activate')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('school_id', 'classes_ibfk_1')->references('id')->on('school')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('streams_id', 'classes_ibfk_2')->references('id')->on('streams')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}

@@ -128,7 +128,6 @@ var TableDataSubjects = function() {
                 subject_code: subject_code,
                 class_id: class_id
             };
-            console.log(data);
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
@@ -196,8 +195,6 @@ var TableDataSubjects = function() {
         });
         $('#form-field-select-subjects-classes').on('change', function() {
             var optionValue = $(this).val();
-            
-            console.log(optionValue);
 
             if (optionValue !== "" && optionValue !== "undefined" && optionValue !== null) {
                 $('#subview-add-subjects').find('#add-subjects-button').removeClass("no-display");

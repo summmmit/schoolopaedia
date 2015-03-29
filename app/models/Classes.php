@@ -45,5 +45,12 @@ class Classes extends Eloquent {
         return $this->hasmany('subjects', 'class_id', 'id');
     }
 
+    /**
+     * foreign to function for timetable table
+     */
+    public function timetable() {
+        return $this->hasmany('timetable', 'classes_id', 'id');
+    }
+
 
 }
