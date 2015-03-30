@@ -31,8 +31,8 @@ var TableDataTimeTable = function() {
             var startTime = '<div class="col-md-6"><input type="text" class="form-control" id="new-input-start-time" value="' + sTime + '"></div>';
             var endTime = '<div class="col-md-6"><input type="text" class="form-control" id="new-input-end-time" value="' + eTime + '"></div>'
             jqTds[1].innerHTML = startTime+endTime;
-            jqTds[2].innerHTML = '<select class="form-control search-select" id="new-input-subject"><option value="">Select Subject....</option> </select>';
-            jqTds[3].innerHTML = '<select class="form-control search-select" id="new-input-teacher"><option value="">Select Teacher....</option> </select>';
+            jqTds[2].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
+            jqTds[3].innerHTML = '<select id="new-input-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
             jqTds[4].innerHTML = '';
             jqTds[5].innerHTML = '<a class="save-row-time-table" href="#">Save</a>';
             jqTds[6].innerHTML = '<a class="cancel-row-time-table" href="#">Cancel</a>';
@@ -293,15 +293,16 @@ var TableDataTimeTable = function() {
                 success: function(data, response) {
                     var i;
                     for (i = 0; i < data.subjects.length; i++) {
-                        console.log(data.subjects);
-                        $('#new-input-subject').append('<option value=' + data.subjects[i].id + '>' + data.subjects[i].class_id + '(' + data.subjects[i].class_id + ')' + '</option>');
+                        var hello = $('#form-field-select-subject').append("sumit singh");
+                        console.log(hello);
                     }
                 }
             });
         });
+        //append('<option value=' + data.subjects[i].id + '>' + data.subjects[i].class_id + '(' + data.subjects[i].class_id + ')' + '</option>')
     };
     return {
-        //main function to initiate template pages
+        //main function to initiate template pagesa
         init: function() {
             runDataTable_TimeTable();
             fetchClasses();

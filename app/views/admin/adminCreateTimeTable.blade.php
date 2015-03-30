@@ -30,7 +30,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">Export <span class="text-bold">Data</span> Table</h4>
                 </div>
-                <div class="panel-body"><input type="text" id="t1" value="2:30 PM" data-format="hh:mm A" class="input-small">
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-6">
                             <div class="form-group">
