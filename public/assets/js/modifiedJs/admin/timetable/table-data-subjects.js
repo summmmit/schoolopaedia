@@ -33,7 +33,7 @@ var TableDataSubjects = function() {
             var jqInputs = $('input', nRow);
             var isExistsId = nRow.setAttribute('id', classId);
             var nTr = oTable.fnSettings().aoData;
-            nTr = nTr[nTr.length-1];
+            nTr = nTr[nTr.length - 1];
             nTr = nTr.nTr;
             $('td', nTr)[0].setAttribute('id', subjectId);
             oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
@@ -87,7 +87,7 @@ var TableDataSubjects = function() {
 
             var data = {
                 class_id: id,
-                subject_id : subject_id,
+                subject_id: subject_id,
                 subject_name: subject_name,
                 subject_code: subject_code
             };
@@ -100,11 +100,12 @@ var TableDataSubjects = function() {
                         url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/subjects',
                         dataType: 'json',
                         method: 'POST',
+                        cache: false,
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
                             oTable.fnDeleteRow(nRow);
-                            toastr.success('You have deleted Subject: '+ subject_name);
+                            toastr.success('You have deleted Subject: ' + subject_name);
                         }
                     });
 
@@ -123,7 +124,7 @@ var TableDataSubjects = function() {
             var subject_code = $(this).parents('tr').find('#new-input-subject-code').val();
             var class_id = $('#form-field-select-subjects-classes').val();
             var data = {
-                subject_id : subject_id,
+                subject_id: subject_id,
                 subject_name: subject_name,
                 subject_code: subject_code,
                 class_id: class_id
@@ -136,10 +137,12 @@ var TableDataSubjects = function() {
                 dataType: 'json',
                 method: 'POST',
                 data: data,
+                cache: false,
                 success: function(data, response) {
                     $.unblockUI();
                     if (data.status == "success") {
                         saveRow(oTable, nRow, class_id, data.data_send.id);
+                        toastr.info('You have successfully Created new Subject: ' + subject_name);
                     } else if (data.status == "failed") {
                         oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.subject_name + '</p>');
                     }
@@ -195,7 +198,6 @@ var TableDataSubjects = function() {
         });
         $('#form-field-select-subjects-classes').on('change', function() {
             var optionValue = $(this).val();
-
             if (optionValue !== "" && optionValue !== "undefined" && optionValue !== null) {
                 $('#subview-add-subjects').find('#add-subjects-button').removeClass("no-display");
             } else {

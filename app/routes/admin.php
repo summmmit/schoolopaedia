@@ -63,7 +63,7 @@ Route::group(array('prefix' => 'administrator', 'before' => 'guest'), function()
      * Admin Activate Account (get)
      */
     Route::get('/admin/account/activate/{code}', array(
-        'as'  => 'admin-account-activate',
+        'as' => 'admin-account-activate',
         'uses' => 'AdminAccountController@getActivate'
     ));
     /*
@@ -77,7 +77,7 @@ Route::group(array('prefix' => 'administrator', 'before' => 'guest'), function()
      * Admin Recover Account (get)
      */
     Route::get('/admin/account/recover/{code}', array(
-        'as'  => 'admin-account-recover',
+        'as' => 'admin-account-recover',
         'uses' => 'AdminAccountController@getRecover'
     ));
 });
@@ -85,20 +85,20 @@ Route::group(array('prefix' => 'administrator', 'before' => 'guest'), function()
 /*
  * Authenticated Group
  */
-Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
+Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() {
 
     /*
      * CSRF protection
      */
-    Route::group(array('before' => 'csrf'), function(){
-        
+    Route::group(array('before' => 'csrf'), function() {
+
         /*
          *  Edit Admin Details (post)
          */
         Route::Post('/admin/edit', array(
             'as' => 'admin-edit-post',
             'uses' => 'AdminAccountController@postEdit'
-        ));   
+        ));
         /*
          *  Change Admin login Details (post)
          */
@@ -120,139 +120,145 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function(){
      * SignOUt (get)
      */
     Route::get('/admin/account/sign/out', array(
-        'as'  => 'admin-sign-out',
+        'as' => 'admin-sign-out',
         'uses' => 'AdminAccountController@getSignOut'
-    ));    
+    ));
     /*
      * Admin Home (get)
      */
     Route::get('/admin/home', array(
-        'as'  => 'admin-dashboard',
+        'as' => 'admin-dashboard',
         'uses' => 'AdminAccountController@getAdminHome'
     ));
-        /*
+    /*
      * Admin Profile (get)
      */
     Route::get('/admin/profile', array(
-        'as'  => 'admin-profile',
+        'as' => 'admin-profile',
         'uses' => 'AdminAccountController@getAdminProfile'
-    ));    
+    ));
     /*
      * Admin Time Table Set (get)
      */
     Route::get('/admin/time/table', array(
-        'as'  => 'admin-time-table',
+        'as' => 'admin-time-table',
         'uses' => 'AdminTimeTableController@getTimeTableCreate'
-    ));  
-    
+    ));
+
     /**
      * Time Table Settings 
      */
-
     /*
      * Admin Get Class and Streams Pair  (post)
      */
     Route::Post('/admin/time/table/get/class/streams/pair', array(
-        'as'  => 'admin-time-table-get-class-streams-pair',
+        'as' => 'admin-time-table-get-class-streams-pair',
         'uses' => 'AdminTimeTableController@postGetClassStreamPair'
     ));
     /*
      * Admin Classes Add or Edit (post)
      */
     Route::Post('/admin/time/table/add/classes', array(
-        'as'  => 'admin-time-table-add-classes-post',
+        'as' => 'admin-time-table-add-classes-post',
         'uses' => 'AdminTimeTableController@postAddClasses'
     ));
     /*
      * Admin Classes Delete (post)
      */
     Route::Post('/admin/time/table/delete/classes', array(
-        'as'  => 'admin-time-table-delete-classes-post',
+        'as' => 'admin-time-table-delete-classes-post',
         'uses' => 'AdminTimeTableController@postDeleteClasses'
     ));
     /*
      * Admin Classes get (post)
      */
     Route::Post('/admin/time/table/get/classes', array(
-        'as'  => 'admin-time-table-get-classes-post',
+        'as' => 'admin-time-table-get-classes-post',
         'uses' => 'AdminTimeTableController@postGetClasses'
     ));
     /*
      * Admin Streams  (post)
      */
     Route::get('/admin/time/table/get/streams', array(
-        'as'  => 'admin-time-table-get-streams',
+        'as' => 'admin-time-table-get-streams',
         'uses' => 'AdminTimeTableController@postGetStreams'
     ));
     /*
      * Admin Streams Add or Edit (post)
      */
     Route::Post('/admin/time/table/add/stream', array(
-        'as'  => 'admin-time-table-add-stream-post',
+        'as' => 'admin-time-table-add-stream-post',
         'uses' => 'AdminTimeTableController@postAddStreams'
     ));
     /*
      * Admin Streams Delete (post)
      */
     Route::Post('/admin/time/table/delete/stream', array(
-        'as'  => 'admin-time-table-delete-stream-post',
+        'as' => 'admin-time-table-delete-stream-post',
         'uses' => 'AdminTimeTableController@postDeleteStreams'
     ));
     /*
      * Admin Sections  (post)
      */
     Route::Post('/admin/time/table/get/sections', array(
-        'as'  => 'admin-time-table-get-streams',
+        'as' => 'admin-time-table-get-streams',
         'uses' => 'AdminTimeTableController@postGetSections'
     ));
     /*
      * Admin Sections Add or Edit (post)
      */
     Route::Post('/admin/time/table/add/sections', array(
-        'as'  => 'admin-time-table-add-sections-post',
+        'as' => 'admin-time-table-add-sections-post',
         'uses' => 'AdminTimeTableController@postAddSections'
     ));
     /*
      * Admin Sections Delete (post)
      */
     Route::Post('/admin/time/table/delete/sections', array(
-        'as'  => 'admin-time-table-delete-sections-post',
+        'as' => 'admin-time-table-delete-sections-post',
         'uses' => 'AdminTimeTableController@postDeleteSections'
     ));
     /*
      * Admin Subjects  (post)
      */
     Route::Post('/admin/time/table/get/subjects', array(
-        'as'  => 'admin-time-table-get-subjects',
+        'as' => 'admin-time-table-get-subjects',
         'uses' => 'AdminTimeTableController@postGetSubjects'
     ));
     /*
      * Admin Sections Add or Edit (post)
      */
     Route::Post('/admin/time/table/add/subjects', array(
-        'as'  => 'admin-time-table-add-subjects-post',
+        'as' => 'admin-time-table-add-subjects-post',
         'uses' => 'AdminTimeTableController@postAddSubjects'
     ));
     /*
      * Admin Sections Delete (post)
      */
     Route::Post('/admin/time/table/delete/subjects', array(
-        'as'  => 'admin-time-table-delete-subjects-post',
+        'as' => 'admin-time-table-delete-subjects-post',
         'uses' => 'AdminTimeTableController@postDeleteSubjects'
     ));
     /*
+      <<<<<<< HEAD
      * Admin Timetable  (post)
      */
     Route::get('/admin/time/table/get/create', array(
-        'as'  => 'admin-create-time-table',
+        'as' => 'admin-create-time-table',
         'uses' => 'AdminTimeTableController@getCreateTimeTable'
     ));
     /*
      * Admin get TimeTable by Class  (post)
      */
     Route::Post('/admin/time/table/get/periods', array(
-        'as'  => 'admin-time-table-get-periods',
+        'as' => 'admin-time-table-get-periods',
         'uses' => 'AdminTimeTableController@postGetPeriods'
     ));
-    
+    /*
+     * 
+     */
+    Route::get('/admin/time/table/get/new', array(
+        'as' => 'admin-new-time-table-create',
+        'uses' => 'AdminTimeTableController@getNewTimeTable'
+    ));
 });

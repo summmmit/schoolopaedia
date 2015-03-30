@@ -34,20 +34,20 @@ var TableDataClasses = function() {
                     var DropdownClass = cTable.find(".streams-drop-down");
                     var DropdownId = cTable.find(".streams-drop-down").parent().attr('id');
                     var i;
-                    for(i=0; i< data.streams.length; i++){    
-                        if(DropdownId == data.streams[i].id){
-                            DropdownClass.append('<option value="'+ data.streams[i].id +'" selected>'+ data.streams[i].stream_name +'</option>');
-                        }else{                            
-                            DropdownClass.append('<option value="'+ data.streams[i].id +'">'+ data.streams[i].stream_name +'</option>');
+                    for (i = 0; i < data.streams.length; i++) {
+                        if (DropdownId == data.streams[i].id) {
+                            DropdownClass.append('<option value="' + data.streams[i].id + '" selected>' + data.streams[i].stream_name + '</option>');
+                        } else {
+                            DropdownClass.append('<option value="' + data.streams[i].id + '">' + data.streams[i].stream_name + '</option>');
                         }
-                    } 
+                    }
                 }
             });
 
         }
 
         function saveRow(cTable, nRow, dataId, streamId, streamName) {
-            var jqInputs = $('input', nRow); 
+            var jqInputs = $('input', nRow);
             $('select', nRow).parent().attr('id', streamId);
             var isExistsId = nRow.getAttribute('id');
             if (isExistsId === null) {
@@ -102,10 +102,10 @@ var TableDataClasses = function() {
             var stream_id = $(this).parents('tr').find(".sorting_1").attr('id');
             var data = {
                 class_name: class_name,
-                class_id  : class_id,
+                class_id: class_id,
                 stream_id: stream_id
             };
-            
+
             console.log(data);
 
             bootbox.confirm("Are you sure to delete this row?", function(result) {
@@ -116,10 +116,12 @@ var TableDataClasses = function() {
                     $.ajax({
                         url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/classes',
                         dataType: 'json',
+                        cache: false,
                         method: 'POST',
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
+                            toastr.success('You have deleted Class : ' + class_name + ' and Subjects and Sections associated with it.');
                             cTable.fnDeleteRow(nRow);
                         }
                     });
@@ -139,7 +141,7 @@ var TableDataClasses = function() {
             var stream_id = $(this).parents('tr').find("select").val();
             var data = {
                 class_name: class_name,
-                class_id  : class_id,
+                class_id: class_id,
                 stream_id: stream_id
             };
             $.blockUI({
@@ -148,12 +150,14 @@ var TableDataClasses = function() {
             $.ajax({
                 url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/classes',
                 dataType: 'json',
+                cache: false,
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
                     $.unblockUI();
                     if (data.status == "success") {
                         saveRow(cTable, nRow, data.data_send.id, data.data_send.streams_id, data.data_send.streams_name);
+                        toastr.info('You Have successfully added class :' + class_name);
                     } else if (data.status == "failed") {
                         cTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.class_name + '</p>');
                     }

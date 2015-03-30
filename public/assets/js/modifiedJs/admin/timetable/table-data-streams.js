@@ -94,6 +94,7 @@ var TableDataStreams = function() {
                         url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/stream',
                         dataType: 'json',
                         method: 'POST',
+                        cache: false,
                         data: data,
                         success: function(data, response) {
                             $.unblockUI();
@@ -120,11 +121,11 @@ var TableDataStreams = function() {
             e.preventDefault();
 
             var nRow = $(this).parents('tr')[0];
-            var input = $(this).parents('tr').find('#new-input').val();
-            var id = $(this).parents('tr').attr('id');
+            var stream_name = $(this).parents('tr').find('#new-input').val();
+            var stream_id = $(this).parents('tr').attr('id');
             var data = {
-                stream_name: input,
-                stream_id: id
+                stream_name: stream_name,
+                stream_id: stream_id
             };
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
@@ -133,11 +134,13 @@ var TableDataStreams = function() {
                 url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/stream',
                 dataType: 'json',
                 method: 'POST',
+                cache: false,
                 data: data,
                 success: function(data, response) {
                     $.unblockUI();
                     if (data.status == "success") {
                         saveRow(oTable, nRow, data.data_send.id);
+                        toastr.info('You have successfully Created new stream: ' + stream_name);
                     } else if (data.status == "failed") {
                         oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.stream_name + '</p>');
                     }

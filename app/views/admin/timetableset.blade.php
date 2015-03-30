@@ -31,13 +31,13 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <a class="btn btn-green show-sv" href="#subview-add-classes" data-startFrom="right">
-                            Add New Classes <i class="fa fa-chevron-right"></i>
+                        <a class="btn btn-green show-sv" href="#subview-add-streams" data-startFrom="right">
+                            Add New Streams <i class="fa fa-plus"></i>
                         </a>
                     </div>
                     <div class="col-md-3">
-                        <a class="btn btn-green show-sv" href="#subview-add-streams" data-startFrom="right">
-                            Add New Streams <i class="fa fa-plus"></i>
+                        <a class="btn btn-green show-sv" href="#subview-add-classes" data-startFrom="right">
+                            Add New Classes <i class="fa fa-chevron-right"></i>
                         </a>
                     </div>
                     <div class="col-md-3">
