@@ -31,10 +31,6 @@ class AdminTimeTableController extends BaseController {
         return View::make('admin.timetableset')->with('classes', $classes)->with('streams', $streams);
     }
 
-    public function getNewTimeTable() {
-        return View::make('admin.createTimeTable');
-    }
-
     public function postGetClasses() {
         $classes = Classes::where('school_id', '=', $this->getSchoolId())->get();
 

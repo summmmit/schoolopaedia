@@ -179,7 +179,7 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
     /*
      * Admin Streams  (post)
      */
-    Route::get('/admin/time/table/get/streams', array(
+    Route::Post('/admin/time/table/get/streams', array(
         'as' => 'admin-time-table-get-streams',
         'uses' => 'AdminTimeTableController@postGetStreams'
     ));
@@ -253,12 +253,5 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
     Route::Post('/admin/time/table/get/periods', array(
         'as' => 'admin-time-table-get-periods',
         'uses' => 'AdminTimeTableController@postGetPeriods'
-    ));
-    /*
-     * 
-     */
-    Route::get('/admin/time/table/get/new', array(
-        'as' => 'admin-new-time-table-create',
-        'uses' => 'AdminTimeTableController@getNewTimeTable'
     ));
 });
