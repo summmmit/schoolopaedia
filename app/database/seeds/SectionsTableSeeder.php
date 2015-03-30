@@ -102,6 +102,24 @@ class SectionsTableSeeder extends Seeder {
 				'created_at' => '2015-03-27 07:37:33',
 				'updated_at' => '2015-03-27 07:37:33',
 			),
+			10 => 
+			array (
+				'id' => 11,
+				'section_name' => 'Section - A',
+				'class_id' => 1,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-03-30 08:16:33',
+				'updated_at' => '2015-03-30 08:16:33',
+			),
+			11 => 
+			array (
+				'id' => 12,
+				'section_name' => 'Section - 1',
+				'class_id' => 23,
+				'deleted_at' => '2015-03-30 08:20:35',
+				'created_at' => '2015-03-30 08:20:28',
+				'updated_at' => '2015-03-30 08:20:35',
+			),
 		));
 	}
 

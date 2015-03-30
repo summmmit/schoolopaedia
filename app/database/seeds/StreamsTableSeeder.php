@@ -19,7 +19,7 @@ class StreamsTableSeeder extends Seeder {
 				'school_id' => 1,
 				'deleted_at' => '0000-00-00 00:00:00',
 				'created_at' => '2015-03-18 02:52:13',
-				'updated_at' => '2015-03-18 02:52:13',
+				'updated_at' => '2015-03-30 08:00:23',
 			),
 			1 => 
 			array (
@@ -74,6 +74,15 @@ class StreamsTableSeeder extends Seeder {
 				'deleted_at' => '0000-00-00 00:00:00',
 				'created_at' => '2015-03-27 07:19:30',
 				'updated_at' => '2015-03-27 07:19:30',
+			),
+			7 => 
+			array (
+				'id' => 8,
+				'stream_name' => 'Electronics',
+				'school_id' => 1,
+				'deleted_at' => '2015-03-30 08:00:48',
+				'created_at' => '2015-03-30 08:00:39',
+				'updated_at' => '2015-03-30 08:00:48',
 			),
 		));
 	}

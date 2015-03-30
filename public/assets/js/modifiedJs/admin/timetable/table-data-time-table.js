@@ -15,27 +15,43 @@ var TableDataTimeTable = function() {
             oTimeTable.fnDraw();
         }
 
-        function editRow(oTimeTable, nRow) {
+        function editRow(oTimeTable, nRow, ClassId) {
             var aData = oTimeTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
             jqTds[0].innerHTML = '#';
             var sTime, eTime;
-            if(aData[1]){
+            if (aData[1]) {
                 var time = aData[1].split('-');
                 sTime = time[0];
                 eTime = time[1];
-            }else{
+            } else {
                 sTime = "";
                 eTime = "";
             }
             var startTime = '<div class="col-md-6"><input type="text" class="form-control" id="new-input-start-time" value="' + sTime + '"></div>';
-            var endTime = '<div class="col-md-6"><input type="text" class="form-control" id="new-input-end-time" value="' + eTime + '"></div>'
-            jqTds[1].innerHTML = startTime+endTime;
+            var endTime = '<div class="col-md-6"><input type="text" class="form-control" id="new-input-end-time" value="' + eTime + '"></div>';
+            jqTds[1].innerHTML = startTime + endTime;
             jqTds[2].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
             jqTds[3].innerHTML = '<select id="new-input-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
             jqTds[4].innerHTML = '';
             jqTds[5].innerHTML = '<a class="save-row-time-table" href="#">Save</a>';
             jqTds[6].innerHTML = '<a class="cancel-row-time-table" href="#">Cancel</a>';
+            
+            var data = {
+                class_id: ClassId
+            };
+            $.ajax({
+                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/subjects',
+                dataType: 'json',
+                method: 'POST',
+                data: data,
+                success: function(data, response) {
+                    var i;
+                    for (i = 0; i < data.subjects.length; i++) {
+                        $('#table-add-class-time-table').find('tbody').find('#form-field-select-subject').append('sumit');
+                    }
+                }
+            });
 
         }
 
@@ -60,9 +76,12 @@ var TableDataTimeTable = function() {
                     restoreRow(oTimeTable, actualEditingRow);
                 }
                 newRow = true;
-                var aiNew = oTimeTable.fnAddData(['', '', '','', '', '', '']);
+                var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '', '']);
                 var nRow = oTimeTable.fnGetNodes(aiNew[0]);
-                editRow(oTimeTable, nRow);
+
+                var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
+                
+                editRow(oTimeTable, nRow, class_id);
                 actualEditingRow = nRow;
             }
         });
@@ -228,15 +247,15 @@ var TableDataTimeTable = function() {
                     oTimeTable.fnClearTable();
                     $.unblockUI();
                     var i;
-                    for(i = 0; i<data.periods.length; i++){
+                    for (i = 0; i < data.periods.length; i++) {
                         var classId = data.periods[i].timings.classes_id;
                         var timeTableId = data.periods[i].timings.id;
-                        var timings = data.periods[i].timings.start_time+" - "+data.periods[i].timings.end_time;
+                        var timings = data.periods[i].timings.start_time + " - " + data.periods[i].timings.end_time;
                         var subjectName = data.periods[i].subject_name;
                         var subjectCode = data.periods[i].subject_code;
                         var teacherName = data.periods[i].teacher_name;
                         var teacherPic = data.periods[i].teacher_pic;
-                        deleteAndCreateTable(oTimeTable, classId, i+1, timeTableId, timings, subjectName, subjectCode, teacherName, teacherPic);
+                        deleteAndCreateTable(oTimeTable, classId, i + 1, timeTableId, timings, subjectName, subjectCode, teacherName, teacherPic);
                     }
                 }
             });
@@ -252,11 +271,11 @@ var TableDataTimeTable = function() {
         $('td', nTr)[0].setAttribute('id', timeTableId);
         oTimeTable.fnUpdate(serialNumber, nRow, 0, false);
         oTimeTable.fnUpdate(timings, nRow, 1, false);
-        oTimeTable.fnUpdate(subjectName + '  ('+subjectCode+')', nRow, 2, false);
+        oTimeTable.fnUpdate(subjectName + '  (' + subjectCode + ')', nRow, 2, false);
         oTimeTable.fnUpdate(teacherName, nRow, 3, false);
-        var urls = "http://localhost/projects/schools/public/assets/projects/images/"+teacherPic;
+        var urls = "http://localhost/projects/schools/public/assets/projects/images/" + teacherPic;
 
-        oTimeTable.fnUpdate('<img src="'+ urls+'" width="50px" height="50px">', nRow, 4, false);
+        oTimeTable.fnUpdate('<img src="' + urls + '" width="50px" height="50px">', nRow, 4, false);
         oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 5, false);
         oTimeTable.fnUpdate('<a class="delete-row-time-table" href="#">Delete</a>', nRow, 6, false);
         oTimeTable.fnDraw();
@@ -280,25 +299,7 @@ var TableDataTimeTable = function() {
 
     var fetchSubjects = function() {
 
-        $('#field-select-time-table-class').on('change', function() {
-            var class_id = $(this).val();
-            var data = {
-              class_id : class_id
-            };
-            $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/subjects',
-                dataType: 'json',
-                method: 'POST',
-                data: data,
-                success: function(data, response) {
-                    var i;
-                    for (i = 0; i < data.subjects.length; i++) {
-                        var hello = $('#form-field-select-subject').append("sumit singh");
-                        console.log(hello);
-                    }
-                }
-            });
-        });
+       
         //append('<option value=' + data.subjects[i].id + '>' + data.subjects[i].class_id + '(' + data.subjects[i].class_id + ')' + '</option>')
     };
     return {

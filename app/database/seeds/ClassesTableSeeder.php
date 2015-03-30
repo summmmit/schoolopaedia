@@ -232,6 +232,46 @@ class ClassesTableSeeder extends Seeder {
 				'created_at' => '2015-03-27 07:36:18',
 				'updated_at' => '2015-03-27 07:36:18',
 			),
+			22 => 
+			array (
+				'id' => 23,
+				'class' => 'Class - 12',
+				'streams_id' => 1,
+				'school_id' => 1,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-03-27 08:43:52',
+				'updated_at' => '2015-03-27 08:43:52',
+			),
+			23 => 
+			array (
+				'id' => 24,
+				'class' => 'Class - 12',
+				'streams_id' => 2,
+				'school_id' => 1,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-03-27 08:44:05',
+				'updated_at' => '2015-03-27 08:44:05',
+			),
+			24 => 
+			array (
+				'id' => 25,
+				'class' => 'Class - 12',
+				'streams_id' => 7,
+				'school_id' => 1,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-03-27 08:44:48',
+				'updated_at' => '2015-03-27 08:44:48',
+			),
+			25 => 
+			array (
+				'id' => 26,
+				'class' => 'class - 1',
+				'streams_id' => 3,
+				'school_id' => 1,
+				'deleted_at' => '2015-03-30 08:14:07',
+				'created_at' => '2015-03-30 08:14:01',
+				'updated_at' => '2015-03-30 08:14:07',
+			),
 		));
 	}
 
