@@ -32,11 +32,11 @@ var TableDataTimeTable = function() {
             var endTime = '<div class="col-md-6"><input type="text" class="form-control" id="new-input-end-time" value="' + eTime + '"></div>';
             jqTds[1].innerHTML = startTime + endTime;
             jqTds[2].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
-            jqTds[3].innerHTML = '<select id="new-input-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
+            jqTds[3].innerHTML = '<select id="form-field-select-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
             jqTds[4].innerHTML = '';
             jqTds[5].innerHTML = '<a class="save-row-time-table" href="#">Save</a>';
             jqTds[6].innerHTML = '<a class="cancel-row-time-table" href="#">Cancel</a>';
-            
+
             var data = {
                 class_id: ClassId
             };
@@ -46,24 +46,52 @@ var TableDataTimeTable = function() {
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
+                    var selectSubject = oTimeTable.find('#form-field-select-subject');
+                    var selectSubjectRowId = oTimeTable.find('#form-field-select-subject').parent().attr('id');
                     var i;
                     for (i = 0; i < data.subjects.length; i++) {
-                        $('#table-add-class-time-table').find('tbody').find('#form-field-select-subject').append('sumit');
+                        selectSubject.append('<option value="' + data.subjects[i].id + '">' + data.subjects[i].subject_name + ' ( ' + data.subjects[i].subject_code + ')' + '</option>');
+                    }
+                }
+            });
+
+            $.ajax({
+                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/teachers',
+                dataType: 'json',
+                method: 'POST',
+                success: function(data, response) {
+                    var selectTeacher = oTimeTable.find('#form-field-select-teacher');
+                    var selectTeacherRowId = oTimeTable.find('#form-field-select-teacher').parent().attr('id');
+                    var i;
+                    for (i = 0; i < data.teachers.length; i++) {
+                        var name = data.teachers[i].first_name + ' ' + data.teachers[i].middle_name + ' ' + data.teachers[i].last_name;
+                        // var picUrl = "http://localhost/projects/schools/public/assets/projects/images/" + data.teachers[i].pic;
+                        //var pic = '<img class="thumbnail" src="'+ picUrl +'" height="50px" width="50px">';
+                        selectTeacher.append('<option value="' + data.teachers[i].id + '">' + name + '</option>');
                     }
                 }
             });
 
         }
 
-        function saveRow(oTimeTable, nRow, dataId) {
+        function saveRow(oTimeTable, nRow, data) {
             var jqInputs = $('input', nRow);
             var isExistsId = nRow.getAttribute('id');
             if (isExistsId === null) {
-                nRow = nRow.setAttribute('id', dataId);
+                nRow.setAttribute('id', data.result.period.id);
             }
-            oTimeTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
-            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="">Edit</a>', nRow, 1, false);
-            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="">Delete</a>', nRow, 2, false);
+            oTimeTable.fnUpdate(oTimeTable.fnSettings().aoData.length, nRow, 0, false);
+            var timings = data.result.period.start_time + data.result.period.end_time;
+            oTimeTable.fnUpdate(timings, nRow, 1, false);
+            var subject = data.result.subject.subject_name + ' ( ' + data.result.subject.subject_code + ' )';
+            oTimeTable.fnUpdate(subject, nRow, 2, false);
+            var teacher = data.result.teacher.first_name + ' ' + data.result.teacher.middle_name + ' ' + data.result.teacher.last_name;
+            oTimeTable.fnUpdate(teacher, nRow, 3, false);
+            var picUrl = "http://localhost/projects/schools/public/assets/projects/images/" + data.result.teacher.pic;
+            var pic = '<img class="thumbnail" src="' + picUrl + '" height="50px" width="50px">';
+            oTimeTable.fnUpdate(pic, nRow, 4, false);
+            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="">Edit</a>', nRow, 5, false);
+            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="">Delete</a>', nRow, 6, false);
             oTimeTable.fnDraw();
             newRow = false;
             actualEditingRow = null;
@@ -80,7 +108,7 @@ var TableDataTimeTable = function() {
                 var nRow = oTimeTable.fnGetNodes(aiNew[0]);
 
                 var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
-                
+
                 editRow(oTimeTable, nRow, class_id);
                 actualEditingRow = nRow;
             }
@@ -107,13 +135,15 @@ var TableDataTimeTable = function() {
 
             }
             var nRow = $(this).parents('tr')[0];
-            var id = $(this).parents('tr').attr('id');
-            var stream_name = $(this).parent().prev().prev().text();
+            var period_id = $(this).parents('tr').attr('id');
+            var subject_id = $(this).parent().prev().prev().text();
 
             var data = {
-                stream_id: id,
+                period_id: period_id,
                 stream_name: stream_name
             };
+            
+            console.log(data);
 
             bootbox.confirm("Are you sure to delete this row? If you Delete it, Classes , Subjects and Sections associated with it will also get delete.", function(result) {
                 if (result) {
@@ -121,7 +151,7 @@ var TableDataTimeTable = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/stream',
+                        url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/periods',
                         dataType: 'json',
                         method: 'POST',
                         data: data,
@@ -134,9 +164,6 @@ var TableDataTimeTable = function() {
                                 cTableRows[i].remove();
                             }
                             toastr.success('You have deleted Stream : ' + stream_name + ' and Classes , Subjects and Sections associated with it.');
-
-                            location.reload();
-
                         }
                     });
 
@@ -150,26 +177,37 @@ var TableDataTimeTable = function() {
             e.preventDefault();
 
             var nRow = $(this).parents('tr')[0];
-            var input = $(this).parents('tr').find('#new-input').val();
-            var id = $(this).parents('tr').attr('id');
+            var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
+            var period_id = $(this).parents('tr').attr('id');
+            var start_time = $(this).parents('tr').find('#new-input-start-time').val();
+            var end_time = $(this).parents('tr').find('#new-input-end-time').val();
+            var subject_id = $(this).parents('tr').find('#form-field-select-subject').val();
+            var teacher_id = $(this).parents('tr').find('#form-field-select-teacher').val();
+
             var data = {
-                stream_name: input,
-                stream_id: id
+                class_id: class_id,
+                period_id: period_id,
+                start_time: start_time,
+                end_time: end_time,
+                subject_id: subject_id,
+                teacher_id: teacher_id
             };
+
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/stream',
+                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
                     $.unblockUI();
-                    if (data.status == "success") {
-                        saveRow(oTimeTable, nRow, data.data_send.id);
-                    } else if (data.status == "failed") {
-                        oTimeTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.stream_name + '</p>');
+                    if (data.status === "success") {
+                        saveRow(oTimeTable, nRow, data);
+                        toastr.success('You have successfully added this Period');
+                    } else if (data.status === "failed") {
+                        oTimeTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.start_time + '</p>');
                     }
                 }
             });
@@ -186,8 +224,9 @@ var TableDataTimeTable = function() {
                 }
             }
             var nRow = $(this).parents('tr')[0];
+            var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
 
-            editRow(oTimeTable, nRow);
+            editRow(oTimeTable, nRow, class_id);
             actualEditingRow = nRow;
 
         });
@@ -255,32 +294,34 @@ var TableDataTimeTable = function() {
                         var subjectCode = data.periods[i].subject_code;
                         var teacherName = data.periods[i].teacher_name;
                         var teacherPic = data.periods[i].teacher_pic;
-                        deleteAndCreateTable(oTimeTable, classId, i + 1, timeTableId, timings, subjectName, subjectCode, teacherName, teacherPic);
+                        deleteAndCreateTable(oTimeTable, i + 1, timeTableId, timings, subjectName, subjectCode, teacherName, teacherPic);
                     }
                 }
             });
 
         });
     };
-    function deleteAndCreateTable(oTimeTable, classId, serialNumber, timeTableId, timings, subjectName, subjectCode, teacherName, teacherPic) {
+    function deleteAndCreateTable(oTimeTable, serialNumber, timeTableId, timings, subjectName, subjectCode, teacherName, teacherPic) {
 
         var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '', '']);
         var nRow = oTimeTable.fnGetNodes(aiNew[0]);
-        nRow = nRow.setAttribute('id', classId);
-        var nTr = oTimeTable.fnSettings().aoData[aiNew[0]].nTr;
-        $('td', nTr)[0].setAttribute('id', timeTableId);
+        nRow = nRow.setAttribute('id', timeTableId);
         oTimeTable.fnUpdate(serialNumber, nRow, 0, false);
         oTimeTable.fnUpdate(timings, nRow, 1, false);
         oTimeTable.fnUpdate(subjectName + '  (' + subjectCode + ')', nRow, 2, false);
         oTimeTable.fnUpdate(teacherName, nRow, 3, false);
         var urls = "http://localhost/projects/schools/public/assets/projects/images/" + teacherPic;
 
-        oTimeTable.fnUpdate('<img src="' + urls + '" width="50px" height="50px">', nRow, 4, false);
+        oTimeTable.fnUpdate('<img class="thumbnail" src="' + urls + '" width="50px" height="50px">', nRow, 4, false);
         oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 5, false);
         oTimeTable.fnUpdate('<a class="delete-row-time-table" href="#">Delete</a>', nRow, 6, false);
         oTimeTable.fnDraw();
 
         nRow = false;
+    }
+    
+    function timeFormat(time){
+        
     }
 
     var fetchClasses = function() {
@@ -296,18 +337,11 @@ var TableDataTimeTable = function() {
             }
         });
     };
-
-    var fetchSubjects = function() {
-
-       
-        //append('<option value=' + data.subjects[i].id + '>' + data.subjects[i].class_id + '(' + data.subjects[i].class_id + ')' + '</option>')
-    };
     return {
         //main function to initiate template pagesa
         init: function() {
             runDataTable_TimeTable();
             fetchClasses();
-            fetchSubjects();
         }
     };
 }();

@@ -3,7 +3,7 @@
     <!-- start: USER DROPDOWN -->
     <li class="dropdown current-user">
         <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-            <img src="{{ URL::asset('assets/projects/images/profilepics/'.Auth::user()->picdd) }}" class="img-circle" alt=""> <span class="username hidden-xs">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span> <i class="fa fa-caret-down "></i>
+            <img src="{{ URL::asset('assets/projects/images/profilepics/'.Auth::user()->pic) }}" class="img-circle" alt="" width="30px" height="30px"> <span class="username hidden-xs">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span> <i class="fa fa-caret-down "></i>
         </a>
         <ul class="dropdown-menu dropdown-dark">
             <li>

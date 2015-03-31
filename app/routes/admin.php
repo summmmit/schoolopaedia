@@ -240,7 +240,6 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
         'uses' => 'AdminTimeTableController@postDeleteSubjects'
     ));
     /*
-      <<<<<<< HEAD
      * Admin Timetable  (post)
      */
     Route::get('/admin/time/table/get/create', array(
@@ -253,5 +252,26 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
     Route::Post('/admin/time/table/get/periods', array(
         'as' => 'admin-time-table-get-periods',
         'uses' => 'AdminTimeTableController@postGetPeriods'
+    ));
+    /*
+     * Admin get TimeTable by Class  (post)
+     */
+    Route::Post('/admin/time/table/add/periods', array(
+        'as' => 'admin-time-table-add-periods',
+        'uses' => 'AdminTimeTableController@postAddPeriods'
+    ));
+    /*
+     * Admin Period Delete (post)
+     */
+    Route::Post('/admin/time/table/delete/periods', array(
+        'as' => 'admin-time-table-delete-periods-post',
+        'uses' => 'AdminTimeTableController@postDeletePeriods'
+    ));
+    /*
+     * Admin get All the Teachers  (post)
+     */
+    Route::Post('/admin/time/table/get/teachers', array(
+        'as' => 'admin-time-table-get-teachers',
+        'uses' => 'AdminTimeTableController@postGetTeachers'
     ));
 });

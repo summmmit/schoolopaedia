@@ -7,7 +7,7 @@
     </div>
     <div class="user-profile border-top padding-horizontal-10 block">
         <div class="inline-block">
-            <img src="{{ URL::asset('assets/projects/images/profilepics/'.Auth::user()->pic) }}" alt="" class="img-responsive img-circle">
+            <img src="{{ URL::asset('assets/projects/images/profilepics/'.Auth::user()->pic) }}" alt="" height="50px" width="50px">
         </div>
         <div class="inline-block">
             <h5 class="no-margin"> Welcome </h5>

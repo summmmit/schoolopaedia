@@ -1,8 +1,9 @@
 @extends('admin.layout.AdminLayout')
 
 @section('stylesheets')
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}" />
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'); }}" />
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}" />
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'); }}" />
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/ms-Dropdown/css/msdropdown/dd.css'); }}" />
 @stop
 
 @section('page_header')
@@ -23,44 +24,44 @@
 @stop
 
 @section('content')
-    <!-- Start: PAGE CONTENT-->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-white">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Export <span class="text-bold">Data</span> Table</h4>
+<!-- Start: PAGE CONTENT-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">Export <span class="text-bold">Data</span> Table</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <div class="form-group">
+                            <label for="field-select-time-table-class">
+                                Select a class
+                            </label>
+                            <select id="field-select-time-table-class" class="form-control">
+                                <option value="">Select a class.....</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-offset-3 col-md-6">
-                            <div class="form-group">
-                                <label for="field-select-time-table-class">
-                                    Select a class
-                                </label>
-                                <select id="field-select-time-table-class" class="form-control">
-                                    <option value="">Select a class.....</option>
-                                </select>
-                            </div>
+                <div class="row">
+                    <div class="col-md-12 space20">
+                        <button class="btn btn-green no-display" id="add-row-time-table">
+                            Add New <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="errorHandler alert alert-danger no-display">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 space20">
-                            <button class="btn btn-green no-display" id="add-row-time-table">
-                                Add New <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="errorHandler alert alert-danger no-display">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover" id="table-add-class-time-table">
-                                    <thead>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="table-add-class-time-table">
+                                <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Timings</th>
@@ -70,8 +71,8 @@
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
-                                    </thead>
-                                    <tbody>
+                                </thead>
+                                <tbody>
                                     <tr>
                                         <td>1</td>
                                         <td> 9:30Am - 10:30Am </td>
@@ -89,16 +90,16 @@
                                             </a>
                                         </td>
                                     </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end: PAGE CONTENT-->
+</div>
+<!-- end: PAGE CONTENT-->
 @stop
 
 @section('scripts')
@@ -108,11 +109,11 @@
 <script src="{{ URL::asset('assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'); }}"></script>        <!-- For creating Time Table -->
 
 <script>
-    jQuery(document).ready(function() {
-        Main.init();
-        SVExamples.init();
-        TableDataTimeTable.init();
-    });
+jQuery(document).ready(function() {
+    Main.init();
+    SVExamples.init();
+    TableDataTimeTable.init();
+});
 </script>
 
 @stop
