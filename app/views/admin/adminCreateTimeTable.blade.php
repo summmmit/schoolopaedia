@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}" />
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'); }}" />
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/ms-Dropdown/css/msdropdown/dd.css'); }}" />
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/projects/TimePicki-master/css/timepicki.css'); }}" />
 @stop
 
 @section('page_header')
@@ -107,7 +108,7 @@
 <script src="{{ URL::asset('assets/plugins/select2/select2.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-time-table.js'); }}"></script>        <!-- For creating Time Table -->
 <script src="{{ URL::asset('assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'); }}"></script>        <!-- For creating Time Table -->
-
+<script src="{{ URL::asset('assets/projects/TimePicki-master/js/timepicki.js'); }}"></script>        <!-- For creating Time Table -->
 <script>
 jQuery(document).ready(function() {
     Main.init();

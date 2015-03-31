@@ -72,6 +72,12 @@ var TableDataTimeTable = function() {
                 }
             });
 
+            oTimeTable.find('#new-input-start-time').timepicki();
+
+        }
+
+        function selectTime(){
+
         }
 
         function saveRow(oTimeTable, nRow, data) {
