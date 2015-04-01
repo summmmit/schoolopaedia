@@ -571,11 +571,9 @@ class AdminTimeTableController extends BaseController {
             $subject = Subjects::find($timetables[$timetable]['subject_id']);
             $teacher = User::find($timetables[$timetable]['users_id']);
             $periods[$i] = array(
-                'teacher_name' => $teacher->first_name . " " . $teacher->last_name,
-                'teacher_pic' => $teacher->pic,
-                'subject_name' => $subject->subject_name,
-                'subject_code' => $subject->subject_code,
-                'timings' => $timetables[$timetable]
+                'timings' => $timetables[$timetable],
+                'subject' => $subject,
+                'teacher' => $teacher
             );
             $i++;
         }
@@ -584,7 +582,9 @@ class AdminTimeTableController extends BaseController {
             'status' => 'success',
             'msg' => 'Setting created successfully',
             'errors' => null,
-            'periods' => $periods
+            'result' => array(
+                'periods' => $periods
+            )
         );
 
         return Response::json($response);
@@ -629,9 +629,43 @@ class AdminTimeTableController extends BaseController {
 
         return Response::json($response);
     }
-    
-    public function postDeletePeriods(){
+
+    public function postDeletePeriods() {
         
+        $period_id = Input::get('period_id');
+        $class_id = Input::get('class_id');
+        $subject_id = Input::get('subject_id');
+        $teacher_id = Input::get('teacher_id');
+
+        if ($period_id) {
+            $period = Timetable::find($period_id);
+        } else {
+            $period = Timetable::where('class_id', '=', $class_id)->where('subject_id', '=', $subject_id)->where('users_id', '=', $teacher_id);
+        }
+
+        if ($period->delete()) {
+
+            $response = array(
+                'status' => 'success',
+                'msg' => 'Timetable Period deleted successfully',
+                'result' => array(
+                    'deleted_period_id' => $period->id,
+                )
+            );
+
+            return Response::json($response);
+        }else{
+            
+            $response = array(
+                'status' => 'failed',
+                'msg' => 'Timetable Period could not be deleted successfully',
+                'result' => array(
+                    'period_id' => $period_id,
+                )
+            );
+
+            return Response::json($response);
+        }
     }
 
     public function postGetTeachers() {

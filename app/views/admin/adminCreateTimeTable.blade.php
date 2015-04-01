@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}" />
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'); }}" />
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/ms-Dropdown/css/msdropdown/dd.css'); }}" />
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/projects/TimePicki-master/css/timepicki.css'); }}" />
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/TimePicki-master/css/timepicki.css'); }}" />
 @stop
 
 @section('page_header')
@@ -74,23 +74,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td> 9:30Am - 10:30Am </td>
-                                        <td> Science (CS000201) </td>
-                                        <td> Sumit Singh </td>
-                                        <td> <img src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}" width="50px" height="50px"> </td>
-                                        <td>
-                                            <a href="#" class="edit-row-time-table">
-                                                Edit
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="delete-row-time-table">
-                                                Delete
-                                            </a>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -108,7 +91,7 @@
 <script src="{{ URL::asset('assets/plugins/select2/select2.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-time-table.js'); }}"></script>        <!-- For creating Time Table -->
 <script src="{{ URL::asset('assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'); }}"></script>        <!-- For creating Time Table -->
-<script src="{{ URL::asset('assets/projects/TimePicki-master/js/timepicki.js'); }}"></script>        <!-- For creating Time Table -->
+<script src="{{ URL::asset('assets/plugins/TimePicki-master/js/timepicki.js'); }}"></script>        <!-- For TimePicki plugin -->
 <script>
 jQuery(document).ready(function() {
     Main.init();

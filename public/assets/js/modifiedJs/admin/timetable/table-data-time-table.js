@@ -15,7 +15,7 @@ var TableDataTimeTable = function() {
             oTimeTable.fnDraw();
         }
 
-        function editRow(oTimeTable, nRow, ClassId) {
+        function editRow(oTimeTable, nRow, rowData) {
             var aData = oTimeTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
             jqTds[0].innerHTML = '#';
@@ -38,7 +38,7 @@ var TableDataTimeTable = function() {
             jqTds[6].innerHTML = '<a class="cancel-row-time-table" href="#">Cancel</a>';
 
             var data = {
-                class_id: ClassId
+                class_id: rowData.class_id
             };
             $.ajax({
                 url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/subjects',
@@ -50,7 +50,11 @@ var TableDataTimeTable = function() {
                     var selectSubjectRowId = oTimeTable.find('#form-field-select-subject').parent().attr('id');
                     var i;
                     for (i = 0; i < data.subjects.length; i++) {
-                        selectSubject.append('<option value="' + data.subjects[i].id + '">' + data.subjects[i].subject_name + ' ( ' + data.subjects[i].subject_code + ')' + '</option>');
+                        if( data.subjects[i].id == rowData.subject_id){
+                            selectSubject.append('<option value="' + data.subjects[i].id + '" selected>' + data.subjects[i].subject_name + ' ( ' + data.subjects[i].subject_code + ')' + '</option>');
+                        }else{
+                            selectSubject.append('<option value="' + data.subjects[i].id + '">' + data.subjects[i].subject_name + ' ( ' + data.subjects[i].subject_code + ')' + '</option>');
+                        }
                     }
                 }
             });
@@ -67,16 +71,34 @@ var TableDataTimeTable = function() {
                         var name = data.teachers[i].first_name + ' ' + data.teachers[i].middle_name + ' ' + data.teachers[i].last_name;
                         // var picUrl = "http://localhost/projects/schools/public/assets/projects/images/" + data.teachers[i].pic;
                         //var pic = '<img class="thumbnail" src="'+ picUrl +'" height="50px" width="50px">';
-                        selectTeacher.append('<option value="' + data.teachers[i].id + '">' + name + '</option>');
+                        if(data.teachers[i].id == rowData.teacher_id){
+                            selectTeacher.append('<option value="' + data.teachers[i].id + '" selected>' + name + '</option>');
+                        }else{
+                            selectTeacher.append('<option value="' + data.teachers[i].id + '">' + name + '</option>');
+                        }
                     }
                 }
             });
 
-            oTimeTable.find('#new-input-start-time').timepicki();
+            oTimeTable.find('#new-input-start-time').timepicki({
+                show_meridian: false,
+                min_hour_value: 0,
+                max_hour_value: 23,
+                step_size_minutes: 15,
+                overflow_minutes: true,
+                increase_direction: 'up',
+                disable_keyboard_mobile: true}
+            );
+            oTimeTable.find('#new-input-end-time').timepicki({
+                show_meridian: false,
+                min_hour_value: 0,
+                max_hour_value: 23,
+                step_size_minutes: 15,
+                overflow_minutes: true,
+                increase_direction: 'up',
+                disable_keyboard_mobile: true}
+            );
 
-        }
-
-        function selectTime(){
 
         }
 
@@ -87,7 +109,7 @@ var TableDataTimeTable = function() {
                 nRow.setAttribute('id', data.result.period.id);
             }
             oTimeTable.fnUpdate(oTimeTable.fnSettings().aoData.length, nRow, 0, false);
-            var timings = data.result.period.start_time + data.result.period.end_time;
+            var timings = timeFormat(data.result.period.start_time) + ' - ' + timeFormat(data.result.period.end_time);
             oTimeTable.fnUpdate(timings, nRow, 1, false);
             var subject = data.result.subject.subject_name + ' ( ' + data.result.subject.subject_code + ' )';
             oTimeTable.fnUpdate(subject, nRow, 2, false);
@@ -105,7 +127,7 @@ var TableDataTimeTable = function() {
 
         $('body').on('click', '#add-row-time-table', function(e) {
             e.preventDefault();
-            if (newRow == false) {
+            if (newRow === false) {
                 if (actualEditingRow) {
                     restoreRow(oTimeTable, actualEditingRow);
                 }
@@ -113,9 +135,11 @@ var TableDataTimeTable = function() {
                 var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '', '']);
                 var nRow = oTimeTable.fnGetNodes(aiNew[0]);
 
-                var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
+                var rowData = {
+                    class_id: $(this).parentsUntil('.panel').find('#field-select-time-table-class').val()
+                }
 
-                editRow(oTimeTable, nRow, class_id);
+                editRow(oTimeTable, nRow, rowData);
                 actualEditingRow = nRow;
             }
         });
@@ -142,14 +166,16 @@ var TableDataTimeTable = function() {
             }
             var nRow = $(this).parents('tr')[0];
             var period_id = $(this).parents('tr').attr('id');
-            var subject_id = $(this).parent().prev().prev().text();
+            var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
+            var subject_id = $(this).parent().prev().prev().prev().prev().attr('id');
+            var teacher_id = $(this).parent().prev().prev().prev().attr('id');
 
             var data = {
                 period_id: period_id,
-                stream_name: stream_name
+                class_id: class_id,
+                subject_id: subject_id,
+                teacher_id: teacher_id
             };
-            
-            console.log(data);
 
             bootbox.confirm("Are you sure to delete this row? If you Delete it, Classes , Subjects and Sections associated with it will also get delete.", function(result) {
                 if (result) {
@@ -164,12 +190,7 @@ var TableDataTimeTable = function() {
                         success: function(data, response) {
                             $.unblockUI();
                             oTimeTable.fnDeleteRow(nRow);
-                            var cTableRows = $('#table-add-classes').find(".sorting_1").parent().parent().find('td[id="' + data.deleted_item_id + '"]').parent();
-                            var i;
-                            for (i = 0; i < cTableRows.length; i++) {
-                                cTableRows[i].remove();
-                            }
-                            toastr.success('You have deleted Stream : ' + stream_name + ' and Classes , Subjects and Sections associated with it.');
+                            toastr.info('You have successfully deleted Timetable Period');
                         }
                     });
 
@@ -218,6 +239,7 @@ var TableDataTimeTable = function() {
                 }
             });
         });
+
         $('#table-add-class-time-table').on('click', '.edit-row-time-table', function(e) {
             e.preventDefault();
             if (actualEditingRow) {
@@ -230,9 +252,15 @@ var TableDataTimeTable = function() {
                 }
             }
             var nRow = $(this).parents('tr')[0];
-            var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
 
-            editRow(oTimeTable, nRow, class_id);
+            var rowData = {
+                class_id: $(this).parentsUntil('.panel').find('#field-select-time-table-class').val(),
+                period_id: $(this).parents('tr').attr('id'),
+                subject_id: $(this).parent().prev().prev().prev().attr('id'),
+                teacher_id: $(this).parent().prev().prev().attr('id')
+            }
+
+            editRow(oTimeTable, nRow, rowData);
             actualEditingRow = nRow;
 
         });
@@ -292,57 +320,78 @@ var TableDataTimeTable = function() {
                     oTimeTable.fnClearTable();
                     $.unblockUI();
                     var i;
-                    for (i = 0; i < data.periods.length; i++) {
-                        var classId = data.periods[i].timings.classes_id;
-                        var timeTableId = data.periods[i].timings.id;
-                        var timings = data.periods[i].timings.start_time + " - " + data.periods[i].timings.end_time;
-                        var subjectName = data.periods[i].subject_name;
-                        var subjectCode = data.periods[i].subject_code;
-                        var teacherName = data.periods[i].teacher_name;
-                        var teacherPic = data.periods[i].teacher_pic;
-                        deleteAndCreateTable(oTimeTable, i + 1, timeTableId, timings, subjectName, subjectCode, teacherName, teacherPic);
+                    for (i = 0; i < data.result.periods.length; i++) {
+                        deleteAndCreateTable(oTimeTable, i, data.result.periods);
                     }
                 }
             });
+            if (newRow) {
+                newRow = false;
+                actualEditingRow = null;
+                var nRow = $(this).parents('tr')[0];
+                oTimeTable.fnDeleteRow(nRow);
+
+            } 
 
         });
-    };
-    function deleteAndCreateTable(oTimeTable, serialNumber, timeTableId, timings, subjectName, subjectCode, teacherName, teacherPic) {
+        function deleteAndCreateTable(oTimeTable, i, periods) {
 
-        var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '', '']);
-        var nRow = oTimeTable.fnGetNodes(aiNew[0]);
-        nRow = nRow.setAttribute('id', timeTableId);
-        oTimeTable.fnUpdate(serialNumber, nRow, 0, false);
-        oTimeTable.fnUpdate(timings, nRow, 1, false);
-        oTimeTable.fnUpdate(subjectName + '  (' + subjectCode + ')', nRow, 2, false);
-        oTimeTable.fnUpdate(teacherName, nRow, 3, false);
-        var urls = "http://localhost/projects/schools/public/assets/projects/images/" + teacherPic;
+            var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '', '']);
+            var nRow = oTimeTable.fnGetNodes(aiNew[0]);
+            nRow.setAttribute('id', periods[i].timings.id);
 
-        oTimeTable.fnUpdate('<img class="thumbnail" src="' + urls + '" width="50px" height="50px">', nRow, 4, false);
-        oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 5, false);
-        oTimeTable.fnUpdate('<a class="delete-row-time-table" href="#">Delete</a>', nRow, 6, false);
-        oTimeTable.fnDraw();
+            oTimeTable.fnUpdate(i + 1, nRow, 0, false);
+            oTimeTable.fnUpdate(timeFormat(periods[i].timings.start_time) + " - " + timeFormat(periods[i].timings.end_time), nRow, 1, false);
 
-        nRow = false;
-    }
-    
-    function timeFormat(time){
-        
-    }
+            var nTr = oTimeTable.fnSettings().aoData;
+            nTr = nTr[nTr.length - 1];
+            nTr = nTr.nTr;
 
-    var fetchClasses = function() {
-        $.ajax({
-            url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/class/streams/pair',
-            dataType: 'json',
-            method: 'POST',
-            success: function(data, response) {
-                var i;
-                for (i = 0; i < data.stream_class_pairs.length; i++) {
-                    $('#field-select-time-table-class').append('<option value=' + data.stream_class_pairs[i].classes_id + '>' + data.stream_class_pairs[i].stream_class_pair + '</option>');
-                }
+            oTimeTable.fnUpdate(periods[i].subject.subject_name + '  (' + periods[i].subject.subject_code + ')', nRow, 2, false);
+            $('td', nTr)[2].setAttribute('id', periods[i].subject.id);
+
+            oTimeTable.fnUpdate(periods[i].teacher.first_name + ' ' + periods[i].teacher.last_name, nRow, 3, false);
+            $('td', nTr)[3].setAttribute('id', periods[i].teacher.id);
+
+            var urls = "http://localhost/projects/schools/public/assets/projects/images/" + periods[i].teacher.pic;
+            oTimeTable.fnUpdate('<img class="thumbnail" src="' + urls + '" width="50px" height="50px">', nRow, 4, false);
+
+            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 5, false);
+            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="#">Delete</a>', nRow, 6, false);
+
+            oTimeTable.fnDraw();
+
+            nRow = false;
+        }
+
+        function timeFormat(time) {
+            var timeString = time.split(':');
+
+            if (timeString[0] > '12') {
+                timeString[0] = timeString[0] - 12;
+                timeString[2] = 'PM';
+            } else {
+                timeString[2] = 'AM';
             }
-        });
+            time = timeString[0] + ':' + timeString[1] + ' ' + timeString[2];
+            return time;
+        }
     };
+    
+    var fetchClasses = function() {
+            $.ajax({
+                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/class/streams/pair',
+                dataType: 'json',
+                method: 'POST',
+                success: function(data, response) {
+                    var i;
+                    for (i = 0; i < data.stream_class_pairs.length; i++) {
+                        $('#field-select-time-table-class').append('<option value=' + data.stream_class_pairs[i].classes_id + '>' + data.stream_class_pairs[i].stream_class_pair + '</option>');
+                    }
+                }
+            });
+        };
+    
     return {
         //main function to initiate template pagesa
         init: function() {
