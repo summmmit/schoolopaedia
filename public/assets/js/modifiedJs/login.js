@@ -69,7 +69,8 @@ var Login = function() {
 			errorElement : "span", // contain the error msg in a small tag
 			errorClass : 'help-block',
 			errorPlacement : function(error, element) {// render error placement for each input type
-				if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {// for chosen elements, need to insert the error after the chosen container
+				if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {
+				    // for chosen elements, need to insert the error after the chosen container
 					error.insertAfter($(element).closest('.form-group').children('div').children().last());
 				} else if (element.attr("name") == "card_expiry_mm" || element.attr("name") == "card_expiry_yyyy") {
 					error.appendTo($(element).closest('.form-group').children('div'));

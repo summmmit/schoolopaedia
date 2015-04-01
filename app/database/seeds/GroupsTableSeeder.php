@@ -18,8 +18,8 @@ class GroupsTableSeeder extends Seeder {
 				'name' => 'students',
 				'permissions' => '',
 				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '0000-00-00 00:00:00',
-				'updated_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-01 00:00:00',
+				'updated_at' => '2015-04-01 00:00:00',
 			),
 			1 => 
 			array (
@@ -27,8 +27,8 @@ class GroupsTableSeeder extends Seeder {
 				'name' => 'administratior',
 				'permissions' => '',
 				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '0000-00-00 00:00:00',
-				'updated_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-01 00:00:00',
+				'updated_at' => '2015-04-01 00:00:00',
 			),
 			2 => 
 			array (
@@ -36,8 +36,8 @@ class GroupsTableSeeder extends Seeder {
 				'name' => 'teachers',
 				'permissions' => '',
 				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '0000-00-00 00:00:00',
-				'updated_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-01 00:00:00',
+				'updated_at' => '2015-04-01 00:00:00',
 			),
 			3 => 
 			array (
@@ -45,8 +45,17 @@ class GroupsTableSeeder extends Seeder {
 				'name' => 'moderators',
 				'permissions' => '',
 				'deleted_at' => '0000-00-00 00:00:00',
-				'created_at' => '0000-00-00 00:00:00',
-				'updated_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-01 00:00:00',
+				'updated_at' => '2015-04-01 00:00:00',
+			),
+			4 => 
+			array (
+				'id' => 5,
+				'name' => 'parents',
+				'permissions' => '',
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-01 00:00:00',
+				'updated_at' => '2015-04-01 00:00:00',
 			),
 		));
 	}

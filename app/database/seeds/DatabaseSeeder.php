@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder {
 		$this->call('ClassesTableSeeder');
 		$this->call('GroupsTableSeeder');
 		$this->call('PeriodsTableSeeder');
-		$this->call('SchoolTableSeeder');
 		$this->call('SchoolSessionTableSeeder');
 		$this->call('SectionsTableSeeder');
 		$this->call('StreamsTableSeeder');
 		$this->call('SubjectsTableSeeder');
 		$this->call('UsersToClassTableSeeder');
 		$this->call('SchoolsTableSeeder');
+		$this->call('TimetableTableSeeder');
 	}
 
 }

@@ -31,7 +31,6 @@ class AdminAccountController  extends BaseController {
                 ->withInput();
         }else{            
             $first_name                 = Input::get('first_name');
-            $middle_name                = Input::get('middle_name');
             $last_name                  = Input::get('last_name');
             $email                      = Input::get('email');
             $sex                        = Input::get('sex');

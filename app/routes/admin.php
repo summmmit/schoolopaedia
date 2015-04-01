@@ -55,7 +55,7 @@ Route::group(array('prefix' => 'administrator', 'before' => 'guest'), function()
     /*
      * Admin SignIn Account (get)
      */
-    Route::get('/admin/signin', array(
+    Route::get('/admin/sign-in', array(
         'as' => 'admin-sign-in',
         'uses' => 'AdminAccountController@getSignIn'
     ));
