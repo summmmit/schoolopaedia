@@ -1,4 +1,4 @@
-Hello {{ $name }}<br><br>
+Hello {{ $school_name }}<br><br>
 
 Please Activate Account. <br><br>
 

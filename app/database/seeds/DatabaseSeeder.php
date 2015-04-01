@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('StreamsTableSeeder');
 		$this->call('SubjectsTableSeeder');
 		$this->call('UsersToClassTableSeeder');
+		$this->call('SchoolsTableSeeder');
 	}
 
 }

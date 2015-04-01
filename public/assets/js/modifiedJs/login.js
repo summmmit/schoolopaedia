@@ -149,14 +149,41 @@ var Login = function() {
 					minlength : 2,
 					required : true
 				},
-				state : {
-					minlength : 2,
+                school_name : {
+                    minlength : 3,
+                    required : true
+                },
+                manager_name : {
+                    minlength : 3,
+                    required : true
+                },
+                phone_number : {
+					minlength : 8,
 					required : true
 				},
+                add_1 : {
+                    minlength : 3,
+                    required : true
+                },
+                add_2 : {
+                    minlength : 3
+                },
 				city : {
 					minlength : 2,
 					required : true
 				},
+                state : {
+                    minlength : 2,
+                    required : true
+                },
+                country : {
+                    minlength : 2,
+                    required : true
+                },
+                pin_code : {
+                    minlength : 4,
+                    required : true
+                },
 				gender : {
 					required : true
 				},

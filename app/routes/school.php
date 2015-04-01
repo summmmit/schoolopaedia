@@ -32,7 +32,7 @@ Route::group(array('before' => 'guest'), function() {
     /*
      * School Activate Account (get)
      */
-    Route::get('/activate/account/activate/{code}', array(
+    Route::get('/activate/account/{code}', array(
         'as'  => 'activate-account-activate',
         'uses' => 'SchoolController@getActivate'
     ));
