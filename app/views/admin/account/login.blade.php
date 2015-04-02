@@ -1,4 +1,4 @@
-@extends('admin.layout.registration')
+@extends('layouts.login.registration')
 @section('content')
 <!-- start: LOGIN BOX -->
 <div class="box-login">
@@ -12,10 +12,13 @@
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
         </div>
         @if(Session::has('global'))
-        <div class="errorHandler alert alert-danger">
-            <i class="fa fa-remove-sign"></i>{{ Session::get('global') }}
+        <div class="alert alert-info global-error">
+            <button data-dismiss="alert" class="close">
+                &times;
+            </button>
+            <strong>{{ Session::get('global') }}</strong>
         </div>
-        @endif      
+        @endif
         <fieldset>
             <div class="form-group">
                 <span class="input-icon">

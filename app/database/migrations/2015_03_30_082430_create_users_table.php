@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration {
 			$table->string('first_name', 30);
 			$table->string('middle_name', 30);
 			$table->string('last_name', 30);
-			$table->string('voter_id', 30)->unique('username');
+			$table->string('username', 30)->unique('username');
 			$table->string('email', 60);
 			$table->dateTime('email_updated_at');
 			$table->string('password', 60);

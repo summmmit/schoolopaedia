@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: summmmit
- * Date: 2/28/2015
- * Time: 3:23 PM
- */
 /*
  * Unauthenticated Group
  */

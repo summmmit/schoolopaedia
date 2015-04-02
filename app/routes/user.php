@@ -1,13 +1,4 @@
 <?php
-
-/*
- * Home (get)
- */
-Route::get('/', array(
-    'as' => 'home',
-    'uses' => 'HomeController@showWelcome'
-));
-
 /*
  * Unauthenticated Group
  */
@@ -56,7 +47,7 @@ Route::group(array('before' => 'guest'), function() {
     /*
      * User SignIn Account (get)
      */
-    Route::get('/user/signin', array(
+    Route::get('/user/sign/in', array(
         'as' => 'user-sign-in',
         'uses' => 'UserAccountController@getSignIn'
     ));

@@ -1,4 +1,4 @@
-@extends('user.layout.registration')
+@extends('layouts.login.registration')
 @section('content')
 <!-- start: REGISTER BOX -->
 <div class="box-register">
@@ -10,6 +10,14 @@
         <div class="errorHandler alert alert-danger no-display">
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
         </div>
+        @if(Session::has('global'))
+        <div class="alert alert-info global-error">
+            <button data-dismiss="alert" class="close">
+                &times;
+            </button>
+            <strong>{{ Session::get('global') }}</strong>
+        </div>
+        @endif
         <fieldset>
             <div class="row">
                 <div class="col-md-6">

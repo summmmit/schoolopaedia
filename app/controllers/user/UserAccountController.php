@@ -29,20 +29,26 @@ class UserAccountController  extends BaseController {
             )
         );
 
-        $school_registration_code                 = Input::get('school_registration_code');
-        $user_registration_code                   = Input::get('user_registration_code');
-
-        $school = School::where('registration_code', '=', $school_registration_code)
-                          ->where('code_for_students', '=', $user_registration_code)
-                          ->where('active', '=', 1);
-
-        if($validator->fails() || $school->count() == 0){
+        if($validator->fails()){
             return Redirect::route('user-account-create')
                 ->withErrors($validator)
                 ->withInput();
-        }else{            
+        }else{
+
+            $school_registration_code                 = Input::get('school_registration_code');
+            $user_registration_code                   = Input::get('user_registration_code');
+
+            $school = Schools::where('registration_code', '=', $school_registration_code)
+                ->where('code_for_students', '=', $user_registration_code)
+                ->where('active', '=', 1)
+                ->get();
+
+            if(!$school->count()){
+                return Redirect::route('admin-account-create')
+                    ->with('global', 'Please input Correct School code and Admin Code.');
+            }
+
             $first_name                 = Input::get('first_name');
-            $middle_name                = Input::get('middle_name');
             $last_name                  = Input::get('last_name');
             $email                      = Input::get('email');
             $sex                        = Input::get('sex');
@@ -50,13 +56,15 @@ class UserAccountController  extends BaseController {
             $state                      = Input::get('state');
             $password                   = Input::get('password');
             
-            // Unique Voter Id
-            $voter_id                   = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', mt_rand(1,10))),1,10);
+            // Unique Username
+            $username                   = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', mt_rand(1,10))),1,10);
             
             //Activation Code
             $code                       = str_random(60);
 
             $now                        = date("Y-m-d H-i-s");
+
+            $groups = Groups::find(1);
             
             $User = User::create(array(
                 'first_name'                => $first_name,
@@ -68,7 +76,7 @@ class UserAccountController  extends BaseController {
                 'password'                  => Hash::make($password),
                 'password_updated_at'       => $now,
                 
-                'voter_id'                  => $voter_id,
+                'username'                  => $username,
                 'sex'                       => $sex,
                 'city'                      => $city,
                 'state'                     => $state,
@@ -77,14 +85,15 @@ class UserAccountController  extends BaseController {
                 'code'                      => $code,
                 'active'                    => 0,
                 'mobile_verified'           => 0,
-                'permissions'               => 1
+                'permissions'               => $groups->id,
+                'school_id'                 => $school->first()->id
                 
                 ));
             
             if($User){
 
                 //send email
-                Mail::send('emails.auth.activate', array('link' => URL::route('user-account-activate', $code), 'voter_id' => $voter_id), function($message) use ($User){
+                Mail::send('emails.auth.activate.activate-user', array('link' => URL::route('user-account-activate', $code), 'username' => $username), function($message) use ($User){
                     $message->to($User->email, $User->voter_id)->subject('Activate Your Account');
                 });
                 return Redirect::route('user-sign-in')
@@ -172,12 +181,12 @@ class UserAccountController  extends BaseController {
     }
     
     public function getUserHome(){
-        return View::make('user.userHome');
+        return View::make('user.user-home');
     }
     
     public function getUserProfile(){
         $user = Auth::user();
-        return View::make('user.UserProfile')->withuser($user);
+        return View::make('user.user-profile')->withuser($user);
     }
 
     public function postEdit(){
@@ -330,7 +339,7 @@ class UserAccountController  extends BaseController {
     }
 
     public function getForgotPassword(){
-        return View::make('user.account.forgotPassword');
+        return View::make('user.account.forgot-password');
     }
 
     public function postForgotPassword(){

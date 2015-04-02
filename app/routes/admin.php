@@ -1,12 +1,4 @@
 <?php
-
-/*
- * Home (get)
- */
-Route::get('/', array(
-    'as' => 'home',
-    'uses' => 'HomeController@showWelcome'
-));
 /*
  * Unauthenticated Group
  */
@@ -28,13 +20,6 @@ Route::group(array('prefix' => 'administrator', 'before' => 'guest'), function()
          */
         Route::Post('/admin/account', array(
             'as' => 'admin-account-create-post',
-            'uses' => 'AdminAccountController@postCreate'
-        ));
-        /*
-         *  Create Account (post)
-         */
-        Route::Post('/account/create', array(
-            'as' => 'account-create-post',
             'uses' => 'AdminAccountController@postCreate'
         ));
         /*

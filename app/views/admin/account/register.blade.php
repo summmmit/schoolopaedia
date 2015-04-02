@@ -1,4 +1,4 @@
-@extends('admin.layout.registration')
+@extends('layouts.login.registration')
 @section('content')
 <!-- start: REGISTER BOX -->
 <div class="box-register">
@@ -10,6 +10,14 @@
         <div class="errorHandler alert alert-danger no-display">
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
         </div>
+        @if(Session::has('global'))
+        <div class="alert alert-info global-error">
+            <button data-dismiss="alert" class="close">
+                &times;
+            </button>
+            <strong>{{ Session::get('global') }}</strong>
+        </div>
+        @endif
         <fieldset>
             <div class="row">
                 <div class="col-md-6">
@@ -44,6 +52,21 @@
                         Male
                     </label>
                 </div>
+            </div>
+            <p>
+                Enter your School details below:
+            </p>
+            <div class="form-group">
+                <span class="input-icon">
+                    <input type="text" class="form-control" name="school_registration_code" placeholder="School Code" value="{{ Input::old('school_registration_code') or '' }}">
+                    @if ($errors->has('school_registration_code')) <p class="help-block alert-danger">{{ $errors->first('school_registration_code') }}</p> @endif
+                    <i class="fa fa-envelope"></i> </span>
+            </div>
+            <div class="form-group">
+                <span class="input-icon">
+                    <input type="text" class="form-control" name="admin_registration_code" placeholder="Admin Code" value="{{ Input::old('admin_registration_code') or '' }}">
+                    @if ($errors->has('admin_registration_code')) <p class="help-block alert-danger">{{ $errors->first('admin_registration_code') }}</p> @endif
+                    <i class="fa fa-envelope"></i> </span>
             </div>
             <p>
                 Enter your account details below:
@@ -88,7 +111,7 @@
     </form>
     <!-- start: COPYRIGHT -->
     <div class="copyright">
-        2014 &copy; Rapido by cliptheme.
+        2014 &copy; Rapido by Sumit Singh.
     </div>
     <!-- end: COPYRIGHT -->
 </div>

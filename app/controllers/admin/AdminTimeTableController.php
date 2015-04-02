@@ -28,7 +28,7 @@ class AdminTimeTableController extends BaseController {
     public function getTimeTableCreate() {
         $classes = Classes::where('school_id', '=', $this->getSchoolId())->get();
         $streams = Streams::where('school_id', '=', $this->getSchoolId())->get();
-        return View::make('admin.timetableset')->with('classes', $classes)->with('streams', $streams);
+        return View::make('admin.time-table-set')->with('classes', $classes)->with('streams', $streams);
     }
 
     public function postGetClasses() {
@@ -557,7 +557,7 @@ class AdminTimeTableController extends BaseController {
     }
 
     public function getCreateTimeTable() {
-        return View::make('admin.adminCreateTimeTable');
+        return View::make('admin.admin-create-time-table');
     }
 
     public function postGetPeriods() {

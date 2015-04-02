@@ -76,7 +76,7 @@ class SchoolController extends BaseController {
             if($school){
 
                 //send email
-                Mail::send('emails.auth.activate.school', array('link' => URL::route('activate-account-activate', $registration_code), 'school_name' => $school_name, 'adminCode' => $code_for_admin, 'teachersCode' => $code_for_teachers, 'studentsCode' => $code_for_students), function($message) use ($school){
+                Mail::send('emails.auth.activate.activate-school', array('link' => URL::route('activate-account-activate', $registration_code), 'school_name' => $school_name, 'adminCode' => $code_for_admin, 'teachersCode' => $code_for_teachers, 'studentsCode' => $code_for_students), function($message) use ($school){
                     $message->to($school->email, $school->school_name)->subject('Activate Your Account');
                 });
                 return Redirect::route('activate-account-create')

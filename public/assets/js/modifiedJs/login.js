@@ -100,6 +100,7 @@ var Login = function() {
 	var runLoginValidator = function() {
 		var form = $('.form-login');
 		var errorHandler = $('.errorHandler', form);
+        var globalError = $('.global-error', form);
 		form.validate({
 			rules : {
 				email : {
@@ -115,6 +116,7 @@ var Login = function() {
 				form.submit();
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
+                globalError.hide();
 				errorHandler.show();
 			}
 		});
@@ -140,6 +142,7 @@ var Login = function() {
 	var runRegisterValidator = function() {
 		var form3 = $('.form-register');
 		var errorHandler3 = $('.errorHandler', form3);
+        var globalError = $('.global-error', form);
 		form3.validate({
 			rules : {
 				first_name : {
@@ -188,6 +191,15 @@ var Login = function() {
 				gender : {
 					required : true
 				},
+                school_registration_code : {
+                    required : true
+                },
+                admin_registration_code : {
+                    required : true
+                },
+                user_registration_code : {
+                    required : true
+                },
 				email : {
 					required : true
 				},
@@ -210,6 +222,7 @@ var Login = function() {
 				form3.submit();
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
+                globalError.hide();
 				errorHandler3.show();
 			}
 		});
