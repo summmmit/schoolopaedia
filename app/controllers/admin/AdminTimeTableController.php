@@ -292,8 +292,9 @@ class AdminTimeTableController extends BaseController {
         $response = array(
             'status' => 'success',
             'msg' => 'Setting created successfully',
-            'errors' => null,
-            'sections' => $sections
+            'result' => array(
+                'sections' => $sections
+            )
         );
 
         return Response::json($response);
@@ -405,15 +406,16 @@ class AdminTimeTableController extends BaseController {
     }
 
     public function postGetSubjects() {
-        $classId = Input::get('class_id');
+        $sectionId = Input::get('section_id');
 
-        $subjects = Subjects::where('class_id', '=', $classId)->get();
+        $subjects = Subjects::where('section_id', '=', $sectionId)->get();
 
         $response = array(
             'status' => 'success',
-            'msg' => 'Setting created successfully',
-            'errors' => null,
-            'subjects' => $subjects
+            'msg' => 'Subjects got successfully',
+            'result' => array(
+                'subjects' => $subjects
+            )
         );
 
         return Response::json($response);
@@ -550,7 +552,9 @@ class AdminTimeTableController extends BaseController {
             'status' => 'success',
             'msg' => 'Classes and Stream Pair fetched successfully',
             'errors' => null,
-            'stream_class_pairs' => $stream_Class_Pairs,
+            'result' => array(
+                'stream_class_pairs' => $stream_Class_Pairs,
+            ),
         );
 
         return Response::json($response);
@@ -631,7 +635,7 @@ class AdminTimeTableController extends BaseController {
     }
 
     public function postDeletePeriods() {
-        
+
         $period_id = Input::get('period_id');
         $class_id = Input::get('class_id');
         $subject_id = Input::get('subject_id');
@@ -654,8 +658,8 @@ class AdminTimeTableController extends BaseController {
             );
 
             return Response::json($response);
-        }else{
-            
+        } else {
+
             $response = array(
                 'status' => 'failed',
                 'msg' => 'Timetable Period could not be deleted successfully',

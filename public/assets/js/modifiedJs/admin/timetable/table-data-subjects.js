@@ -196,7 +196,39 @@ var TableDataSubjects = function() {
             var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
             oTable.fnSetColumnVis(iCol, (bVis ? false : true));
         });
+
         $('#form-field-select-subjects-classes').on('change', function() {
+            var optionValue = $(this).val();
+            
+             $('#form-field-select-subjects-sections').empty().append('<option value="">Select a Section...</option>');
+
+            $.blockUI({
+                message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
+            });
+
+            var data = {
+                class_id: optionValue
+            };
+
+            $.ajax({
+                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/sections',
+                dataType: 'json',
+                method: 'POST',
+                data: data,
+                success: function(data, response) {
+                   // oTable.fnClearTable();
+                    $.unblockUI();
+                    console.log(data);
+                    var i;
+                    var section = data.result.sections;
+                    for (i = 0; i < section.length; i++) {
+                        $('#form-field-select-subjects-sections').append('<option value=' + section[i].id + '>' + section[i].section_name + '</option>');
+                    }
+                }
+            });
+
+        });
+        $('#form-field-select-subjects-sections').on('change', function() {
             var optionValue = $(this).val();
             if (optionValue !== "" && optionValue !== "undefined" && optionValue !== null) {
                 $('#subview-add-subjects').find('#add-subjects-button').removeClass("no-display");
@@ -208,7 +240,7 @@ var TableDataSubjects = function() {
             });
 
             var data = {
-                class_id: optionValue
+                section_id: optionValue
             };
 
             $.ajax({
@@ -217,11 +249,11 @@ var TableDataSubjects = function() {
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
-                    oTable.fnClearTable();
                     $.unblockUI();
                     var i;
-                    for (i = 0; i < data.subjects.length; i++) {
-                        deleteAndCreateTable(oTable, optionValue, data.subjects[i].id, data.subjects[i].subject_name, data.subjects[i].subject_code);
+                    var subject = data.result.subjects;
+                    for (i = 0; i < data.result.stream_class_pairs.length; i++) {
+                        
                     }
                 }
             });
@@ -247,13 +279,13 @@ var TableDataSubjects = function() {
     var fetchClasses = function() {
 
         $.ajax({
-            url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/classes',
+            url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/class/streams/pair',
             dataType: 'json',
             method: 'POST',
             success: function(data, response) {
                 var i;
-                for (i = 0; i < data.classes.length; i++) {
-                    $('#form-field-select-subjects-classes').append('<option value=' + data.classes[i].id + '>' + data.classes[i].class + '</option>');
+                for (i = 0; i < data.result.stream_class_pairs.length; i++) {
+                    $('#form-field-select-subjects-classes').append('<option value=' + data.result.stream_class_pairs[i].classes_id + '>' + data.result.stream_class_pairs[i].stream_class_pair + '</option>');
                 }
             }
         });
