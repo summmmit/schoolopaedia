@@ -17,8 +17,9 @@ class CreateTimetableTable extends Migration {
 			$table->integer('id', true);
 			$table->time('start_time');
 			$table->time('end_time');
-			$table->integer('classes_id')->index('timetable_ibfk_3');
+			$table->integer('classes_id')->index('classes_id');
 			$table->integer('subject_id')->index('subject_id');
+			$table->integer('section_id')->index('section_id');
 			$table->integer('users_id')->index('users_id');
 			$table->dateTime('deleted_at');
 			$table->timestamps();

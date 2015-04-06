@@ -14,9 +14,10 @@ class AddForeignKeysToTimetableTable extends Migration {
 	{
 		Schema::table('timetable', function(Blueprint $table)
 		{
-			$table->foreign('classes_id', 'timetable_ibfk_3')->references('id')->on('classes')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('subject_id', 'timetable_ibfk_1')->references('id')->on('subjects')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('users_id', 'timetable_ibfk_2')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('classes_id', 'timetable_ibfk_3')->references('id')->on('classes')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('section_id', 'timetable_ibfk_4')->references('id')->on('sections')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 
@@ -30,9 +31,10 @@ class AddForeignKeysToTimetableTable extends Migration {
 	{
 		Schema::table('timetable', function(Blueprint $table)
 		{
-			$table->dropForeign('timetable_ibfk_3');
 			$table->dropForeign('timetable_ibfk_1');
 			$table->dropForeign('timetable_ibfk_2');
+			$table->dropForeign('timetable_ibfk_3');
+			$table->dropForeign('timetable_ibfk_4');
 		});
 	}
 

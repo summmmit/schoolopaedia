@@ -14,8 +14,8 @@ class AddForeignKeysToClassesTable extends Migration {
 	{
 		Schema::table('classes', function(Blueprint $table)
 		{
+			$table->foreign('school_id', 'classes_ibfk_1')->references('id')->on('schools')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 			$table->foreign('streams_id', 'classes_ibfk_2')->references('id')->on('streams')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('school_id', 'classes_ibfk_1')->references('id')->on('school')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 
@@ -29,8 +29,8 @@ class AddForeignKeysToClassesTable extends Migration {
 	{
 		Schema::table('classes', function(Blueprint $table)
 		{
-			$table->dropForeign('classes_ibfk_2');
 			$table->dropForeign('classes_ibfk_1');
+			$table->dropForeign('classes_ibfk_2');
 		});
 	}
 

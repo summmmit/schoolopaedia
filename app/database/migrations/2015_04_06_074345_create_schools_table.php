@@ -27,9 +27,9 @@ class CreateSchoolsTable extends Migration {
 			$table->string('pin_code', 10);
 			$table->string('registration_code', 100);
 			$table->string('code_for_admin', 100);
-            $table->string('code_for_moderators', 100);
+			$table->string('code_for_moderators', 100);
 			$table->string('code_for_teachers', 100);
-            $table->string('code_for_parents', 100);
+			$table->string('code_for_parents', 100);
 			$table->string('code_for_students', 100);
 			$table->dateTime('registration_date');
 			$table->text('logo', 65535);
