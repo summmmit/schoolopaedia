@@ -305,6 +305,7 @@ var TableDataTimeTable = function() {
             }
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
+    
             });
 
             var data = {

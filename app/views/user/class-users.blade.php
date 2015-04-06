@@ -1,4 +1,4 @@
-@extends('layouts.main-layout')
+@extends('layouts.user-main-layout')
 
 @section('stylesheets')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/modifiedCss/user/classusers.css'); }}" />
@@ -23,7 +23,6 @@
 
 @section('content')
 <!-- Start: Page Content -->
-
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
@@ -63,7 +62,6 @@
         SVExamples.init();
     });
 </script>
-<<<<<<< HEAD
 <script type="text/javascript">
     function rotateCard(btn){
         var $card = $(btn).closest('.card-container');
@@ -76,6 +74,4 @@
     }
 </script>
 <script src="{{ URL::asset('assets/js/modifiedJs/modernizr.js'); }}"></script>
-=======
->>>>>>> 109f624c6d61de82f28e1cc7f681b0b4ebe1be43
 @stop

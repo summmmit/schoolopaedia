@@ -1,4 +1,4 @@
-@extends('layouts.main-layout')
+@extends('layouts.user-main-layout')
 
 @section('page_header')
 <h1><i class="fa fa-pencil-square"></i>Home</h1>

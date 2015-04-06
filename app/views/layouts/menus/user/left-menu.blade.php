@@ -26,7 +26,7 @@
             <a href="{{ URL::route('user-class-students'); }}"><i class="fa fa-home"></i> <span class="title"> Other Class Students </span><span class="label label-default pull-right ">LABEL</span> </a>
         </li>
         <li>
-            <a href="javascript:void(0)"><i class="fa fa-desktop"></i> <span class="title"> TimeTable </span></a>
+            <a href="{{ URL::route('user-class-schedule'); }}"><i class="fa fa-desktop"></i> <span class="title"> TimeTable </span></a>
         </li>
     </ul>
     <!-- end: MAIN NAVIGATION MENU -->
