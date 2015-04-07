@@ -17,7 +17,7 @@ class CreateTimetableTable extends Migration {
 			$table->integer('id', true);
 			$table->time('start_time');
 			$table->time('end_time');
-			$table->integer('classes_id')->index('classes_id');
+			$table->integer('class_id')->index('class_id');
 			$table->integer('subject_id')->index('subject_id');
 			$table->integer('section_id')->index('section_id');
 			$table->integer('users_id')->index('users_id');

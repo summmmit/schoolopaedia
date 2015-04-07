@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Timetable extends Eloquent {
 
-    protected $fillable = array('start_time', 'end_time', 'classes_id', 'subject_id', 'users_id');
+    protected $fillable = array('start_time', 'end_time', 'class_id', 'subject_id', 'users_id', 'section_id');
 
     use SoftDeletingTrait;
 

@@ -29,13 +29,11 @@ var TableDataSubjects = function() {
 
         }
 
-        function saveRow(oTable, nRow, classId, subjectId) {
+        function saveRow(oTable, nRow, subjects) {
             var jqInputs = $('input', nRow);
-            var isExistsId = nRow.setAttribute('id', classId);
-            var nTr = oTable.fnSettings().aoData;
-            nTr = nTr[nTr.length - 1];
-            nTr = nTr.nTr;
-            $('td', nTr)[0].setAttribute('id', subjectId);
+            nRow.setAttribute('id', subjects.class_id);                // class id added to the attribute of the row
+            nRow.setAttribute('data-section-id', subjects.section_id); //section id added to the attribute of the row
+            nRow.setAttribute('data-subject-id', subjects.id);         //subject id added to the attribute of the row
             oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
             oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
             oTable.fnUpdate('<a class="edit-row-subjects" href="">Edit</a>', nRow, 2, false);
@@ -80,13 +78,15 @@ var TableDataSubjects = function() {
 
             }
             var nRow = $(this).parents('tr')[0];
-            var id = $(this).parents('tr').attr('id');
-            var subject_id = $(this).parent().prev().prev().prev().attr('id');
+            var class_id = $(this).parents('tr').attr('id');
+            var subject_id = $(this).parents('tr').attr('data-subject-id');
+            var section_id = $(this).parents('tr').attr('data-section-id');
             var subject_name = $(this).parent().prev().prev().prev().text();
             var subject_code = $(this).parent().prev().prev().text();
 
             var data = {
-                class_id: id,
+                class_id: class_id,
+                section_id: section_id,
                 subject_id: subject_id,
                 subject_name: subject_name,
                 subject_code: subject_code
@@ -119,16 +119,19 @@ var TableDataSubjects = function() {
             e.preventDefault();
 
             var nRow = $(this).parents('tr')[0];
-            var subject_id = $(this).parents('tr').find('#new-input-subject-name').parent().attr('id');
+            var subject_id = $(this).parents('tr').attr('data-subject-id');
             var subject_name = $(this).parents('tr').find('#new-input-subject-name').val();
             var subject_code = $(this).parents('tr').find('#new-input-subject-code').val();
             var class_id = $('#form-field-select-subjects-classes').val();
+            var section_id = $('#form-field-select-subjects-sections').val();
             var data = {
+                class_id: class_id,
+                section_id: section_id,
                 subject_id: subject_id,
                 subject_name: subject_name,
-                subject_code: subject_code,
-                class_id: class_id
+                subject_code: subject_code
             };
+            
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
@@ -141,7 +144,7 @@ var TableDataSubjects = function() {
                 success: function(data, response) {
                     $.unblockUI();
                     if (data.status == "success") {
-                        saveRow(oTable, nRow, class_id, data.data_send.id);
+                        saveRow(oTable, nRow, data.result.subjects);
                         toastr.info('You have successfully Created new Subject: ' + subject_name);
                     } else if (data.status == "failed") {
                         oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.subject_name + '</p>');
@@ -198,16 +201,17 @@ var TableDataSubjects = function() {
         });
 
         $('#form-field-select-subjects-classes').on('change', function() {
-            var optionValue = $(this).val();
-            
-             $('#form-field-select-subjects-sections').empty().append('<option value="">Select a Section...</option>');
+            var class_id = $(this).val();
+
+            oTable.fnClearTable();
+            $('#form-field-select-subjects-sections').empty().append('<option value="">Select a Section...</option>');
 
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
 
             var data = {
-                class_id: optionValue
+                class_id: class_id
             };
 
             $.ajax({
@@ -216,9 +220,7 @@ var TableDataSubjects = function() {
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
-                   // oTable.fnClearTable();
                     $.unblockUI();
-                    console.log(data);
                     var i;
                     var section = data.result.sections;
                     for (i = 0; i < section.length; i++) {
@@ -229,8 +231,9 @@ var TableDataSubjects = function() {
 
         });
         $('#form-field-select-subjects-sections').on('change', function() {
-            var optionValue = $(this).val();
-            if (optionValue !== "" && optionValue !== "undefined" && optionValue !== null) {
+            var section_id = $(this).val();
+            oTable.fnClearTable();
+            if (section_id) {
                 $('#subview-add-subjects').find('#add-subjects-button').removeClass("no-display");
             } else {
                 $('#subview-add-subjects').find('#add-subjects-button').addClass("no-display");
@@ -240,7 +243,8 @@ var TableDataSubjects = function() {
             });
 
             var data = {
-                section_id: optionValue
+                section_id: section_id,
+                class_id: $('#form-field-select-subjects-classes').val()
             };
 
             $.ajax({
@@ -251,23 +255,23 @@ var TableDataSubjects = function() {
                 success: function(data, response) {
                     $.unblockUI();
                     var i;
-                    var subject = data.result.subjects;
-                    for (i = 0; i < data.result.stream_class_pairs.length; i++) {
-                        
+                    var subjects = data.result.subjects;
+                    for (i = 0; i < subjects.length; i++) {
+                        deleteAndCreateTable(oTable, subjects[i]);
                     }
                 }
             });
 
         });
-        function deleteAndCreateTable(oTable, classId, subjectId, subjectName, subjectCode) {
+        function deleteAndCreateTable(oTable, subjects) {
 
             var aiNew = oTable.fnAddData(['', '', '', '']);
             var nRow = oTable.fnGetNodes(aiNew[0]);
-            nRow = nRow.setAttribute('id', classId);
-            var nTr = oTable.fnSettings().aoData[aiNew[0]].nTr;
-            $('td', nTr)[0].setAttribute('id', subjectId);
-            oTable.fnUpdate(subjectName, nRow, 0, false);
-            oTable.fnUpdate(subjectCode, nRow, 1, false);
+            nRow.setAttribute('id', subjects.class_id);                // class id added to the attribute of the row
+            nRow.setAttribute('data-section-id', subjects.section_id); //section id added to the attribute of the row
+            nRow.setAttribute('data-subject-id', subjects.id);         //subject id added to the attribute of the row
+            oTable.fnUpdate(subjects.subject_name, nRow, 0, false);
+            oTable.fnUpdate(subjects.subject_code, nRow, 1, false);
             oTable.fnUpdate('<a class="edit-row-subjects" href="">Edit</a>', nRow, 2, false);
             oTable.fnUpdate('<a class="delete-row-subjects" href="">Delete</a>', nRow, 3, false);
             oTable.fnDraw();
@@ -284,8 +288,9 @@ var TableDataSubjects = function() {
             method: 'POST',
             success: function(data, response) {
                 var i;
+                var pairs = data.result.stream_class_pairs;
                 for (i = 0; i < data.result.stream_class_pairs.length; i++) {
-                    $('#form-field-select-subjects-classes').append('<option value=' + data.result.stream_class_pairs[i].classes_id + '>' + data.result.stream_class_pairs[i].stream_class_pair + '</option>');
+                    $('#form-field-select-subjects-classes').append('<option value=' + pairs[i].classes_id + '>' + pairs[i].stream_class_pair + '</option>');
                 }
             }
         });

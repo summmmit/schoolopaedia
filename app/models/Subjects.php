@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Subjects extends Eloquent {
 
-    protected $fillable = array('subject_name', 'subject_code', 'class_id');
+    protected $fillable = array('subject_name', 'subject_code', 'class_id', 'section_id');
 
     use SoftDeletingTrait;
 

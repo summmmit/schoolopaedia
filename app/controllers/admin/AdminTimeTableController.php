@@ -406,9 +406,11 @@ class AdminTimeTableController extends BaseController {
     }
 
     public function postGetSubjects() {
+
+        $classId = Input::get('class_id');
         $sectionId = Input::get('section_id');
 
-        $subjects = Subjects::where('section_id', '=', $sectionId)->get();
+        $subjects = Subjects::where('class_id', '=', $classId)->where('section_id', '=', $sectionId)->get();
 
         $response = array(
             'status' => 'success',
@@ -444,11 +446,12 @@ class AdminTimeTableController extends BaseController {
             $subject_name = Input::get('subject_name');
             $subject_code = Input::get('subject_code');
             $class_id = Input::get('class_id');
+            $section_id = Input::get('section_id');
 
             if ($subject_id) {
                 $subjects = Subjects::find($subject_id);
                 $subjects->subject_name = ucwords($subject_name);
-                $subjects->subject_code = ucwords($subject_code);
+                $subjects->subject_code = strtoupper($subject_code);
 
                 if ($subjects->save()) {
 
@@ -456,10 +459,8 @@ class AdminTimeTableController extends BaseController {
                         'status' => 'success',
                         'msg' => 'Subjects created successfully',
                         'errors' => null,
-                        'data_send' => array(
-                            'id' => $subjects->id,
-                            'subject_name' => $subjects->subject_name,
-                            'subject_code' => $subjects->subject_code
+                        'result' => array(
+                            'subjects' => $subjects
                         ),
                     );
 
@@ -469,8 +470,9 @@ class AdminTimeTableController extends BaseController {
 
                 $subjects = new Subjects();
                 $subjects->subject_name = ucwords($subject_name);
-                $subjects->subject_code = ucwords($subject_code);
+                $subjects->subject_code = strtoupper($subject_code);
                 $subjects->class_id = $class_id;
+                $subjects->section_id = $section_id;
 
                 if ($subjects->save()) {
 
@@ -478,10 +480,8 @@ class AdminTimeTableController extends BaseController {
                         'status' => 'success',
                         'msg' => 'Setting created successfully',
                         'errors' => null,
-                        'data_send' => array(
-                            'id' => $subjects->id,
-                            'subject_name' => $subjects->subject_name,
-                            'subject_code' => $subjects->subject_code
+                        'result' => array(
+                            'subjects' => $subjects
                         ),
                     );
 
@@ -500,24 +500,30 @@ class AdminTimeTableController extends BaseController {
 
     public function postDeleteSubjects() {
 
+        $class_id = Input::get('class_id');
+        $section_id = Input::get('section_id');
         $subject_id = Input::get('subject_id');
         $subject_name = Input::get('subject_name');
         $subject_code = Input::get('subject_code');
-        $class_id = Input::get('class_id');
 
 
         if ($subject_id) {
             $subjects = Subjects::find($subject_id);
         } else {
-            $subjects = Subjects::where('subject_name', '=', $subject_name)->where('subject_code', '=', $subject_code)->where('class_id', '=', $class_id);
+            $subjects = Subjects::where('subject_name', '=', $subject_name)
+                    ->where('subject_code', '=', $subject_code)
+                    ->where('class_id', '=', $class_id)
+                    ->where('section_id', '=', $section_id);
         }
 
         if ($subjects->delete()) {
 
             $response = array(
                 'status' => 'success',
-                'msg' => 'Setting created successfully',
-                'deleted_item_id' => $subjects->id,
+                'msg' => 'Subject deleted successfully',
+                'result' => array(
+                    'subjects' => $subjects,
+                )
             );
 
             return Response::json($response);
@@ -525,8 +531,10 @@ class AdminTimeTableController extends BaseController {
 
             $response = array(
                 'status' => 'failed',
-                'msg' => 'Item is Not deleted',
-                'Item_id' => $subject_id,
+                'msg' => 'Subject is Not deleted',
+                'result' => array(
+                    'subjects' => $subjects,
+                )
             );
 
             return Response::json($response);
@@ -566,7 +574,8 @@ class AdminTimeTableController extends BaseController {
 
     public function postGetPeriods() {
         $class_id = Input::get('class_id');
-        $timetables = Timetable::where('classes_id', '=', $class_id)->get();
+        $section_id = Input::get('section_id');
+        $timetables = Timetable::where('class_id', '=', $class_id)->where('section_id', '=', $section_id)->get();
 
         $periods = array();
         $i = 0;
@@ -598,6 +607,7 @@ class AdminTimeTableController extends BaseController {
 
         $period_id = Input::get('period_id');
         $class_id = Input::get('class_id');
+        $section_id = Input::get('section_id');
         $start_time = Input::get('start_time');
         $end_time = Input::get('end_time');
         $subject_id = Input::get('subject_id');
@@ -611,8 +621,9 @@ class AdminTimeTableController extends BaseController {
 
         $period->start_time = $start_time;
         $period->end_time = $end_time;
-        $period->classes_id = $class_id;
+        $period->class_id = $class_id;
         $period->subject_id = $subject_id;
+        $period->section_id = $section_id;
         $period->users_id = $teacher_id;
 
         $subject = Subjects::find($subject_id);
@@ -638,13 +649,14 @@ class AdminTimeTableController extends BaseController {
 
         $period_id = Input::get('period_id');
         $class_id = Input::get('class_id');
+        $section_id = Input::get('section_id');
         $subject_id = Input::get('subject_id');
         $teacher_id = Input::get('teacher_id');
 
         if ($period_id) {
             $period = Timetable::find($period_id);
         } else {
-            $period = Timetable::where('class_id', '=', $class_id)->where('subject_id', '=', $subject_id)->where('users_id', '=', $teacher_id);
+            $period = Timetable::where('section_id', '=', $section_id)->where('class_id', '=', $class_id)->where('subject_id', '=', $subject_id)->where('users_id', '=', $teacher_id);
         }
 
         if ($period->delete()) {
@@ -653,7 +665,7 @@ class AdminTimeTableController extends BaseController {
                 'status' => 'success',
                 'msg' => 'Timetable Period deleted successfully',
                 'result' => array(
-                    'deleted_period_id' => $period->id,
+                    'period' => $period,
                 )
             );
 
@@ -664,7 +676,7 @@ class AdminTimeTableController extends BaseController {
                 'status' => 'failed',
                 'msg' => 'Timetable Period could not be deleted successfully',
                 'result' => array(
-                    'period_id' => $period_id,
+                    'period' => $period,
                 )
             );
 
@@ -680,7 +692,9 @@ class AdminTimeTableController extends BaseController {
             'status' => 'success',
             'msg' => 'Setting created successfully',
             'errors' => null,
-            'teachers' => $teachers
+            'result' => array(
+                'teachers' => $teachers
+            )
         );
 
         return Response::json($response);

@@ -46,6 +46,18 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <div class="form-group no-display">
+                            <label for="field-select-time-table-section">
+                                Select a section
+                            </label>
+                            <select id="field-select-time-table-section" class="form-control">
+                                <option value="">Select a section.....</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-12 space20">
                         <button class="btn btn-green no-display" id="add-row-time-table">
                             Add New <i class="fa fa-plus"></i>
