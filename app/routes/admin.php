@@ -258,5 +258,18 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
     Route::Post('/admin/time/table/get/teachers', array(
         'as' => 'admin-time-table-get-teachers',
         'uses' => 'AdminTimeTableController@postGetTeachers'
+    ));    
+    /*
+     * 
+     * School Settings 
+     * 
+     */
+    /*
+     * Admin Timetable  (post)
+     */
+    Route::get('/admin/school/settings', array(
+        'as' => 'admin-school-settings',
+        'uses' => 'SchoolController@getSchoolSettings'
     ));
+    
 });

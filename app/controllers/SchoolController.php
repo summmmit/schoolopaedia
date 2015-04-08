@@ -106,6 +106,10 @@ class SchoolController extends BaseController {
         return Redirect::route('activate-account-create')
             ->with('global', 'Cant activate do after some time');
     }
+    
+    public function getSchoolSettings(){
+        return View::make('admin.school-settings');
+    }
 
 
 }

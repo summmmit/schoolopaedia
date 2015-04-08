@@ -28,6 +28,9 @@
         <li>
             <a href="{{ URL::route('admin-create-time-table'); }}"><i class="fa fa-desktop"></i> <span class="title"> Create TimeTable </span></a>
         </li>
+        <li>
+            <a href="{{ URL::route('admin-school-settings'); }}"><i class="fa fa-caret-up"></i> <span class="title"> School Settings </span></a>
+        </li>
     </ul>
     <!-- end: MAIN NAVIGATION MENU -->
 </div>
