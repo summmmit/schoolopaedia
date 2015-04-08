@@ -137,7 +137,7 @@ var TableDataSections = function() {
                     $.unblockUI();
                     if (data.status == "success") {
                         saveRow(oTable, nRow, class_id, data.data_send.id);
-                        toastr.info('You have successfully Created new Section: ' + section_name);
+                        toastr.info('You have successfully Created new Section');
                     } else if (data.status == "failed") {
                         oTable.parentsUntil(".panel").find(".errorHandler").removeClass("no-display").html('<p class="help-block alert-danger">' + data.error_messages.section_name + '</p>');
                     }
@@ -216,8 +216,9 @@ var TableDataSections = function() {
                     oTable.fnClearTable();
                     $.unblockUI();
                     var i;
-                    for (i = 0; i < data.sections.length; i++) {
-                        deleteAndCreateTable(oTable, optionValue, data.sections[i].id, data.sections[i].section_name);
+                    var sections = data.result.sections;
+                    for (i = 0; i < sections.length; i++) {
+                        deleteAndCreateTable(oTable, optionValue, sections[i].id, sections[i].section_name);
                     }
                 }
             });

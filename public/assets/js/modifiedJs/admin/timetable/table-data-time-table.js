@@ -416,6 +416,13 @@ var TableDataTimeTable = function() {
 
         function timeFormat(time) {
             var timeString = time.split(':');
+            var AmPm = timeString[1];
+            var timeAmPm = AmPm.split(' ');
+
+            if(timeAmPm[1] == "AM" || timeAmPm[1] == "PM"){
+                timeAmPm[1] = "";
+                timeString[1] = timeAmPm[0]+timeAmPm[1];
+            }
 
             if (timeString[0] > '12') {
                 timeString[0] = timeString[0] - 12;
