@@ -110,6 +110,10 @@ class SchoolController extends BaseController {
     public function getSchoolSettings(){
         return View::make('admin.school-settings');
     }
+    
+    public function getSchoolTest(){
+        return View::make('admin.school-test');
+    }
 
 
 }

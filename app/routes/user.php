@@ -148,5 +148,13 @@ Route::group(array('before' => 'auth'), function(){
         'as'  => 'user-class-schedule-periods',
         'uses' => 'UserClassController@postClassTimeTable'
     ));
+
+    /*
+     * Class schedule Periods (get)
+     */
+    Route::get('/user/class/test', array(
+        'as'  => 'user-class-test',
+        'uses' => 'UserClassController@getTest'
+    ));
     
 });

@@ -28,8 +28,10 @@ var TableDataTimeTable = function() {
                 sTime = "";
                 eTime = "";
             }
-            var startTime = '<div class="col-md-6"><input type="text" class="form-control" id="new-input-start-time" value="' + sTime + '"></div>';
-            var endTime = '<div class="col-md-6"><input type="text" class="form-control" id="new-input-end-time" value="' + eTime + '"></div>';
+            var startTime = '<div class="col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-start-time" value="' + sTime + '">'+
+                    '<span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span></div></div>';
+            var endTime = '<div class="col-md-offset-2 col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-end-time" value="' + eTime + '">'+
+                '<span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span></div></div>';
             jqTds[1].innerHTML = startTime + endTime;
             jqTds[2].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
             jqTds[3].innerHTML = '<select id="form-field-select-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
@@ -60,6 +62,9 @@ var TableDataTimeTable = function() {
                     }
                 }
             });
+            $('.time-picker').timepicker({
+                showMeridian: false
+            });
 
             $.ajax({
                 url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/teachers',
@@ -81,26 +86,6 @@ var TableDataTimeTable = function() {
                     }
                 }
             });
-
-            oTimeTable.find('#new-input-start-time').timepicki({
-                show_meridian: false,
-                min_hour_value: 0,
-                max_hour_value: 23,
-                step_size_minutes: 15,
-                overflow_minutes: true,
-                increase_direction: 'up',
-                disable_keyboard_mobile: true}
-            );
-            oTimeTable.find('#new-input-end-time').timepicki({
-                show_meridian: false,
-                min_hour_value: 0,
-                max_hour_value: 23,
-                step_size_minutes: 15,
-                overflow_minutes: true,
-                increase_direction: 'up',
-                disable_keyboard_mobile: true}
-            );
-
 
         }
 

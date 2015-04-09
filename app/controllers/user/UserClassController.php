@@ -64,4 +64,8 @@ class UserClassController extends BaseController {
         return Response::json($periods);
     }
 
+    public function getTest(){
+        return View::make('user.class-test');
+    }
+
 }

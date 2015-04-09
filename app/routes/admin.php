@@ -265,11 +265,18 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
      * 
      */
     /*
-     * Admin Timetable  (post)
+     * School All settings  (post)
      */
     Route::get('/admin/school/settings', array(
         'as' => 'admin-school-settings',
         'uses' => 'SchoolController@getSchoolSettings'
+    ));
+    /*
+     * Admin Timetable  (post)
+     */
+    Route::get('/admin/school/test', array(
+        'as' => 'admin-school-test',
+        'uses' => 'SchoolController@getSchoolTest'
     ));
     
 });

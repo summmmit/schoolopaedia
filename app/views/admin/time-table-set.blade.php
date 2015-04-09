@@ -2,6 +2,7 @@
 
 @section('stylesheets')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}" />
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/ms-Dropdown/css/msdropdown/dd.css'); }}" />
 @stop
 
 @section('page_header')
@@ -314,6 +315,7 @@
 
 @section('scripts')
 <!-- Scripts for This page only -->
+<script src="{{ URL::asset('assets/plugins/ms-Dropdown/js/msdropdown/jquery.dd.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/plugins/select2/select2.min.js'); }}"></script>  
 <script src="{{ URL::asset('assets/js/ui-subview.js'); }}"></script>                                                                  <!-- For Subview -->
 <script src="{{ URL::asset('assets/js/modifiedJs/admin/timetable/table-data-streams.js'); }}"></script>                               <!-- For streams Table -->
@@ -329,7 +331,6 @@ jQuery(document).ready(function() {
     TableDataClasses.init();
     TableDataSections.init();
     TableDataSubjects.init();
-
 });
 </script>
 @stop
