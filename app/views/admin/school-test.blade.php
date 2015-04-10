@@ -3,7 +3,13 @@
 @section('stylesheets')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/plugins/ms-Dropdown/css/msdropdown/dd.css'); }}" />
 <link rel="stylesheet" href="{{ URL::asset('assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'); }}">
-<link rel="stylesheet" href="assets/plugins/select2/select2.css">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/x-editable/css/bootstrap-editable.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/typeaheadjs/lib/typeahead.js-bootstrap.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/jquery-address/address.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css'); }}">
 @stop
 
 
@@ -32,6 +38,22 @@
                 <h4 class="panel-title">Form <span class="text-bold">test</span></h4>
             </div>
             <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table id="user" class="table table-bordered table-striped">
+                            <tbody>
+                                <tr>
+                                    <td class="column-left">Simple text field</td>
+                                    <td class="column-right">
+                                        <a href="#" id="username" data-type="text" data-pk="1">
+                                           2047/01/05
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <table width="100%" border="0" cellspacing="1" cellpadding="5" class="tblWhite">
                     <tr>
                         <td>&nbsp;</td>
@@ -99,16 +121,25 @@
 <!-- Scripts for This page only -->
 <script src="{{ URL::asset('assets/plugins/ms-Dropdown/js/msdropdown/jquery.dd.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/x-editable/js/bootstrap-editable.min.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/typeaheadjs/typeaheadjs.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/typeaheadjs/lib/typeahead.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/jquery-address/address.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/wysihtml5/wysihtml5.js'); }}"></script>
+<script src="{{ URL::asset('assets/js/modifiedJs/admin/test-xeditable.js'); }}"></script>
 <script>
-    jQuery(document).ready(function() {
-        Main.init();
-        SVExamples.init();
-        //function to initiate bootstrap-timepicker
-            $('.time-picker').timepicker({
-                showMeridian: false
-                });
-        $("#payments").msDropdown({visibleRows: 4});
-        $("#tech").msDropdown().data("dd");//{animStyle:'none'} /{animStyle:'slideDown'} {animStyle:'show'}	
+jQuery(document).ready(function() {
+    Main.init();
+    SVExamples.init();
+    //function to initiate bootstrap-timepicker
+    $('.time-picker').timepicker({
+        showMeridian: false
     });
+    $("#payments").msDropdown({visibleRows: 4});
+    $("#tech").msDropdown().data("dd");//{animStyle:'none'} /{animStyle:'slideDown'} {animStyle:'show'}	
+});
 </script>
 @stop

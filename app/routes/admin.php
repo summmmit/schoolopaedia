@@ -265,18 +265,26 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
      * 
      */
     /*
-     * School All settings  (post)
-     */
-    Route::get('/admin/school/settings', array(
-        'as' => 'admin-school-settings',
-        'uses' => 'SchoolController@getSchoolSettings'
-    ));
-    /*
-     * Admin Timetable  (post)
+     * Admin School Test  (post)
      */
     Route::get('/admin/school/test', array(
         'as' => 'admin-school-test',
         'uses' => 'SchoolController@getSchoolTest'
+    ));
+    
+    /*
+     * School All settings Ajax  (post)
+     */
+    Route::get('/admin/school/settings', array(
+        'as' => 'admin-school-settings',
+        'uses' => 'SchoolSettingsController@getSchoolSettings'
+    ));
+    /*
+     * School Timinings  (post)
+     */
+    Route::Post('/admin/ajax/school/timings/start/from', array(
+        'as' => 'admin-ajax-school-timings-start-from',
+        'uses' => 'SchoolController@postScheduleStartFrom'
     ));
     
 });
