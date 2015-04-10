@@ -1,5 +1,16 @@
 @extends('layouts.main-layout')
 
+@section('stylesheets')
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/select2/select2.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/x-editable/css/bootstrap-editable.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/typeaheadjs/lib/typeahead.js-bootstrap.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/jquery-address/address.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css'); }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css'); }}">
+@stop
+
 @section('page_header')
 <h1><i class="fa fa-pencil-square"></i> School </h1>
 @stop
@@ -37,7 +48,7 @@
                                 </li>
                                 <li>
                                     <a href="#school-session-details" data-toggle="tab">
-                                        <i class="green fa fa-home"></i> School Session Schedule ( 2014 - 2015 )
+                                        <i class="green fa fa-home"></i> School Session Schedule ( {{ date_format(date_create($session->session_start), "Y") }} - {{ date_format(date_create($session->session_end), "Y") }} )
                                     </a>
                                 </li>
                             </ul>
@@ -113,36 +124,35 @@
                                 <div class="tab-pane fade" id="school-session-details">
                                     <table id="user" class="table table-bordered table-striped">
                                         <tbody>
+                                            @foreach($schedules as $schedule)
                                             <tr>
-                                                <td colspan="2" class="text-center" style="background-color: skyblue">July - October</td>
+                                                <td colspan="2" class="text-center" style="background-color: skyblue">{{ date_format(date_create($schedule->start_from), "F") }} - {{ date_format(date_create($schedule->close_untill), "F") }}</td>
                                             </tr>
                                             <tr>
-                                                <td>School Opening Time</td>
-                                                <td>09:00 AM</td>
+                                                <td class="column-left">School Opening Time</td>
+                                                <td class="column-right">
+                                                    <a href="#" id="opening-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
+                                                        {{ date_format(date_create($schedule->opening_time), "h:i A") }}
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Lunch Time</td>
-                                                <td>12:00 PM</td>
+                                                <td class="column-left">Lunch Time</td>
+                                                <td class="column-right">
+                                                    <a href="#" id="lunch-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
+                                                        {{ date_format(date_create($schedule->lunch_time), "h:i A") }}
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>School Closing Time</td>
-                                                <td>02:00 PM</td>
+                                                <td class="column-left">School Closing Time</td>
+                                                <td class="column-right">
+                                                    <a href="#" id="closing-time" data-type="combodate" data-template="HH:mm" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
+                                                        {{ date_format(date_create($schedule->closing_time), "h:i A") }}
+                                                    </a>
+                                                </td>
                                             </tr>
-                                            <tr>
-                                                <td colspan="2" class="text-center" style="background-color: skyblue">November - March</td>
-                                            </tr>
-                                            <tr>
-                                                <td>School Opening Time</td>
-                                                <td>09:00 AM</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Lunch Time</td>
-                                                <td>12:00 PM</td>
-                                            </tr>
-                                            <tr>
-                                                <td>School Closing Time</td>
-                                                <td>02:00 PM</td>
-                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                     <div class="row">
@@ -167,7 +177,7 @@
 @section('scripts')
 
 <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-<script src="{{ URL::asset('assets/plugins/select2/select2.min.js'); }}"></script>
+<script src="{{ URL::asset('assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/plugins/x-editable/js/bootstrap-editable.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/plugins/typeaheadjs/typeaheadjs.js'); }}"></script>
@@ -176,8 +186,7 @@
 <script src="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js'); }}"></script>
 <script src="{{ URL::asset('assets/plugins/wysihtml5/wysihtml5.js'); }}"></script>
-<script src="{{ URL::asset('assets/plugins/x-editable/demo-mock.js'); }}"></script>
-<script src="{{ URL::asset('assets/plugins/x-editable/demo.js'); }}"></script>
+<script src="{{ URL::asset('assets/js/modifiedJs/admin/school-settings/school-settings-xeditable.js'); }}"></script>
 <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 <script>
 jQuery(document).ready(function() {

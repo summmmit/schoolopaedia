@@ -271,7 +271,13 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
         'as' => 'admin-school-test',
         'uses' => 'SchoolController@getSchoolTest'
     ));
-    
+    /*
+     * School All settings Ajax  (post)
+     */
+    Route::get('/admin/school/sessions', array(
+        'as' => 'admin-school-sessions',
+        'uses' => 'SchoolSettingsController@getSchoolSessions'
+    ));
     /*
      * School All settings Ajax  (post)
      */
@@ -280,11 +286,25 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
         'uses' => 'SchoolSettingsController@getSchoolSettings'
     ));
     /*
-     * School Timinings  (post)
+     * School Timinings Daily Start From Ajax (post)
      */
     Route::Post('/admin/ajax/school/timings/start/from', array(
         'as' => 'admin-ajax-school-timings-start-from',
-        'uses' => 'SchoolController@postScheduleStartFrom'
+        'uses' => 'SchoolSettingsController@postScheduleStartFrom'
+    ));
+    /*
+     * School Timinings Daily Lunch From Ajax (post)
+     */
+    Route::Post('/admin/ajax/school/timings/lunch/from', array(
+        'as' => 'admin-ajax-school-timings-lunch-from',
+        'uses' => 'SchoolSettingsController@postScheduleLunchFrom'
+    ));
+    /*
+     * School Timinings Daily Closing From Ajax (post)
+     */
+    Route::Post('/admin/ajax/school/timings/close/from', array(
+        'as' => 'admin-ajax-school-timings-close-from',
+        'uses' => 'SchoolSettingsController@postScheduleCloseFrom'
     ));
     
 });

@@ -25,28 +25,112 @@ class SchoolSettingsController extends BaseController {
         return $this->schoolId;
     }
 
+    public function getSchoolSessions() {
+        $session = SchoolSession::where('school_id', '=', $this->getschoolId())->get();
+    }
+
     public function getSchoolSettings() {
-        $schedule = SchoolSchedule::where('schoo')->get();
-        return View::make('admin.school-settings');
+        $schedule = SchoolSchedule::where('school_id', '=', $this->getschoolId())->get();
+        $session = SchoolSession::where('school_id', '=', $this->getschoolId())->get()->first();
+        return View::make('admin.school-settings')->with('schedules', $schedule)->with('session', $session);
     }
 
     public function postScheduleStartFrom() {
-        
+
         $schedule = SchoolSchedule::find(Input::get('pk'));
-        $schedule->start_from = Input::get('value');
-        $schedule->save();
+        $schedule->opening_time = Input::get('value');
 
-        $response = array(
-            'status' => 'OK',
-            'msg' => 'Setting created successfully',
-            'errors' => null,
-            'result' => array(
-                'schedule' => $schedule,
-            )
-        );
+        if ($schedule->save()) {
 
-        return Response::json($response);
+            $response = array(
+                'status' => 'OK',
+                'msg' => 'Updated created successfully',
+                'errors' => null,
+                'result' => array(
+                    'schedule' => $schedule,
+                )
+            );
+
+            return Response::json($response);
+        } else {
+
+            $response = array(
+                'status' => 'Error',
+                'msg' => 'Not Updated',
+                'errors' => null,
+                'result' => array(
+                    'schedule' => 'none',
+                )
+            );
+
+            return Response::json($response);
+        }
     }
-    
-    
+
+    public function postScheduleLunchFrom() {
+
+        $schedule = SchoolSchedule::find(Input::get('pk'));
+        $schedule->lunch_time = Input::get('value');
+
+        if ($schedule->save()) {
+
+            $response = array(
+                'status' => 'OK',
+                'msg' => 'Updated created successfully',
+                'errors' => null,
+                'result' => array(
+                    'schedule' => $schedule,
+                )
+            );
+
+            return Response::json($response);
+        } else {
+
+            $response = array(
+                'status' => 'Error',
+                'msg' => 'Not Updated',
+                'errors' => null,
+                'result' => array(
+                    'schedule' => 'none',
+                )
+            );
+
+            return Response::json($response);
+        }
+    }
+
+    public function postScheduleCloseFrom() {
+
+        $schedule = SchoolSchedule::find(Input::get('pk'));
+        $schedule->closing_time = Input::get('value');
+
+        if ($schedule->save()) {
+
+            $response = array(
+                'status' => 'OK',
+                'msg' => 'Updated created successfully',
+                'errors' => null,
+                'result' => array(
+                    'schedule' => $schedule,
+                )
+            );
+
+            return Response::json($response);
+        } else {
+
+            $response = array(
+                'status' => 'Error',
+                'msg' => 'Not Updated',
+                'errors' => null,
+                'result' => array(
+                    'schedule' => 'none',
+                )
+            );
+
+            return Response::json($response);
+        }
+    }
+
+
+
 }
