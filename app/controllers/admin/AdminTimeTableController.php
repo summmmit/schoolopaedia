@@ -569,13 +569,16 @@ class AdminTimeTableController extends BaseController {
     }
 
     public function getCreateTimeTable() {
-        return View::make('admin.admin-create-time-table');
+        $weekDays = Config::get('constants.weekDays');
+        
+        return View::make('admin.admin-create-time-table')->with('weekDays', $weekDays);
     }
 
     public function postGetPeriods() {
         $class_id = Input::get('class_id');
         $section_id = Input::get('section_id');
-        $timetables = Timetable::where('class_id', '=', $class_id)->where('section_id', '=', $section_id)->get();
+        $day_id = Input::get('day_id');
+        $timetables = Timetable::where('class_id', '=', $class_id)->where('section_id', '=', $section_id)->where('day_id', '=', $day_id)->get();
 
         $periods = array();
         $i = 0;
@@ -607,6 +610,7 @@ class AdminTimeTableController extends BaseController {
 
         $period_id = Input::get('period_id');
         $class_id = Input::get('class_id');
+        $day_id = Input::get('day_id');
         $section_id = Input::get('section_id');
         $start_time = Input::get('start_time');
         $end_time = Input::get('end_time');
@@ -623,6 +627,7 @@ class AdminTimeTableController extends BaseController {
         $period->end_time = $end_time;
         $period->class_id = $class_id;
         $period->subject_id = $subject_id;
+        $period->day_id = $day_id;
         $period->section_id = $section_id;
         $period->users_id = $teacher_id;
 
@@ -649,6 +654,7 @@ class AdminTimeTableController extends BaseController {
 
         $period_id = Input::get('period_id');
         $class_id = Input::get('class_id');
+        $day_id = Input::get('day_id');
         $section_id = Input::get('section_id');
         $subject_id = Input::get('subject_id');
         $teacher_id = Input::get('teacher_id');
@@ -656,7 +662,7 @@ class AdminTimeTableController extends BaseController {
         if ($period_id) {
             $period = Timetable::find($period_id);
         } else {
-            $period = Timetable::where('section_id', '=', $section_id)->where('class_id', '=', $class_id)->where('subject_id', '=', $subject_id)->where('users_id', '=', $teacher_id);
+            $period = Timetable::where('section_id', '=', $section_id)->where('class_id', '=', $class_id)->where('subject_id', '=', $subject_id)->where('users_id', '=', $teacher_id)->where('day_id', '=', $day_id);
         }
 
         if ($period->delete()) {

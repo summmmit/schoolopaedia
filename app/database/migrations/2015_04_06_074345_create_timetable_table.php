@@ -21,6 +21,7 @@ class CreateTimetableTable extends Migration {
 			$table->integer('subject_id')->index('subject_id');
 			$table->integer('section_id')->index('section_id');
 			$table->integer('users_id')->index('users_id');
+            $table->integer('day_id');
 			$table->dateTime('deleted_at');
 			$table->timestamps();
 		});

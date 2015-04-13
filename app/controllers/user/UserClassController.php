@@ -33,8 +33,8 @@ class UserClassController extends BaseController {
     }
 
     public function postClassTimeTable(){
-        $class_id = Input::get('classes_id');
-        $period = Timetable::where('classes_id', '=', $class_id)->get();
+        $class_id = Input::get('class_id');
+        $period = Timetable::where('class_id', '=', $class_id)->get();
 
         $periods = array();
         $i = 0;

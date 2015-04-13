@@ -26,75 +26,13 @@
             <div class="panel-heading">
                 <i class="fa fa-calendar"></i>
                 Full Calendar
-                <div class="panel-tools">
-                    <div class="dropdown">
-                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-                            <i class="fa fa-cog"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
-                            <li>
-                                <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-                            </li>
-                            <li>
-                                <a class="panel-refresh" href="#">
-                                    <i class="fa fa-refresh"></i> <span>Refresh</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="panel-config" href="#panel-config" data-toggle="modal">
-                                    <i class="fa fa-wrench"></i> <span>Configurations</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="panel-expand" href="#">
-                                    <i class="fa fa-expand"></i> <span>Fullscreen</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <a class="btn btn-xs btn-link panel-close" href="#">
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
             </div>
             <div class="panel-body">
                 <div class="col-sm-12 space20">
                     <a href="#newFullEvent" class="btn btn-green add-event"><i class="fa fa-plus"></i> Add New Event</a>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <div id='full-calendar'></div>
-                </div>
-                <div class="col-sm-3">
-                    <h4 class="space20">Draggable categories</h4>
-                    <div id="event-categories">
-                        <div class="event-category event-generic" data-class="event-generic">
-                            Generic
-                        </div>
-                        <div class="event-category event-home" data-class="event-home">
-                            Home
-                        </div>
-                        <div class="event-category event-overtime" data-class="event-overtime">
-                            Overtime
-                        </div>
-                        <div class="event-category event-job" data-class="event-job">
-                            Job
-                        </div>
-                        <div class="event-category event-offsite" data-class="event-offsite">
-                            Off-site work
-                        </div>
-                        <div class="event-category event-todo" data-class="event-todo">
-                            To Do
-                        </div>
-                        <div class="event-category event-cancelled" data-class="event-cancelled">
-                            Cancelled
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" class="grey" id="drop-remove" />
-                                Remove after drop
-                            </label>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -125,9 +63,9 @@
                     <div class="col-md-8">
                         <div class="form-group">
                             <div class="form-group">
-											<span class="input-icon">
-												<input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
-												<i class="fa fa-clock-o"></i> </span>
+                                <span class="input-icon">
+                                    <input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
+                                    <i class="fa fa-clock-o"></i> </span>
                             </div>
                         </div>
                     </div>
@@ -136,9 +74,9 @@
                     <div class="col-md-8">
                         <div class="form-group">
                             <div class="form-group">
-											<span class="input-icon">
-												<input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
-												<i class="fa fa-calendar"></i> </span>
+                                <span class="input-icon">
+                                    <input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
+                                    <i class="fa fa-calendar"></i> </span>
                             </div>
                         </div>
                     </div>
@@ -230,11 +168,11 @@
 <script src="{{ URL::asset('assets/plugins/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js'); }}"></script>
 <script src="{{ URL::asset('assets/js/modifiedJs/user/pages-calendar.js'); }}"></script>
 <script>
-    jQuery(document).ready(function() {
-        Main.init();
-        SVExamples.init();
-        Calendar.init();
-    });
+jQuery(document).ready(function() {
+    Main.init();
+    SVExamples.init();
+    Calendar.init();
+});
 </script>
 <!--End: Scripts for This page only -->
 @stop

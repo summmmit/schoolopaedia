@@ -157,12 +157,14 @@ var TableDataTimeTable = function() {
             var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
             var section_id = $(this).parentsUntil('.panel').find('#field-select-time-table-section').val();
             var period_id = $(this).parents('tr').attr('id');
-            var subject_id = $(this).parents('tr').find('#form-field-select-subject').val();
-            var teacher_id = $(this).parents('tr').find('#form-field-select-teacher').val();
+            var day_id = $(this).parents('tr').attr('data-day-id');
+            var subject_id = $(this).parents('tr').attr('data-subject-id');
+            var teacher_id = $(this).parents('tr').attr('data-teacher-id');
 
             var data = {
                 period_id: period_id,
                 class_id: class_id,
+                day_id: day_id,
                 section_id: section_id,
                 subject_id: subject_id,
                 teacher_id: teacher_id
@@ -197,6 +199,7 @@ var TableDataTimeTable = function() {
             var nRow = $(this).parents('tr')[0];
             var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
             var section_id = $(this).parentsUntil('.panel').find('#field-select-time-table-section').val();
+            var day_id = $(this).parentsUntil('.panel').find('#field-select-time-table-day').val();
             var period_id = $(this).parents('tr').attr('id');
             var start_time = $(this).parents('tr').find('#new-input-start-time').val();
             var end_time = $(this).parents('tr').find('#new-input-end-time').val();
@@ -206,14 +209,13 @@ var TableDataTimeTable = function() {
             var data = {
                 class_id: class_id,
                 section_id: section_id,
+                day_id: day_id,
                 period_id: period_id,
                 start_time: start_time,
                 end_time: end_time,
                 subject_id: subject_id,
                 teacher_id: teacher_id
             };
-            
-            console.log(data);
 
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
@@ -252,6 +254,7 @@ var TableDataTimeTable = function() {
                 class_id: $(this).parentsUntil('.panel').find('#field-select-time-table-class').val(),
                 period_id: $(this).parents('tr').attr('id'),
                 subject_id: $(this).parents('tr').attr('data-subject-id'),
+                day_id: $(this).parents('tr').attr('data-day-id'),
                 section_id: $(this).parents('tr').attr('data-section-id'),
                 teacher_id: $(this).parents('tr').attr('data-teacher-id')
             };
@@ -296,12 +299,13 @@ var TableDataTimeTable = function() {
             oTimeTable.fnClearTable();
 
             if (optionValue) {
-                $('#field-select-time-table-section').parent().removeClass("no-display");
+                $('#form-select-section-day').removeClass("no-display");
             } else {
-                $('#field-select-time-table-section').parent().addClass("no-display");
+                $('#form-select-section-day').addClass("no-display");
             }
 
             $('#field-select-time-table-section').empty().append('<option value="">Select a Section...</option>');
+            $('#field-select-time-table-day').val("");
 
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
@@ -328,9 +332,10 @@ var TableDataTimeTable = function() {
 
         });
 
-        $('#field-select-time-table-section').on('change', function() {
+        $('#field-select-time-table-day').on('change', function() {
 
-            var section_id = $(this).val();
+            var section_id = $('#field-select-time-table-section').val();
+            var day_id = $('#field-select-time-table-day').val();
             oTimeTable.fnClearTable();
 
             if (section_id) {
@@ -348,7 +353,8 @@ var TableDataTimeTable = function() {
 
             var data = {
                 section_id: section_id,
-                class_id: class_id
+                class_id: class_id,
+                day_id: day_id
             };
 
             $.ajax({
@@ -381,6 +387,7 @@ var TableDataTimeTable = function() {
             nRow.setAttribute('data-subject-id', periods[i].subject.id);
             nRow.setAttribute('data-section-id', periods[i].timings.section_id);
             nRow.setAttribute('data-teacher-id', periods[i].teacher.id);
+            nRow.setAttribute('data-day-id', periods[i].timings.day_id);
 
             oTimeTable.fnUpdate(i + 1, nRow, 0, false);
             oTimeTable.fnUpdate(timeFormat(periods[i].timings.start_time) + " - " + timeFormat(periods[i].timings.end_time), nRow, 1, false);
@@ -433,6 +440,9 @@ var TableDataTimeTable = function() {
                 }
             }
         });
+    };
+
+    var fetchDays = function() {
     };
 
     return {

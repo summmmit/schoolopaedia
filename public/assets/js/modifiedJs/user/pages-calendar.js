@@ -92,14 +92,13 @@ var Calendar = function() {
                 right: 'month,agendaWeek,agendaDay'
             },
             events: {
-                url: 'http://localhost/projects/schools/public/user/class/schedule/periods',
                 type: 'POST',
+                url: 'http://localhost/projects/schools/public/user/class/schedule/periods',
                 data:{
-                    classes_id: 1
+                    class_id: 1
                 },
                 success: function(data, response) {
                   console.log(data);
-                    $(this).fullCalendar('')
                 },
                 error: function() {
                     alert('there was an error while fetching events!');
