@@ -131,7 +131,7 @@
                                             <tr>
                                                 <td class="column-left">School Opening Time</td>
                                                 <td class="column-right">
-                                                    <a href="#" id="opening-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
+                                                    <a href="#" class="opening-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
                                                         {{ date_format(date_create($schedule->opening_time), "h:i A") }}
                                                     </a>
                                                 </td>
@@ -139,7 +139,7 @@
                                             <tr>
                                                 <td class="column-left">Lunch Time</td>
                                                 <td class="column-right">
-                                                    <a href="#" id="lunch-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
+                                                    <a href="#" class="lunch-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
                                                         {{ date_format(date_create($schedule->lunch_time), "h:i A") }}
                                                     </a>
                                                 </td>
@@ -147,7 +147,7 @@
                                             <tr>
                                                 <td class="column-left">School Closing Time</td>
                                                 <td class="column-right">
-                                                    <a href="#" id="closing-time" data-type="combodate" data-template="HH:mm" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
+                                                    <a href="#" class="closing-time" data-type="combodate" data-template="HH:mm" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="{{ $schedule->id }}">
                                                         {{ date_format(date_create($schedule->closing_time), "h:i A") }}
                                                     </a>
                                                 </td>

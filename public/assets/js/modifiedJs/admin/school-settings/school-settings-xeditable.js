@@ -2,7 +2,7 @@ $(function() {
     $.fn.editable.defaults.mode = 'inline';
 
     //editables 
-    $('#opening-time').editable({
+    $('.opening-time').editable({
         validate: function(value) {
             if ($.trim(value) == '')
                 return 'Value is required.';
@@ -15,7 +15,7 @@ $(function() {
             dataType: 'json'
         }
     });
-    $('#lunch-time').editable({
+    $('.lunch-time').editable({
         validate: function(value) {
             if ($.trim(value) == '')
                 return 'Value is required.';
@@ -28,7 +28,7 @@ $(function() {
             dataType: 'json'
         }
     });
-    $('#closing-time').editable({
+    $('.closing-time').editable({
         validate: function(value) {
             if ($.trim(value) == '')
                 return 'Value is required.';
