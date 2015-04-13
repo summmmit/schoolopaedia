@@ -1,4 +1,7 @@
 @extends('layouts.login.registration')
+@section('stylesheets')
+<link rel="stylesheet" href="{{ URL::asset('assets/plugins/bootstrap-social-buttons/bootstrap-social.css'); }}">
+@stop
 @section('content')
 <!-- start: REGISTER BOX -->
 <div class="box-register">
@@ -105,6 +108,15 @@
                 <button type="submit" class="btn btn-green pull-right">
                     Submit <i class="fa fa-arrow-circle-right"></i>
                 </button>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <a class="btn btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>
+                </div>
+                <div class="col-md-6 text-center">
+                    <a class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+                </div>
             </div>
         </fieldset>
         {{ Form::token() }}

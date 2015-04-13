@@ -29,6 +29,7 @@
         <![endif]-->
         <!-- end: MAIN CSS -->
         <!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
+        @yield('stylesheets')
         <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
     </head>
     <!-- end: HEAD -->
