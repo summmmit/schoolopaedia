@@ -12,7 +12,7 @@
 @stop
 
 @section('page_header')
-<h1><i class="fa fa-pencil-square"></i> School </h1>
+<h1><i class="fa fa-pencil-square"></i> School Session ( {{ date_format(date_create($session->session_start), "F/Y") }} --- {{ date_format(date_create($session->session_end), "F/Y") }} )</h1>
 @stop
 
 @section('page_breadcrumb')
@@ -48,7 +48,7 @@
                                 </li>
                                 <li>
                                     <a href="#school-session-details" data-toggle="tab">
-                                        <i class="green fa fa-home"></i> School Session Schedule ( {{ date_format(date_create($session->session_start), "Y") }} - {{ date_format(date_create($session->session_end), "Y") }} )
+                                        <i class="green fa fa-home"></i> School Schedule
                                     </a>
                                 </li>
                             </ul>
@@ -122,16 +122,11 @@
                                     </table>
                                 </div>
                                 <div class="tab-pane fade" id="school-session-details">
-                                    <div class="pull-right space15">
-                                        <button id="enable" class="btn btn-default">
-                                            enable / disable
-                                        </button>
-                                    </div>
-                                    <table id="user" class="table table-bordered table-striped">
+                                    <table id="table-school-schedule" class="table table-bordered table-striped">
                                         <tbody>
                                             @foreach($schedules as $schedule)
                                             <tr>
-                                                <td colspan="2" class="text-center" style="background-color: skyblue">{{ date_format(date_create($schedule->start_from), "F") }} - {{ date_format(date_create($schedule->close_untill), "F") }}</td>
+                                                <td colspan="2" class="text-center text-box-light">{{ date_format(date_create($schedule->start_from), "F") }} - {{ date_format(date_create($schedule->close_untill), "F") }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="column-left">School Opening Time</td>
@@ -162,9 +157,9 @@
                                     </table>
                                     <div class="row">
                                         <div class="col-md-offset-10 col-md-2 text-right">
-                                            <button class="btn btn-block btn-blue">
-                                                New Schedule <i class="fa fa-plus"></i>
-                                            </button>
+                                            <a class="btn btn-blue show-sv" href="#subview-add-new-schedule" data-startFrom="right">
+                                                Add New Schedule <i class="fa fa-chevron-right"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -177,6 +172,90 @@
     </div>
 </div>
 <!-- end: PAGE CONTENT-->
+@stop
+
+@section('subview')
+<!--Start :  Subview for This page only -->
+<div id="subview-add-new-schedule" class="no-display">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- start: DYNAMIC TABLE PANEL -->
+                <div class="panel panel-white panel-add-subjects">
+                    <div class="panel-heading">
+                        <h3>Add New Schedule</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="#" method="post" class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-4">
+                                    <p>
+                                        Schedule Starts From
+                                    </p>
+                                    <div class="input-group">
+                                        <input type="text" name="schedule_starts_from" id="schedule-starts-from" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker">
+                                        <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p>
+                                        Schedule Ends Untill
+                                    </p>
+                                    <div class="input-group">
+                                        <input type="text" name="schedule_ends_untill" id="schedule-ends-untill" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker">
+                                        <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        School Opening Time
+                                    </label>
+                                    <div class="input-group input-append bootstrap-timepicker">
+                                        <input type="text" name="school_opening_time" id="school-opening-time" class="form-control time-picker">
+                                        <span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        School Lunch Time
+                                    </label>
+                                    <div class="input-group input-append bootstrap-timepicker">
+                                        <input type="text" name="school_lunch_time" id="school-lunch-time" class="form-control time-picker">
+                                        <span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        School Closing Time
+                                    </label>
+                                    <div class="input-group input-append bootstrap-timepicker">
+                                        <input type="text" name="school_closing_time" id="school-closing-time" class="form-control time-picker">
+                                        <span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-9 col-sm-3">
+                                    <button class="btn btn-block btn-info save-note" type="submit" id="form-submit-new-schedule">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- End: DYNAMIC TABLE PANEL -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--End :  Subview for This page only -->
 @stop
 
 @section('scripts')
@@ -192,11 +271,17 @@
 <script src="{{ URL::asset('assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js'); }}"></script>
 <script src="{{ URL::asset('assets/plugins/wysihtml5/wysihtml5.js'); }}"></script>
 <script src="{{ URL::asset('assets/js/modifiedJs/admin/school-settings/school-settings-xeditable.js'); }}"></script>
+<script src="{{ URL::asset('assets/js/modifiedJs/admin/school-settings/school-schedule.js'); }}"></script>
 <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 <script>
 jQuery(document).ready(function() {
     Main.init();
     SVExamples.init();
+    Schedule.init();
+    $('.date-picker').datepicker({
+        autoclose: true
+    });
+    $('.time-picker').timepicker();
 });
 </script>
 

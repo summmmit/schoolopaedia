@@ -272,7 +272,31 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
         'uses' => 'SchoolController@getSchoolTest'
     ));
     /*
-     * School All settings Ajax  (post)
+     * School All settings (get)
+     */
+    /*
+     * Set Initial School Session
+     */
+    Route::get('/admin/school/set/sessions', array(
+        'as' => 'admin-school-set-sessions',
+        'uses' => 'SchoolSettingsController@getSetSchoolSessions'
+    ));
+    /*
+     * Set Initial School Session (post)
+     */
+    Route::Post('/admin/school/set/sessions/post', array(
+        'as' => 'admin-school-set-sessions-post',
+        'uses' => 'SchoolSettingsController@postSetSchoolSessions'
+    ));
+    /*
+     * Set Initial School Schedule (post)
+     */
+    Route::Post('/admin/school/set/schedule/post', array(
+        'as' => 'admin-school-set-schedule-post',
+        'uses' => 'SchoolSettingsController@postSetSchoolSchedule'
+    ));
+    /*
+     *
      */
     Route::get('/admin/school/sessions', array(
         'as' => 'admin-school-sessions',

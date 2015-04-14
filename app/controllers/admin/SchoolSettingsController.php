@@ -9,6 +9,7 @@ class SchoolSettingsController extends BaseController {
 
     protected $user;
     protected $schoolId;
+    protected $schoolSessionId;
 
     public function __construct() {
 
@@ -25,13 +26,87 @@ class SchoolSettingsController extends BaseController {
         return $this->schoolId;
     }
 
+    protected function getSchoolSessionId() {
+        
+        $session = SchoolSession::where('school_id', '=', $this->getschoolId())->orderBy('session_start', 'desc')->get()->first();
+        
+        return $this->schoolSessionId = $session->id;
+    }
+
+    // for the school sessions
+
+    public function getSetSchoolSessions() {
+        return View::make('admin.set-initial-school-sessions');
+    }
+
+    public function postSetSchoolSessions() {
+        $start_session_from = Input::get('start_session_from');
+        $end_session_untill = Input::get('end_session_untill');
+
+        $school_session = new SchoolSession();
+        $school_session->session_start = $start_session_from;
+        $school_session->session_end = $end_session_untill;
+        $school_session->school_id = $this->getSchoolId();
+
+        $school_session->save();
+
+        return Redirect::route('admin-school-set-sessions');
+    }
+
     public function getSchoolSessions() {
         $session = SchoolSession::where('school_id', '=', $this->getschoolId())->get();
     }
 
+    //for the school schedules
+
+    public function postSetSchoolSchedule() {
+
+        $schedule_starts_from = Input::get('schedule_starts_from');
+        $schedule_ends_untill = Input::get('schedule_ends_untill');
+        $school_opening_time = Input::get('school_opening_time');
+        $school_lunch_time = Input::get('school_lunch_time');
+        $school_closing_time = Input::get('school_closing_time');
+
+        $school_schedule = new SchoolSchedule();
+        $school_schedule->start_from = $schedule_starts_from;
+        $school_schedule->close_untill = $schedule_ends_untill;
+        $school_schedule->opening_time = $school_opening_time;
+        $school_schedule->lunch_time = $school_lunch_time;
+        $school_schedule->closing_time = $school_closing_time;
+        $school_schedule->school_id = $this->getSchoolId();
+        $school_schedule->school_session_id = $this->getSchoolSessionId();
+
+        if ($school_schedule->save()) {
+
+            $response = array(
+                'status' => 'OK',
+                'msg' => 'Updated created successfully',
+                'errors' => null,
+                'result' => array(
+                    'schedule' => $school_schedule,
+                )
+            );
+
+            return Response::json($response);
+        } else {
+
+            $response = array(
+                'status' => 'Error',
+                'msg' => 'Not Updated',
+                'errors' => null,
+                'result' => array(
+                    'schedule' => 'none',
+                )
+            );
+
+            return Response::json($response);
+        }
+    }
+
     public function getSchoolSettings() {
-        $schedule = SchoolSchedule::where('school_id', '=', $this->getschoolId())->get();
-        $session = SchoolSession::where('school_id', '=', $this->getschoolId())->get()->first();
+        $schedule = SchoolSchedule::where('school_id', '=', $this->getschoolId())->where('school_session_id', '=', $this->getSchoolSessionId())->get();
+        $session = SchoolSession::find($this->getSchoolSessionId());
+        
         return View::make('admin.school-settings')->with('schedules', $schedule)->with('session', $session);
     }
 
@@ -130,7 +205,5 @@ class SchoolSettingsController extends BaseController {
             return Response::json($response);
         }
     }
-
-
 
 }

@@ -77,7 +77,7 @@
             </div>
             <div class="form-actions">
                 Already have an account?
-                <a href="#">
+                <a href="{{ URL::route('admin-sign-in'); }}">
                     Log-in
                 </a>
                 <button type="submit" class="btn btn-green pull-right">

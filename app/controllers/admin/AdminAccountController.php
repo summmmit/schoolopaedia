@@ -160,7 +160,29 @@ class AdminAccountController  extends BaseController {
                      Auth::logout();
                      return Redirect::route('admin-sign-in')->with('global', 'Account Not Activated. Activate it.');
                 }elseif($active == 1){
-                     return Redirect::intended('/administrator/admin/home');
+                    //log into the users_login_info table
+
+                    $prev_user_info = UsersLoginInfo::where('user_id', '=', Auth::user()->id)->get();
+
+                    if($prev_user_info->count() == 0){   //if count is 0 then send to set initial sessions page
+
+                        $user_info = new UsersLoginInfo();
+                        $user_info->user_id = Auth::user()->id;
+                        $user_info->school_id = Auth::user()->school_id;
+                        // other properties according to the ip
+                        $user_info->save();
+
+                        return Redirect::intended('/administrator/admin/school/set/sessions');
+                    }else{
+
+                        $user_info = new UsersLoginInfo();
+                        $user_info->user_id = Auth::user()->id;
+                        $user_info->school_id = Auth::user()->school_id;
+                        // other properties according to the ip
+                        $user_info->save();
+
+                        return Redirect::intended('/administrator/admin/home');
+                    }
                 }
                 
             }else{

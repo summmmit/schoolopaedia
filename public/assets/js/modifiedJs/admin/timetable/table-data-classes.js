@@ -1,9 +1,6 @@
 var TableDataClasses = function() {
     "use strict";
-    //function to initiate DataTable
-    //DataTable is a highly flexible tool, based upon the foundations of progressive enhancement,
-    //which will add advanced interaction controls to any HTML table
-    //For more information, please visit https://datatables.net/
+    
     var runDataTable_AddClasses = function() {
         var newRow = false;
         var actualEditingRow = null;
