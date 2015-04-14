@@ -122,6 +122,11 @@
                                     </table>
                                 </div>
                                 <div class="tab-pane fade" id="school-session-details">
+                                    <div class="pull-right space15">
+                                        <button id="enable" class="btn btn-default">
+                                            enable / disable
+                                        </button>
+                                    </div>
                                     <table id="user" class="table table-bordered table-striped">
                                         <tbody>
                                             @foreach($schedules as $schedule)

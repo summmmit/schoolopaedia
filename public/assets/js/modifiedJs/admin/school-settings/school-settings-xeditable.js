@@ -1,6 +1,12 @@
 $(function() {
     $.fn.editable.defaults.mode = 'inline';
 
+    //enable / disable
+    $('#enable').click(function(e) {
+        e.stopPropagation();
+        $('.editable').editable('toggleDisabled');
+    });
+
     //editables 
     $('.opening-time').editable({
         validate: function(value) {
