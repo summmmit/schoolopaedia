@@ -542,7 +542,7 @@ class AdminTimeTableController extends BaseController {
     }
 
     public function postGetClassStreamPair() {
-        $classes = Classes::where('school_id', '=', $this->getSchoolId())->get();
+        $classes = Classes::where('school_id', '=', $this->getSchoolId())->orderBy('class', 'asc')->get();
 
         $i = 0;
         $stream_Class_Pairs = array();
@@ -570,7 +570,7 @@ class AdminTimeTableController extends BaseController {
 
     public function getCreateTimeTable() {
         $weekDays = Config::get('constants.weekDays');
-        
+
         return View::make('admin.admin-create-time-table')->with('weekDays', $weekDays);
     }
 
@@ -700,6 +700,24 @@ class AdminTimeTableController extends BaseController {
             'errors' => null,
             'result' => array(
                 'teachers' => $teachers
+            )
+        );
+
+        return Response::json($response);
+    }
+
+    public function postGetClassesFromStreamId() {
+        
+        $stream_id = Input::get('stream_id');
+        
+        $classes = Classes::where('streams_id', '=', $stream_id)->where('school_id', '=', $this->getSchoolId())->get();
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Setting created successfully',
+            'errors' => null,
+            'result' => array(
+                'classes' => $classes
             )
         );
 

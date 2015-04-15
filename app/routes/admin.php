@@ -260,6 +260,13 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
         'uses' => 'AdminTimeTableController@postGetTeachers'
     ));    
     /*
+     * Admin get All the Classes to a Stream  (post)
+     */
+    Route::Post('/admin/time/table/get/classes/from/stream/id', array(
+        'as' => 'admin-time-table-get-classes-from-stream-id',
+        'uses' => 'AdminTimeTableController@postGetClassesFromStreamId'
+    )); 
+    /*
      * 
      * School Settings 
      * 

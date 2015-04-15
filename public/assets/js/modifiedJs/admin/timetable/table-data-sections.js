@@ -243,13 +243,14 @@ var TableDataSections = function() {
     var fetchClasses = function() {
 
         $.ajax({
-            url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/classes',
+            url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/class/streams/pair',
             dataType: 'json',
             method: 'POST',
             success: function(data, response) {
                 var i;
-                for (i = 0; i < data.classes.length; i++) {
-                    $('#form-field-select-classes').append('<option value=' + data.classes[i].id + '>' + data.classes[i].class + '</option>');
+                var pairs = data.result.stream_class_pairs;
+                for (i = 0; i < data.result.stream_class_pairs.length; i++) {
+                    $('#form-field-select-classes').append('<option value=' + pairs[i].classes_id + '>' + pairs[i].stream_class_pair + '</option>');
                 }
             }
         });

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Unauthenticated Group
  */
@@ -55,7 +56,7 @@ Route::group(array('before' => 'guest'), function() {
      * User Activate Account (get)
      */
     Route::get('/user/account/activate/{code}', array(
-        'as'  => 'user-account-activate',
+        'as' => 'user-account-activate',
         'uses' => 'UserAccountController@getActivate'
     ));
     /*
@@ -69,7 +70,7 @@ Route::group(array('before' => 'guest'), function() {
      * User Recover Account (get)
      */
     Route::get('/user/account/recover/{code}', array(
-        'as'  => 'user-account-recover',
+        'as' => 'user-account-recover',
         'uses' => 'UserAccountController@getRecover'
     ));
 });
@@ -77,26 +78,34 @@ Route::group(array('before' => 'guest'), function() {
 /*
  * Authenticated Group
  */
-Route::group(array('before' => 'auth'), function(){
+Route::group(array('before' => 'auth'), function() {
 
     /*
      * CSRF protection
      */
-    Route::group(array('before' => 'csrf'), function(){
-        
+    Route::group(array('before' => 'csrf'), function() {
+
         /*
          *  Edit User Details (post)
          */
         Route::Post('/user/edit', array(
             'as' => 'user-edit-post',
             'uses' => 'UserAccountController@postEdit'
-        ));   
+        ));
         /*
          *  Change User login Details (post)
          */
         Route::Post('/user/login/details', array(
             'as' => 'user-login-details-post',
             'uses' => 'UserAccountController@postChangePassword'
+        ));
+
+        /*
+         * Class set Intial Settings (Post)
+         */
+        Route::Post('/user/class/set/intial', array(
+            'as' => 'user-class-set-initial-post',
+            'uses' => 'UserAccountController@postSetInitial'
         ));
     });
     /*
@@ -105,31 +114,39 @@ Route::group(array('before' => 'auth'), function(){
      * SignOUt (get)
      */
     Route::get('/user/account/sign-out', array(
-        'as'  => 'user-sign-out',
+        'as' => 'user-sign-out',
         'uses' => 'UserAccountController@getSignOut'
     ));
-    
+
     /*
      * User Home (get)
      */
     Route::get('/user/home', array(
-        'as'  => 'user-home',
+        'as' => 'user-home',
         'uses' => 'UserAccountController@getUserHome'
     ));
-    
+
     /*
      * User Profile (get)
      */
     Route::get('/user/profile', array(
-        'as'  => 'user-profile',
+        'as' => 'user-profile',
         'uses' => 'UserAccountController@getUserProfile'
     ));
-    
+
+    /*
+     * Class set Intial Settings (get)
+     */
+    Route::get('/user/class/set/intial', array(
+        'as' => 'user-class-set-initial',
+        'uses' => 'UserAccountController@getSetInitial'
+    ));
+
     /*
      * Other Class Users (get)
      */
     Route::get('/user/class/students', array(
-        'as'  => 'user-class-students',
+        'as' => 'user-class-students',
         'uses' => 'UserClassController@getUsers'
     ));
 
@@ -137,7 +154,7 @@ Route::group(array('before' => 'auth'), function(){
      * Class schedule (get)
      */
     Route::get('/user/class/schedule', array(
-        'as'  => 'user-class-schedule',
+        'as' => 'user-class-schedule',
         'uses' => 'UserClassController@getSchedule'
     ));
 
@@ -145,7 +162,7 @@ Route::group(array('before' => 'auth'), function(){
      * Class schedule Periods (get)
      */
     Route::Post('/user/class/schedule/periods', array(
-        'as'  => 'user-class-schedule-periods',
+        'as' => 'user-class-schedule-periods',
         'uses' => 'UserClassController@postClassTimeTable'
     ));
 
@@ -153,8 +170,7 @@ Route::group(array('before' => 'auth'), function(){
      * Class schedule Periods (get)
      */
     Route::get('/user/class/test', array(
-        'as'  => 'user-class-test',
+        'as' => 'user-class-test',
         'uses' => 'UserClassController@getTest'
     ));
-    
 });
