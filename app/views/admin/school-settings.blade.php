@@ -186,7 +186,7 @@
                         <h3>Add New Schedule</h3>
                     </div>
                     <div class="panel-body">
-                        <form action="#" method="post" class="form-horizontal" role="form">
+                        <form action="#" method="post" class="form-horizontal" role="form" id="form-new-schedule">
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-4">
                                     <p>

@@ -25,21 +25,65 @@ var Schedule = function() {
                 data: data,
                 method: 'POST',
                 success: function(data, response) {
-                    toastr.info("You Have successfully created this Schedule");
-                    
+                    $.hideSubview();
                     addNewRowToScheduleTable(data.result.schedule);
-                    
+                    toastr.info("You Have successfully created this Schedule");
                 }
             });
 
         });
-        
-        function addNewRowToScheduleTable(schedule){
-            console.log(schedule);
-            var header = '<tr><td colspan="2" class="text-center text-box-light">{{ date_format(date_create('+ schedule.start_from +'), "F") }} - {{ date_format(date_create('+ schedule.close_untill +'), "F") }}</td></tr>';
-            
-            $('#table-school-schedule').find('tbody').append(header);
-        
+
+        function addNewRowToScheduleTable(schedule) {
+            var header = '<tr><td colspan="2" class="text-center text-box-light"> ' + moment(schedule.start_from).format('MMMM') + ' - ' + moment(schedule.close_untill).format('MMMM') + '</td></tr>';
+            var opening_time = '<tr><td class="column-left">School Opening Time</td><td class="column-right"><a href="#" class="opening-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="' + schedule.id + '">' + schedule.opening_time + '</a></td></tr>';
+            var lunch_time = '<tr><td class="column-left">Lunch Time</td><td class="column-right"><a href="#" class="lunch-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="' + schedule.id + '">' + schedule.lunch_time + '</a></td></tr>';
+            var closing_time = '<tr><td class="column-left">School Opening Time</td><td class="column-right"><a href="#" class="closing-time" data-type="combodate" data-template="HH:mm A" data-format="HH:mm A" data-viewformat="HH:mm A" data-pk="' + schedule.id + '">' + schedule.closing_time + '</a></td></tr>';
+
+
+            $('#table-school-schedule').find('tbody').append(header).append(opening_time).append(lunch_time).append(closing_time);
+            $('#form-new-schedule').find('input').val(' ');
+
+
+            $('.opening-time').editable({
+                validate: function(value) {
+                    if ($.trim(value) == '')
+                        return 'Value is required.';
+                },
+                url: 'http://localhost/projects/schools/public/administrator/admin/ajax/school/timings/start/from',
+                title: 'Edit Start_from',
+                type: 'text',
+                send: 'always',
+                ajaxOptions: {
+                    dataType: 'json'
+                }
+            });
+            $('.lunch-time').editable({
+                validate: function(value) {
+                    if ($.trim(value) == '')
+                        return 'Value is required.';
+                },
+                url: 'http://localhost/projects/schools/public/administrator/admin/ajax/school/timings/lunch/from',
+                title: 'Edit Start_from',
+                type: 'text',
+                send: 'always',
+                ajaxOptions: {
+                    dataType: 'json'
+                }
+            });
+            $('.closing-time').editable({
+                validate: function(value) {
+                    if ($.trim(value) == '')
+                        return 'Value is required.';
+                },
+                url: 'http://localhost/projects/schools/public/administrator/admin/ajax/school/timings/close/from',
+                title: 'Edit Start_from',
+                type: 'text',
+                send: 'always',
+                ajaxOptions: {
+                    dataType: 'json'
+                }
+            });
+
         }
 
     };
