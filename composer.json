@@ -8,7 +8,7 @@
         "laravel/framework": "4.2.*",
         "xethron/migrations-generator": "dev-master",
         "intervention/image": "dev-master",
-        "orangehill/iseed": "dev-master",
+        "orangehill/iseed": "1.1",
         "stevebauman/location": "1.1.*",
         "chumper/datatable": "2.*"
     },

@@ -6,24 +6,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/stevebauman/location/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/stevebauman/location/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/stevebauman/location/v/stable.svg)](https://packagist.org/packages/stevebauman/location) 
 [![Total Downloads](https://poser.pugx.org/stevebauman/location/downloads.svg)](https://packagist.org/packages/stevebauman/location) 
-[![Latest Unstable Version](https://poser.pugx.org/stevebauman/location/v/unstable.svg)](https://packagist.org/packages/stevebauman/location) 
 [![License](https://poser.pugx.org/stevebauman/location/license.svg)](https://packagist.org/packages/stevebauman/location)
-
-###Quick Update
-
-Laravel 5 Users: This package is currently unavailable due to the changes of the package system. This package will be updated
-for compatibility in the coming weeks.
-
-##TODO
-
-- Tests
-
-##Beta Users
-
-Switch `"location" : "dev-master"` to `"location" : "0.5"` to use previous
-package while you switch your code around for the new one.
-
-New package was rebuilt from the ground up and config file has large changes.
 
 ##Description
 Unlike other location packages that require you installing database services, this package allows you to use external web servers to grab the users current location based on their IP address.
@@ -35,18 +18,18 @@ Also, by default, once a location is grabbed from the user, it is set into a ses
 use the session object once a location has been set so there will be minimal requests. You can use `Session:get('location')` to retrieve the location object manually from when it was first taken if you wish.
 This can be turned off in the config file if you'd like to grab the location from a provider on every request (not recommended).
 
-##Installation
-Add Location to your `composer.json` file.
+##Installation (Laravel 4)
+Add Location to your `composer.json` file:
 
-	"stevebauman/location": "1.0.*"
+	"stevebauman/location": "1.1.*"
 
 Then run `composer update` on your project source.
 
-Add the service provider in `app/config/app.php`
+Add the service provider in `app/config/app.php` file:
 
 	'Stevebauman\Location\LocationServiceProvider',
 	
-Add the alias
+Add the alias in `app/config/app.php` file:
 
 	'Location' => 'Stevebauman\Location\Facades\Location',
 
@@ -54,9 +37,30 @@ Publish the config file:
 
 	php artisan config:publish stevebauman/location
 
+##Installation (Laravel 5)
+Add Location to your `composer.json` file:
+
+	"stevebauman/location": "1.1.*"
+
+Then run `composer update` on your project source.
+
+Add the service provider in `config/app.php`:
+
+	'Stevebauman\Location\LocationServiceProvider',
+
+Add the alias in your `config/app.php` file:
+
+	'Location' => 'Stevebauman\Location\Facades\Location',
+
+Publish the config file (mandatory):
+
+    php artisan vendor:publish
 
 ##Changelog
     
+    1.1.2 - March 21st, 2015 - Added tests
+    1.1.1 - March 15th, 2015 - Fixed MaxMind local database path for Laravel 5
+    1.1.0 - February 13th, 2015 - Added Laravel 5 compatibility
     1.0.7 - February 9th, 2015 - Documentation updates and some small tweaks
     1.0.6 - January 5th, 2015 - Bug fixes, see release notes for more
     1.0.5 - January 4th, 2015 - Updated Location::get() functionality, see usage
@@ -68,9 +72,9 @@ Publish the config file:
 
 ####Getting a user location (automatic IP detection):
 
-    Location::get();
+    $location = Location::get();
 
-####Getting a user location with a specfied IP:
+####Getting a user location with a specific IP:
 
     Location::get('192.168.1.1');
     
@@ -125,7 +129,7 @@ use the next driver in line.
 
 ####Available Drivers
 
-Available drivers at the moment are [Telize](http://www.telize.com/), [IpInfo](https://ipinfo.io/), [FreeGeoIp](https://freegeoip.net/), [GeoPlugin](http://www.geoplugin.com/), [MaxMind](https://www.maxmind.com/en/home). Default selected driver is IpInfo.
+Available drivers at the moment are [Telize](http://www.telize.com/), [IpInfo](https://ipinfo.io/), [FreeGeoIp](https://freegeoip.net/), [GeoPlugin](http://www.geoplugin.com/), [MaxMind](https://www.maxmind.com/en/home). Default selected driver is Telize.
 
 ####Creating your own drivers
 

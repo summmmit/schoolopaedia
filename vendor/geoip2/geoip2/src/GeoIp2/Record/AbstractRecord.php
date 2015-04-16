@@ -11,7 +11,7 @@ abstract class AbstractRecord implements \JsonSerializable
      */
     public function __construct($record)
     {
-        $this->record = $record;
+        $this->record = isset($record) ? $record : array();
     }
 
     /**
@@ -25,7 +25,11 @@ abstract class AbstractRecord implements \JsonSerializable
         if ($this->__isset($attr)) {
             return $this->record[$key];
         } elseif ($this->validAttribute($attr)) {
-            return null;
+            if (preg_match('/^is_/', $key)) {
+                return false;
+            } else {
+                return null;
+            }
         } else {
             throw new \RuntimeException("Unknown attribute: $attr");
         }
