@@ -31,6 +31,8 @@ return array(
     'Patchwork' => array($vendorDir . '/patchwork/utf8/class'),
     'PHPParser' => array($vendorDir . '/nikic/php-parser/lib'),
     'Orangehill\\Iseed' => array($vendorDir . '/orangehill/iseed/src'),
+    'OAuth\\Unit' => array($vendorDir . '/lusitanian/oauth/tests'),
+    'OAuth' => array($vendorDir . '/lusitanian/oauth/src'),
     'Normalizer' => array($vendorDir . '/patchwork/utf8/class'),
     'Net' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'MaxMind' => array($vendorDir . '/maxmind-db/reader/src'),
@@ -54,4 +56,5 @@ return array(
     'Chumper\\Datatable' => array($vendorDir . '/chumper/datatable/src'),
     'Carbon' => array($vendorDir . '/nesbot/carbon/src'),
     'Boris' => array($vendorDir . '/d11wtq/boris/lib'),
+    'Artdarek\\OAuth' => array($vendorDir . '/artdarek/oauth-4-laravel/src'),
 );
