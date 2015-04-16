@@ -2,6 +2,8 @@
 
 @section('stylesheets')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/modifiedCss/user/classusers.css'); }}" />
+<style>
+</style>
 @stop
 
 @section('page_header')
@@ -32,19 +34,29 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="thumbnail">
-                            <img src="{{ URL::asset('assets/projects/images/covers/rotating_card_thumb.jpg'); }}" alt="">
-                            <img src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}" alt="" class="img-circle profile-img">
-                            <div class="caption profile-img">
-                                <h4 class="text-center">Sumit Singh<span> (CS018765) </span></h4>
-                                <p>
-                                    <a href="#" class="btn btn-blue btn-block">
-                                        View Details
-                                    </a>
-                                </p>
+                        <div class="port-weight-head">	
+                            <div class="img pull-left">			
+                                <img src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}" height="90" width="91" alt="">
                             </div>
+                            <div class="text pull-right">			
+                                <h3>Arya Stark</h3>
+                                <p>Winterfell</p>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>        
+                    <div class="col-md-2">
+                        <div class="port-weight-head">	
+                            <div class="img pull-left">			
+                                <img src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}" height="90" width="91" alt="">
+                            </div>
+                            <div class="text pull-right">			
+                                <h3>Arya Stark</h3>
+                                <p>Winterfell</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>      
                 </div>
             </div>
         </div>
@@ -62,16 +74,4 @@
         SVExamples.init();
     });
 </script>
-<script type="text/javascript">
-    function rotateCard(btn){
-        var $card = $(btn).closest('.card-container');
-        console.log($card);
-        if($card.hasClass('hover')){
-            $card.removeClass('hover');
-        } else {
-            $card.addClass('hover');
-        }
-    }
-</script>
-<script src="{{ URL::asset('assets/js/modifiedJs/modernizr.js'); }}"></script>
 @stop

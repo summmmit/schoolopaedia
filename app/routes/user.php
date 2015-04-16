@@ -173,4 +173,14 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'user-class-test',
         'uses' => 'UserClassController@getTest'
     ));
+    /*
+     * User Schedule Settings
+     */
+    /*
+     * TimeTable per day
+     */
+    Route::get('/user/schedule/per/day', array(
+        'as' => 'user-schedule-per-day',
+        'uses' => 'UserScheduleController@getTimeTablePerDay'
+    ));
 });

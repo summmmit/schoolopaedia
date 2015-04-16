@@ -198,6 +198,19 @@ class UserAccountController extends BaseController {
         $class_id = Input::get('class_id');
         $section_id = Input::get('section_id');
         
+        $users_to_class = new UsersToClass();
+        $users_to_class->session_id = $session_id;
+        $users_to_class->stream_id = $stream_id;
+        $users_to_class->section_id = $section_id;
+        $users_to_class->class_id = $class_id;
+        $users_to_class->user_id = Auth::user()->id;
+        
+        if($users_to_class->save()){ 
+            return Redirect::route('user-home')->with('global', 'You Have Been Successfully Registered for this session');
+        }else{
+            return Redirect::route('user-class-set-initial')->with('global', 'You can not be registered this time. Please Try later.');
+        }
+        
         
     }
 
@@ -207,6 +220,9 @@ class UserAccountController extends BaseController {
     }
 
     public function getUserHome() {
+        
+       // $day_id = date('N',time());
+        
         return View::make('user.user-home');
     }
 

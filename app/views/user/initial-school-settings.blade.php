@@ -1,4 +1,4 @@
-@extends('layouts.main-layout')
+@extends('layouts.user-main-layout')
 
 @section('stylesheets')
 <link rel="stylesheet" href="{{ URL::asset('assets/plugins/datepicker/css/datepicker.css'); }}">
@@ -22,6 +22,22 @@
 @stop
 
 @section('content')
+<div class="row">
+    <div class="col-md-12"><!-- Some Message to be Displayed start-->
+        @if(Session::has('global'))
+        <div class="alert alert-info">
+            <i class="fa fa-remove-sign"></i>{{ Session::get('global') }}
+        </div>
+        @endif 
+        @if ($errors->has())
+        <div class="errorHandler alert alert-danger">
+            @foreach ($errors->all() as $error)
+            {{ $error }}<br>        
+            @endforeach
+        </div>
+        @endif
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-12">
         <div class="panel panel-white">
