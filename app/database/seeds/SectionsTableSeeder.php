@@ -120,6 +120,60 @@ class SectionsTableSeeder extends Seeder {
 				'created_at' => '2015-03-30 08:20:28',
 				'updated_at' => '2015-03-30 08:20:35',
 			),
+			12 => 
+			array (
+				'id' => 13,
+				'section_name' => 'Section - A',
+				'class_id' => 2,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-13 08:47:29',
+				'updated_at' => '2015-04-13 08:47:29',
+			),
+			13 => 
+			array (
+				'id' => 14,
+				'section_name' => 'Section - A',
+				'class_id' => 27,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:03:44',
+				'updated_at' => '2015-04-15 06:03:44',
+			),
+			14 => 
+			array (
+				'id' => 15,
+				'section_name' => 'Section - B',
+				'class_id' => 27,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:03:53',
+				'updated_at' => '2015-04-15 06:03:53',
+			),
+			15 => 
+			array (
+				'id' => 16,
+				'section_name' => 'Section - A',
+				'class_id' => 28,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:05:57',
+				'updated_at' => '2015-04-15 06:05:57',
+			),
+			16 => 
+			array (
+				'id' => 17,
+				'section_name' => 'Section - B',
+				'class_id' => 28,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:06:06',
+				'updated_at' => '2015-04-15 06:06:06',
+			),
+			17 => 
+			array (
+				'id' => 18,
+				'section_name' => 'Section - C',
+				'class_id' => 28,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:08:29',
+				'updated_at' => '2015-04-15 06:15:23',
+			),
 		));
 	}
 

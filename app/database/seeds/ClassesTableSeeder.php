@@ -272,6 +272,66 @@ class ClassesTableSeeder extends Seeder {
 				'created_at' => '2015-03-30 08:14:01',
 				'updated_at' => '2015-03-30 08:14:07',
 			),
+			26 => 
+			array (
+				'id' => 27,
+				'class' => 'Class - 1',
+				'streams_id' => 9,
+				'school_id' => 7,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 05:59:17',
+				'updated_at' => '2015-04-15 05:59:17',
+			),
+			27 => 
+			array (
+				'id' => 28,
+				'class' => 'Class - 2',
+				'streams_id' => 9,
+				'school_id' => 7,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 05:59:27',
+				'updated_at' => '2015-04-15 05:59:27',
+			),
+			28 => 
+			array (
+				'id' => 29,
+				'class' => 'Class - 3',
+				'streams_id' => 10,
+				'school_id' => 7,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:00:29',
+				'updated_at' => '2015-04-15 06:00:29',
+			),
+			29 => 
+			array (
+				'id' => 30,
+				'class' => 'Class - 4',
+				'streams_id' => 10,
+				'school_id' => 7,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:00:40',
+				'updated_at' => '2015-04-15 06:00:40',
+			),
+			30 => 
+			array (
+				'id' => 31,
+				'class' => 'Class - 5',
+				'streams_id' => 11,
+				'school_id' => 7,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:00:49',
+				'updated_at' => '2015-04-15 06:00:49',
+			),
+			31 => 
+			array (
+				'id' => 32,
+				'class' => 'Class - 6',
+				'streams_id' => 12,
+				'school_id' => 7,
+				'deleted_at' => '0000-00-00 00:00:00',
+				'created_at' => '2015-04-15 06:00:58',
+				'updated_at' => '2015-04-15 06:00:58',
+			),
 		));
 	}
 
