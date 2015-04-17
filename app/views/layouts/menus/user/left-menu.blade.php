@@ -28,6 +28,9 @@
         <li>
             <a href="{{ URL::route('user-class-schedule'); }}"><i class="fa fa-desktop"></i> <span class="title"> TimeTable </span></a>
         </li>
+        <li>
+            <a href="{{ URL::route('user-class-weekely-schedule'); }}"><i class="fa fa-desktop"></i> <span class="title"> Weekly Schedule </span></a>
+        </li>
     </ul>
     <!-- end: MAIN NAVIGATION MENU -->
 </div>

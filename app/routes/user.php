@@ -169,9 +169,9 @@ Route::group(array('before' => 'auth'), function() {
     /*
      * Class schedule Periods (get)
      */
-    Route::get('/user/class/test', array(
-        'as' => 'user-class-test',
-        'uses' => 'UserClassController@getTest'
+    Route::get('/user/class/weekely/schedule', array(
+        'as' => 'user-class-weekely-schedule',
+        'uses' => 'UserClassController@getWeekelySchedule'
     ));
     /*
      * User Schedule Settings

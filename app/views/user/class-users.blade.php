@@ -26,37 +26,58 @@
 @section('content')
 <!-- Start: Page Content -->
 <div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-heading">
-                <h4 class="panel-title">Export <span class="text-bold">Data</span> Table</h4>
-            </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="panel">
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="port-weight-head">	
-                            <div class="img pull-left">			
-                                <img src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}" height="90" width="91" alt="">
-                            </div>
-                            <div class="text pull-right">			
-                                <h3>Arya Stark</h3>
-                                <p>Winterfell</p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>        
-                    <div class="col-md-2">
-                        <div class="port-weight-head">	
-                            <div class="img pull-left">			
-                                <img src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}" height="90" width="91" alt="">
-                            </div>
-                            <div class="text pull-right">			
-                                <h3>Arya Stark</h3>
-                                <p>Winterfell</p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>      
+                <div class="padding-5">
+                    <div class="image pull-left img-responsive text-center">
+                        <img width="90" height="91" class="" alt="" src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}">
+                    </div>
+                    <div class="info pull-right">
+                        <h4 class="padding-5">Sumit Prasad<span class="block text-left"> (20098087) </span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="padding-5">
+                    <div class="image pull-left img-responsive text-center">
+                        <img width="90" height="91" class="" alt="" src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}">
+                    </div>
+                    <div class="info pull-right">
+                        <h4 class="padding-5">Sumit Prasad<span class="block text-left"> (20098087) </span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="padding-5">
+                    <div class="image pull-left img-responsive text-center">
+                        <img width="90" height="91" class="" alt="" src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}">
+                    </div>
+                    <div class="info pull-right">
+                        <h4 class="padding-5">Sumit Prasad<span class="block text-left"> (20098087) </span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="padding-5">
+                    <div class="image pull-left img-responsive text-center">
+                        <img width="90" height="91" class="" alt="" src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}">
+                    </div>
+                    <div class="info pull-right">
+                        <h4 class="padding-5">Sumit Prasad<span class="block text-left"> (20098087) </span></h4>
+                    </div>
                 </div>
             </div>
         </div>
