@@ -183,4 +183,12 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'user-schedule-per-day',
         'uses' => 'UserScheduleController@getTimeTablePerDay'
     ));
+    /*
+     * User Attendance Settings
+     */
+    Route::get('/user/attendance', array(
+        'as' => 'user-attendance',
+        'uses' => 'UserClassController@getAttendance'
+    ));
+    
 });

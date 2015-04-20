@@ -67,5 +67,9 @@ class UserClassController extends BaseController {
     public function getWeekelySchedule(){
         return View::make('user.class-weekely-schedule');
     }
+    
+    public function getAttendance(){
+        return View::make('user.attendance');
+    }
 
 }
