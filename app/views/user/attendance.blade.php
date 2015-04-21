@@ -116,149 +116,171 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="panel panel-red">
+        <div class="panel panel-white">
             <div class="panel-heading">
-                Leave Application <span class="text-bold text-right">Accepted</span>
+                Leave Application                
+                <p class="pull-right">                    
+                    Under Processing.......
+                </p>
             </div>
             <div class="panel-body">
-                <p class="text-center">
-                    You Don't Have Any leave Applications.
-                </p>
-                <p class="pull-right">                    
-                    <a href="#new-leave-application" class="btn btn-sm btn-transparent-white new-event"><i class="fa fa-plus"></i> New Leave Application </a>
-                </p>
+                <div id="readEvent" style="display: block;">
+                    <div class="noteWrap col-md-8 col-md-offset-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="event-allday">
+                                    <i class="fa fa-check"></i> All-Day
+                                </span>
+                                <span class="event-halfday">
+                                    <i class="fa fa-check"></i> Half-Day
+                                </span>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="event-start">
+                                    <p>Start:</p> 
+                                    <div class="event-day">
+                                         <h2>16</h2>
+                                    </div>
+                                    <div class="event-date">
+                                        <h3>Thursday</h3>
+                                        <h4>April 2015</h4>
+                                    </div>
+                                </div>
+                                <div class="event-end" style="display: block;">
+                                    <p>End:</p> 
+                                    <div class="event-day">
+                                        <h2>19</h2>
+                                    </div>
+                                    <div class="event-date">
+                                        <h3>Sunday</h3>
+                                        <h4>April 2015 </h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="event-content"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="pull-right">                    
+                        <a href="#new-leave-application" class="btn btn-sm btn-azure"><i class="fa fa-plus"></i> Cancel Leave Application </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-@stop
-@section('subview')
-<!-- *** NEW EVENT *** -->
-<div id="new-leave-application">
-    <div class="noteWrap col-md-8 col-md-offset-2">
-        <h3>Add new event</h3>
-        <form class="form-event">
+    @stop
+    @section('subview')
+    <!-- *** NEW EVENT *** -->
+    <div id="new-leave-application" class="no-display">
+        <div class="noteWrap col-md-8 col-md-offset-2">
+            <h3>New Leave Application</h3>
+            <hr>
+            <form class="form-event">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="checkbox" class="all-day" data-label-text="All-Day" data-on-text="True" data-off-text="False" id="all-day-button">
+                        </div>
+                    </div>
+                    <div class="no-all-day-range">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <span class="input-icon">
+                                        <input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
+                                        <i class="fa fa-clock-o"></i> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all-day-range">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <span class="input-icon">
+                                        <input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
+                                        <i class="fa fa-calendar"></i> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hide">
+                        <input type="text" class="event-start-date" id="event-start-date" name="eventStartDate"/>
+                        <input type="text" class="event-end-date" id="event-end-date" name="eventEndDate"/>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea class="summernote" placeholder="Reason To Take Leave....."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-info close-subview-button">
+                            Close
+                        </a>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-info save-new-event" type="submit" id="submit-form-new-event">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- *** READ EVENT *** -->
+    <div id="readEvent" class="no-display">
+        <div class="noteWrap col-md-8 col-md-offset-2">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <input class="event-id hide" type="text">
-                        <input class="event-name form-control" name="eventName" type="text" placeholder="Event Name...">
+                    <h2 class="event-title">Event Title</h2>
+                    <div class="btn-group options-toggle pull-right">
+                        <button class="btn dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
+                            <i class="fa fa-cog"></i>
+                            <span class="caret"></span>
+                        </button>
+                        <ul role="menu" class="dropdown-menu dropdown-light pull-right">
+                            <li>
+                                <a href="#newEvent" class="edit-event">
+                                    <i class="fa fa-pencil"></i> Edit
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="delete-event">
+                                    <i class="fa fa-times"></i> Delete
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <input type="checkbox" class="all-day" data-label-text="All-Day" data-on-text="True" data-off-text="False">
-                    </div>
-                </div>
-                <div class="no-all-day-range">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <span class="input-icon">
-                                    <input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
-                                    <i class="fa fa-clock-o"></i> </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="all-day-range">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <span class="input-icon">
-                                    <input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
-                                    <i class="fa fa-calendar"></i> </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hide">
-                    <input type="text" class="event-start-date" name="eventStartDate"/>
-                    <input type="text" class="event-end-date" name="eventEndDate"/>
+                <div class="col-md-6">
+                    <span class="event-category event-cancelled">Cancelled</span>
+                    <span class="event-allday"><i class='fa fa-check'></i> All-Day</span>
                 </div>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <select class="form-control selectpicker event-categories">
-                            <option data-content="<span class='event-category event-cancelled'>Cancelled</span>" value="event-cancelled">Cancelled</option>
-                            <option data-content="<span class='event-category event-home'>Home</span>" value="event-home">Home</option>
-                            <option data-content="<span class='event-category event-overtime'>Overtime</span>" value="event-overtime">Overtime</option>
-                            <option data-content="<span class='event-category event-generic'>Generic</span>" value="event-generic" selected="selected">Generic</option>
-                            <option data-content="<span class='event-category event-job'>Job</span>" value="event-job">Job</option>
-                            <option data-content="<span class='event-category event-offsite'>Off-site work</span>" value="event-offsite">Off-site work</option>
-                            <option data-content="<span class='event-category event-todo'>To Do</span>" value="event-todo">To Do</option>
-                        </select>
+                    <div class="event-start">
+                        <div class="event-day"></div>
+                        <div class="event-date"></div>
+                        <div class="event-time"></div>
                     </div>
+                    <div class="event-end"></div>
                 </div>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <textarea class="summernote" placeholder="Write note here..."></textarea>
-                    </div>
+                    <div class="event-content"></div>
                 </div>
-            </div>
-            <div class="pull-right">
-                <div class="btn-group">
-                    <a href="#" class="btn btn-info close-subview-button">
-                        Close
-                    </a>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-info save-new-event" type="submit">
-                        Save
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- *** READ EVENT *** -->
-<div id="readEvent">
-    <div class="noteWrap col-md-8 col-md-offset-2">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="event-title">Event Title</h2>
-                <div class="btn-group options-toggle pull-right">
-                    <button class="btn dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-                        <i class="fa fa-cog"></i>
-                        <span class="caret"></span>
-                    </button>
-                    <ul role="menu" class="dropdown-menu dropdown-light pull-right">
-                        <li>
-                            <a href="#newEvent" class="edit-event">
-                                <i class="fa fa-pencil"></i> Edit
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="delete-event">
-                                <i class="fa fa-times"></i> Delete
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <span class="event-category event-cancelled">Cancelled</span>
-                <span class="event-allday"><i class='fa fa-check'></i> All-Day</span>
-            </div>
-            <div class="col-md-12">
-                <div class="event-start">
-                    <div class="event-day"></div>
-                    <div class="event-date"></div>
-                    <div class="event-time"></div>
-                </div>
-                <div class="event-end"></div>
-            </div>
-            <div class="col-md-12">
-                <div class="event-content"></div>
             </div>
         </div>
     </div>
-</div>
-@stop
-@section('scripts')
-<script src="{{ URL::asset('assets/plugins/calendario/js/modernizr.custom.63321.js'); }}"></script>
-<script type="text/javascript" src="{{ URL::asset('assets/plugins/calendario/js/jquery.calendario.js'); }}"></script>
-<script type="text/javascript" src="{{ URL::asset('assets/plugins/calendario/js/data.js'); }}"></script>
-<script type="text/javascript">
+    @stop
+    @section('scripts')
+    <script src="{{ URL::asset('assets/plugins/calendario/js/modernizr.custom.63321.js'); }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/plugins/calendario/js/jquery.calendario.js'); }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/plugins/calendario/js/data.js'); }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/js/modifiedJs/user/attendance.js'); }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/js/modifiedJs/user/subview-attendance.js'); }}"></script>
+    <script type="text/javascript">
 $(function() {
 
     var transEndEventNames = {
@@ -327,13 +349,13 @@ $(function() {
     }
 
 });
-</script>
-<!-- Scripts for This page only -->
-<script>
-    jQuery(document).ready(function() {
-        Main.init();
-        SVExamples.init();
-    });
-</script>
+    </script>
+    <!-- Scripts for This page only -->
+    <script>
+        jQuery(document).ready(function() {
+            Main.init();
+            SVAttendance.init();
+        });
+    </script>
 
-@stop
+    @stop

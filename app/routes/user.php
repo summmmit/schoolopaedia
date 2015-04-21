@@ -191,4 +191,12 @@ Route::group(array('before' => 'auth'), function() {
         'uses' => 'UserClassController@getAttendance'
     ));
     
+    /**
+     * Ajax APi for Attendance 
+     */
+    Route::Post('/user/attendance/new/application/leave', array(
+        'as' => 'user-attendance-new-attendance-leave',
+        'uses' => 'UserClassController@postNewLeaveApplication'
+    ));  
+    
 });
