@@ -190,6 +190,13 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'user-attendance',
         'uses' => 'UserClassController@getAttendance'
     ));
+    /*
+     * User Inbox 
+     */
+    Route::get('/user/inbox', array(
+        'as' => 'user-inbox',
+        'uses' => 'UserClassController@getInbox'
+    ));
     
     /**
      * Ajax APi for Attendance 

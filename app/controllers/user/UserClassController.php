@@ -72,6 +72,9 @@ class UserClassController extends BaseController {
         return View::make('user.attendance');
     }
     
+    public function getInbox(){
+        return View::make('user.inbox');
+    }
     /**
      * Ajax APi for Attendance 
      */    
