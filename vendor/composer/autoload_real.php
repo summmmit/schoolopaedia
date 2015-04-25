@@ -23,9 +23,6 @@ class ComposerAutoloaderInite930df87a42dc85dc21d3a6f6ee06e7f
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInite930df87a42dc85dc21d3a6f6ee06e7f', 'loadClassLoader'));
 
-        $vendorDir = dirname(__DIR__);
-        $baseDir = dirname($vendorDir);
-
         $includePaths = require __DIR__ . '/include_paths.php';
         array_push($includePaths, get_include_path());
         set_include_path(join(PATH_SEPARATOR, $includePaths));
@@ -49,9 +46,14 @@ class ComposerAutoloaderInite930df87a42dc85dc21d3a6f6ee06e7f
 
         $includeFiles = require __DIR__ . '/autoload_files.php';
         foreach ($includeFiles as $file) {
-            require $file;
+            composerRequiree930df87a42dc85dc21d3a6f6ee06e7f($file);
         }
 
         return $loader;
     }
+}
+
+function composerRequiree930df87a42dc85dc21d3a6f6ee06e7f($file)
+{
+    require $file;
 }
