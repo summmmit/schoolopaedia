@@ -126,6 +126,7 @@ return array(
         'Intervention\Image\ImageServiceProvider',
         'Orangehill\Iseed\IseedServiceProvider',
         'Stevebauman\Location\LocationServiceProvider',
+        'Cartalyst\Sentry\SentryServiceProvider',
 
 	),
 
@@ -195,6 +196,7 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
         'Image'             => 'Intervention\Image\Facades\Image',
         'Location'          => 'Stevebauman\Location\Facades\Location',
+        'Sentry'            => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 	),
 
 );

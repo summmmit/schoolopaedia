@@ -36,41 +36,6 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="city" placeholder="City" {{ (Input::old('city')) ? 'value = "' .e(Input::old('city')). '" ':'' }}>
-                           @if ($errors->has('city')) <p class="help-block alert-danger">{{ $errors->first('city') }}</p> @endif
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="state" placeholder="state" {{ (Input::old('state')) ? 'value = "' .e(Input::old('state')). '" ':'' }}>
-                           @if ($errors->has('state')) <p class="help-block alert-danger">{{ $errors->first('state') }}</p> @endif
-            </div>
-            <div class="form-group">
-                <div>
-                    <label class="radio-inline">
-                        <input type="radio" class="grey" value="0" name="sex">
-                        Female
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" class="grey" value="1" name="sex">
-                        Male
-                    </label>
-                </div>
-            </div>
-            <p>
-                Enter your School details below:
-            </p>
-            <div class="form-group">
-                <span class="input-icon">
-                    <input type="text" class="form-control" name="school_registration_code" placeholder="School Code" value="{{ Input::old('school_registration_code') or '' }}">
-                    @if ($errors->has('school_registration_code')) <p class="help-block alert-danger">{{ $errors->first('school_registration_code') }}</p> @endif
-                    <i class="fa fa-envelope"></i> </span>
-            </div>
-            <div class="form-group">
-                <span class="input-icon">
-                    <input type="text" class="form-control" name="user_registration_code" placeholder="Student Code" value="{{ Input::old('user_registration_code') or '' }}">
-                    @if ($errors->has('user_registration_code')) <p class="help-block alert-danger">{{ $errors->first('user_registration_code') }}</p> @endif
-                    <i class="fa fa-envelope"></i> </span>
-            </div>
             <p>
                 Enter your account details below:
             </p>

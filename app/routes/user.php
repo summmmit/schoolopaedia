@@ -21,7 +21,7 @@ Route::group(array('before' => 'guest'), function() {
          */
         Route::Post('/user/account', array(
             'as' => 'user-account-create-post',
-            'uses' => 'UserAccountController@postCreate'
+            'uses' => 'UserLoginController@postCreate'
         ));
         /*
          *  Create Account (post)
@@ -43,7 +43,7 @@ Route::group(array('before' => 'guest'), function() {
      */
     Route::get('/user/account', array(
         'as' => 'user-account-create',
-        'uses' => 'UserAccountController@getCreate'
+        'uses' => 'UserLoginController@getCreate'
     ));
     /*
      * User SignIn Account (get)
