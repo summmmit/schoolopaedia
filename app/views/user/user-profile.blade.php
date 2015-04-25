@@ -2,9 +2,6 @@
 
 @section('page_header')
 <h1><i class="fa fa-pencil-square"></i> Your Details<small>These are the details of you as per our database.</small></h1>
-<?php
-$now = \Carbon\Carbon::createFromDate();
-?>
 @stop
 
 @section('page_breadcrumb')
@@ -26,10 +23,12 @@ $now = \Carbon\Carbon::createFromDate();
         @if(Session::has('details-changed'))
         <div class="errorHandler alert alert-success">
             <i class="fa fa-remove-sign"></i>{{ Session::get('details-changed') }}
+            <button data-dismiss="alert" class="close">×</button>
         </div>
         @elseif(Session::has('details-not-changed'))
         <div class="errorHandler alert alert-danger">
             <i class="fa fa-remove-sign"></i>{{ Session::get('details-not-changed') }}
+            <button data-dismiss="alert" class="close">×</button>
         </div>
         @endif 
         @if ($errors->has())
@@ -198,30 +197,21 @@ $now = \Carbon\Carbon::createFromDate();
                             </div>
                         </div> 
                         <div class="col-sm-7 col-md-8">
-                            <div class="row space20">
-                                <div class="col-sm-3">
-                                    <button class="btn btn-icon btn-block">
-                                        <i class="clip-clip"></i>
-                                        Projects <span class="badge badge-info"> 0 </span>
-                                    </button>
-                                </div>
-                                <div class="col-sm-3">
-                                    <button class="btn btn-icon btn-block pulsate" style="outline: 0px; outline-offset: 10px;">
-                                        <i class="clip-bubble-2"></i>
-                                        Events <span class="badge badge-info"> 23 </span>
-                                    </button>
-                                </div>
-                                <div class="col-sm-3">
-                                    <button class="btn btn-icon btn-block">
-                                        <i class="clip-calendar"></i>
-                                        Messages <span class="badge badge-info"> 5 </span>
-                                    </button>
-                                </div>
-                                <div class="col-sm-3">
-                                    <button class="btn btn-icon btn-block">
-                                        <i class="clip-list-3"></i>
-                                        Assignments <span class="badge badge-info"> 9 </span>
-                                    </button>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="well">
+                                        <form class="form-horizontal " role="form">
+                                            <div class="form-group" style="padding:5px;">
+                                                <textarea class="form-control" placeholder="Update your status"></textarea>
+                                            </div>
+                                            <button class="btn btn-primary pull-right" type="button">Update</button>
+                                            <ul class="list-inline">
+                                                <li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li>
+                                                <li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li>
+                                                <li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li>
+                                            </ul>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel panel-white space20">

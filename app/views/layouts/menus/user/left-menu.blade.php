@@ -40,6 +40,9 @@
         <li>
             <a href="{{ URL::route('user-attendance'); }}"><i class="fa fa-desktop"></i> <span class="title"> Attendance </span></a>
         </li>
+        <li>
+            <a href="{{ URL::route('user-events'); }}"><i class="fa fa-desktop"></i> <span class="title"> Events </span></a>
+        </li>
     </ul>
     <!-- end: MAIN NAVIGATION MENU -->
 </div>

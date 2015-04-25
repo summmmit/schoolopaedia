@@ -211,6 +211,13 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'user-assignments',
         'uses' => 'UserClassController@getAssignments'
     ));
+    /*
+     * School Events
+     */
+    Route::get('/user/events', array(
+        'as' => 'user-events',
+        'uses' => 'UserClassController@getEvents'
+    ));
     
     
     

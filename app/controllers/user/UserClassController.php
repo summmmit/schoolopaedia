@@ -80,6 +80,10 @@ class UserClassController extends BaseController {
         return View::make('user.assignments');
     }
 
+    public function getEvents(){
+        return View::make('user.events');
+    }
+
     /**
      * Ajax APi for Attendance 
      */    
