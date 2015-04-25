@@ -71,5 +71,29 @@ class UserClassController extends BaseController {
     public function getAttendance(){
         return View::make('user.attendance');
     }
+    
+    public function getInbox(){
+        return View::make('user.inbox');
+    }
+    
+    public function getAssignments(){
+        return View::make('user.assignments');
+    }
+
+    /**
+     * Ajax APi for Attendance 
+     */    
+    public function postNewLeaveApplication(){       
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Classes fetched successfully',
+            'errors' => null,
+            'result' => array(
+                'periods' => "aasdgasdgs"
+            )
+        );
+        return Response::json($response);
+    }
 
 }

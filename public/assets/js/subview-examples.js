@@ -270,13 +270,13 @@ var SVExamples = function() {
             $(".form-event .event-start-date").val(moment());
             $(".form-event .event-end-date").val(moment().add('days', 1));
 
-            $('.form-event .no-all-day-range .event-range-date').val(moment().format('MM/DD/YYYY h:mm A') + ' - ' + moment().add('days', 1).format('MM/DD/YYYY h:mm A'))
+            $('.form-event .no-all-day-range .event-range-date').val(moment().format('MM/DD/YYYY') + ' - ' + moment().add('days', 1).format('MM/DD/YYYY'))
                 .daterangepicker({
                     startDate: moment(),
                     endDate: moment().add('days', 1),
-                    timePicker: true,
+                    timePicker: false,
                     timePickerIncrement: 30,
-                    format: 'MM/DD/YYYY h:mm A'
+                    format: 'MM/DD/YYYY'
                 });
 
             $('.form-event .all-day-range .event-range-date').val(moment().format('MM/DD/YYYY') + ' - ' + moment().add('days', 1).format('MM/DD/YYYY'))

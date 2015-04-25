@@ -190,5 +190,36 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'user-attendance',
         'uses' => 'UserClassController@getAttendance'
     ));
+    /*
+     * User Inbox 
+     */
+    Route::get('/user/inbox', array(
+        'as' => 'user-inbox',
+        'uses' => 'UserClassController@getInbox'
+    ));
+    /*
+     * User Inbox 
+     */
+    Route::get('/user/inbox', array(
+        'as' => 'user-inbox',
+        'uses' => 'UserClassController@getInbox'
+    ));
+    /*
+     * User Assignments 
+     */
+    Route::get('/user/assignments', array(
+        'as' => 'user-assignments',
+        'uses' => 'UserClassController@getAssignments'
+    ));
+    
+    
+    
+    /**
+     * Ajax APi for Attendance 
+     */
+    Route::Post('/user/attendance/new/application/leave', array(
+        'as' => 'user-attendance-new-attendance-leave',
+        'uses' => 'UserClassController@postNewLeaveApplication'
+    ));  
     
 });

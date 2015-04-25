@@ -62,17 +62,42 @@ $now = \Carbon\Carbon::createFromDate();
             <div class="tab-content">
                 <div id="panel_overview" class="tab-pane fade in active">
                     <div class="row">
-                        <div class="col-sm-5 col-md-4">
+                        <div class="col-sm-4">
                             <div class="user-left">
-                                <h2><i class="fa fa-users"></i> Overview</h2>
-                                <hr>
                                 <div class="center">
+                                    <h4>{{ ucfirst($user->first_name) }} {{ ucfirst($user->last_name) }} </h4>
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
                                         <div class="user-image">
                                             <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user->pic) }}" alt="">
                                             </div>
                                         </div>
                                     </div>
+                                    <hr>
+                                    <div class="social-icons block">
+                                        <ul>
+                                            <li data-placement="top" data-original-title="Twitter" class="social-twitter tooltips">
+                                                <a href="http://www.twitter.com" target="_blank">
+                                                    Twitter
+                                                </a>
+                                            </li>
+                                            <li data-placement="top" data-original-title="Facebook" class="social-facebook tooltips">
+                                                <a href="http://facebook.com" target="_blank">
+                                                    Facebook
+                                                </a>
+                                            </li>
+                                            <li data-placement="top" data-original-title="Google" class="social-google tooltips">
+                                                <a href="http://google.com" target="_blank">
+                                                    Google+
+                                                </a>
+                                            </li>
+                                            <li data-placement="top" data-original-title="Instagram" class="social-instagram tooltips">
+                                                <a href="#" target="_blank">
+                                                    Instagram
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <hr>
                                 </div>
                                 <table class="table table-condensed table-hover">
                                     <thead>
@@ -146,13 +171,13 @@ $now = \Carbon\Carbon::createFromDate();
                                     <tbody>
                                         <tr>
                                             <td>Email:</td>
+                                            <td></td>
                                             <td>{{ $user->email }}</td>
-                                            <td><small>(updated on 12/22/2015) </small><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
                                         </tr>
                                         <tr>
                                             <td>Mobile Number:</td>
+                                            <td></td>
                                             <td>{{ $user->mobile_number }}</td>
-                                            <td><small>(updated on {{ $user->mobile_updated_at }}) </small><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -172,48 +197,129 @@ $now = \Carbon\Carbon::createFromDate();
                                 </table>
                             </div>
                         </div> 
-                        <div class="col-sm-7">
-                            <h3><i class="fa fa-paper-plane text-center"></i> Additional Information</h3>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="user-left">                                    
-                                        <h4>Home Address :</h4><small>(Last updated on {{ $user->address_updated_at }})</small>
-                                        <address class="text-right">
-                                            <strong>{{ ucwords($user->add_1) }},</strong>
-                                            <br>
-                                            {{ ucwords($user->add_2) }},
-                                            <br>
-                                            {{ ucwords($user->city) }},
-                                            <br>
-                                            {{ ucwords($user->state) }}, {{ ucwords($user->country) }}
-                                            <br>
-                                            <strong>
-                                                <abbr title="zipcode">Pin Code:</abbr> ({{ $user->pin_code }})
-                                            </strong>
-                                        </address>  
-                                    </div>
-                                    <hr>                                      
+                        <div class="col-sm-7 col-md-8">
+                            <div class="row space20">
+                                <div class="col-sm-3">
+                                    <button class="btn btn-icon btn-block">
+                                        <i class="clip-clip"></i>
+                                        Projects <span class="badge badge-info"> 0 </span>
+                                    </button>
                                 </div>
-                                <div class="col-md-6">
-                                    <h4>Work Address :</h4><small>(Last updated on 12/22/2015) </small>
-                                    <address class="text-right">
-                                        <strong>House Number: 256, Street Number: 9</strong>
-                                        <br>
-                                        New Defence Colony, Muradnagar
-                                        <br>
-                                        Ghaziabad
-                                        <br>
-                                        Uttar Pradesh, India
-                                        <br>
-                                        <strong>
-                                            <abbr title="zipcode">Pin Code:</abbr> (201206)
-                                        </strong>
-                                    </address> 
-                                    <hr>                                       
+                                <div class="col-sm-3">
+                                    <button class="btn btn-icon btn-block pulsate" style="outline: 0px; outline-offset: 10px;">
+                                        <i class="clip-bubble-2"></i>
+                                        Events <span class="badge badge-info"> 23 </span>
+                                    </button>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-icon btn-block">
+                                        <i class="clip-calendar"></i>
+                                        Messages <span class="badge badge-info"> 5 </span>
+                                    </button>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-icon btn-block">
+                                        <i class="clip-list-3"></i>
+                                        Assignments <span class="badge badge-info"> 9 </span>
+                                    </button>
                                 </div>
                             </div>
-                            <hr>
+                            <div class="panel panel-white space20">
+                                <div class="panel-heading">
+                                    <i class="clip-menu"></i>
+                                    Recent Activities
+                                    <div class="panel-tools">
+                                        <a class="btn btn-xs btn-link panel-close" href="#">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="panel-body panel-scroll ps-container">
+                                    <ul class="activities">
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-blue"></i> <i class="fa fa-code fa-stack-1x fa-inverse"></i> </span> <span class="desc">You uploaded a new release.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    2 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <img alt="image" src="assets/images/avatar-2.jpg"> <span class="desc">Nicole Bell sent you a message.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    3 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-orange"></i> <i class="fa fa-database fa-stack-1x fa-inverse"></i> </span> <span class="desc">DataBase Migration.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    5 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-yellow"></i> <i class="fa fa-calendar-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">You added a new event to the calendar.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    8 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Kenneth Ross uploaded new images.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    9 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Peter Clark uploaded a new image.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    12 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Peter Clark uploaded a new image.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    12 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Peter Clark uploaded a new image.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    12 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="activity" href="javascript:void(0)">
+                                                <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Peter Clark uploaded a new image.</span>
+                                                <div class="time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    12 hours ago
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -524,22 +630,22 @@ $now = \Carbon\Carbon::createFromDate();
     <script src="{{ URL::asset('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js'); }}"></script>
     <script>
 
-jQuery(document).ready(function() {    
-    
+jQuery(document).ready(function() {
+
     if (location.hash) {
         $('a[href=' + location.hash + ']').tab('show');
     }
     $(document.body).on("click", "a[data-toggle]", function(event) {
         location.hash = this.getAttribute("href");
     });
-    
+
     Main.init();
     SVExamples.init();
     PagesUserProfile.init();
     FormElements.init();
 
 });
-        
+
 $(window).on('popstate', function() {
     var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
     $('a[href=' + anchor + ']').tab('show');
