@@ -11,7 +11,10 @@
         "orangehill/iseed": "1.1",
         "stevebauman/location": "1.1.*",
         "chumper/datatable": "2.*",
-        "artdarek/oauth-4-laravel": "dev-master"
+        "artdarek/oauth-4-laravel": "dev-master",
+      "hybridauth/hybridauth": "dev-master",
+      "artdarek/oauth-4-laravel": "dev-master",
+      "cartalyst/sentry": "2.1.*"
     },
     "autoload": {
         "classmap": [
