@@ -40,7 +40,7 @@
 @section('content')
 <!-- Start: Page Content -->
 <div class="row">
-    <div class="col-md-3 col-lg-3 col-sm-6">
+    <div class="col-md-4 col-lg-4 col-sm-6">
         <div class="panel panel-default panel-white core-box">
             <div class="panel-body no-padding">
                 <div class="padding-20 text-center core-icon">
@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 col-lg-3 col-sm-6">
+    <div class="col-md-4 col-lg-4 col-sm-6">
         <div class="panel panel-default panel-white core-box">
             <div class="panel-body no-padding">
                 <div class="padding-20 text-center core-icon">

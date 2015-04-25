@@ -137,13 +137,10 @@
 <div id="new-leave-application">
     <div class="noteWrap col-md-8 col-md-offset-2">
         <h3>Add new event</h3>
-        <form class="form-event">
+        <form action="#" method="post">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <input class="event-id hide" type="text">
-                        <input class="event-name form-control" name="eventName" type="text" placeholder="Event Name...">
-                    </div>
+                    <h2>Choose Date Range..</h2>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
@@ -156,7 +153,8 @@
                             <div class="form-group">
                                 <span class="input-icon">
                                     <input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
-                                    <i class="fa fa-clock-o"></i> </span>
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -167,7 +165,8 @@
                             <div class="form-group">
                                 <span class="input-icon">
                                     <input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
-                                    <i class="fa fa-calendar"></i> </span>
+                                    <i class="fa fa-calendar"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
