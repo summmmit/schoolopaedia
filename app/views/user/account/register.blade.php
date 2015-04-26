@@ -22,23 +22,6 @@
         </div>
         @endif
         <fieldset>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="first_name" placeholder="First Name" {{ (Input::old('first_name')) ? 'value = "' .e(Input::old('first_name')). '" ':'' }}>
-                           @if ($errors->has('first_name')) <p class="help-block alert-danger">{{ $errors->first('first_name') }}</p> @endif
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="last_name" placeholder="Last Name" {{ (Input::old('last_name')) ? 'value = "' .e(Input::old('last_name')). '" ':'' }}>
-                           @if ($errors->has('last_name')) <p class="help-block alert-danger">{{ $errors->first('last_name') }}</p> @endif
-                    </div>
-                </div>
-            </div>
-            <p>
-                Enter your account details below:
-            </p>
             <div class="form-group">
                 <span class="input-icon">
                     <input type="email" class="form-control" name="email" placeholder="Email" value="{{ Input::old('email') or '' }}">

@@ -31,8 +31,8 @@ class MigrationCartalystSentryInstallUsersGroupsPivot extends Migration {
 	{
 		Schema::create('users_groups', function($table)
 		{
-			$table->integer('user_id')->unsigned();
-			$table->integer('group_id')->unsigned();
+			$table->integer('user_id')->index('user_id');
+			$table->integer('group_id')->index('group_id');
 
 			// We'll need to ensure that MySQL uses the InnoDB engine to
 			// support the indexes, other engines aren't affected.

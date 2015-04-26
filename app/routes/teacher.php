@@ -10,16 +10,16 @@ Route::group(array('before' => 'guest'), function() {
         /*
          *  User Sign-in (post)
          */
-        Route::Post('/user/signin/post', array(
-            'as' => 'user-sign-in-post',
+        Route::Post('/teacher/signin/post', array(
+            'as' => 'teacher-sign-in-post',
             'uses' => 'UserAccountController@postSignIn'
         ));
     });
     /*
      * User Create Account (get)
      */
-    Route::get('/user/account', array(
-        'as' => 'user-account-create',
+    Route::get('/teacher/account', array(
+        'as' => 'teacher-account-create',
         'uses' => 'UserAccountController@getCreate'
     ));
 });
@@ -34,8 +34,8 @@ Route::group(array('before' => 'auth'), function() {
         /*
          *  Edit User Details (post)
          */
-        Route::Post('/user/edit', array(
-            'as' => 'user-edit-post',
+        Route::Post('/teacher/edit', array(
+            'as' => 'teacher-edit-post',
             'uses' => 'UserAccountController@postEdit'
         ));
     });

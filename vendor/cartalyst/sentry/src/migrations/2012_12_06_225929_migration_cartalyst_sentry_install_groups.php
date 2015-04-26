@@ -31,7 +31,7 @@ class MigrationCartalystSentryInstallGroups extends Migration {
 	{
 		Schema::create('groups', function($table)
 		{
-			$table->increments('id');
+            $table->integer('id', true);
 			$table->string('name');
 			$table->text('permissions')->nullable();
 			$table->timestamps();

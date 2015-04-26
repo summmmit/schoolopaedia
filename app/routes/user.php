@@ -12,9 +12,9 @@ Route::group(array('before' => 'guest'), function() {
         /*
          *  User Sign-in (post)
          */
-        Route::Post('/user/signin/post', array(
+        Route::Post('/user/sign/in/post', array(
             'as' => 'user-sign-in-post',
-            'uses' => 'UserAccountController@postSignIn'
+            'uses' => 'UserLoginController@postSignIn'
         ));
         /*
          *  User Create Account (post)
@@ -50,14 +50,14 @@ Route::group(array('before' => 'guest'), function() {
      */
     Route::get('/user/sign/in', array(
         'as' => 'user-sign-in',
-        'uses' => 'UserAccountController@getSignIn'
+        'uses' => 'UserLoginController@getSignIn'
     ));
     /*
      * User Activate Account (get)
      */
-    Route::get('/user/account/activate/{code}', array(
+    Route::get('/user/account/{userId}/activate/{code}', array(
         'as' => 'user-account-activate',
-        'uses' => 'UserAccountController@getActivate'
+        'uses' => 'UserLoginController@getActivate'
     ));
     /*
      * User Forgot password (get)

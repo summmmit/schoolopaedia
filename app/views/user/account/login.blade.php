@@ -9,7 +9,7 @@
     <p>
         Please enter your name and password to log in.
     </p>
-    <form class="form-login" action="{{ URL::route('user-sign-in-post'); }}" method="post">        
+    <form class="form-login" action="{{ URL::route('user-sign-in-post'); }}" method="post">
         <!-- Some Message to be Displayed start-->
         <div class="errorHandler alert alert-danger no-display">
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
@@ -25,7 +25,7 @@
         <fieldset>
             <div class="form-group">
                 <span class="input-icon">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address" value="{{ Input::old('email') or '' }}">
+                    <input type="text" class="form-control" name="identity" placeholder="Email Address / Username" value="{{ Input::old('identity') or '' }}">
                     <i class="fa fa-user"></i> </span>
             </div>
             <div class="form-group form-actions">

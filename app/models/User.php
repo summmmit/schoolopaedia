@@ -5,8 +5,9 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Cartalyst\Sentry\Users\Eloquent\User as SentryUserModel;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends SentryUserModel {
     
     use UserTrait, RemindableTrait;
 
@@ -15,38 +16,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     protected $dates = ['deleted_at'];
 
     protected $fillable = array(
-		'first_name',
-		'middle_name',
-		'last_name',
-		'username',
-		'email',
+                'email',
                 'email_updated_at',
-		'password',
-		'password_temp',
+                 'password',
                 'password_updated_at',
-		'code',
-		'active',
-		'dob',
-		'sex',
-		'marriage_status',
-		'relative_id',
-		'relation_with_person',
-                'mobile_verified',
-		'mobile_number',
-		'mobile_updated_at',
-                'home_number',
-		'add_1',
-		'add_2',
-		'city',
-		'state',
-		'country',
-		'pin_code',
-		'address_updated_at',
-		'pic',
-		'pic_updated_at',
-                'permissions',
+        'permissions',
+        'activated',
+        'activation_code',
+        'last_login',
+        'persist_code',
+        'reset_password_code',
         'school_id',
-		'newsletter'
+        'remember_token'
 	);
 
 	/**
@@ -61,19 +42,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'password_updated_at', 'password_temp', 'remember_token');
-        
-        /**
-         * for the foreign key permissions to the group table
-         */
-        public function groups(){
-            return $this->hasone('Groups', 'permissions', 'id');
-        }
-    /**
-     * foreign to function for subjects table
-     */
-    public function timetable() {
-        return $this->hasmany('timetable', 'users_id', 'id');
-    }
-
+	protected $hidden = array(
+        'password',
+        'password_updated_at',
+        'remember_token',
+		'reset_password_code',
+		'activation_code',
+		'persist_code'
+    );
 }

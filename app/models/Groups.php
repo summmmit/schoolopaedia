@@ -1,6 +1,7 @@
 <?php
 
-class Groups extends Eloquent {
+use Cartalyst\Sentry\Groups\Eloquent\Group as SentryGroupModel;
+class Groups extends SentryGroupModel {
 	protected $fillable = array('name', 'permissions');
 
 	/**
