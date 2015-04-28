@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Unauthenticated Group
  */
@@ -27,7 +28,17 @@ Route::group(array('before' => 'guest'), function() {
      * School Activate Account (get)
      */
     Route::get('/activate/account/{code}', array(
-        'as'  => 'activate-account-activate',
+        'as' => 'activate-account-activate',
         'uses' => 'SchoolController@getActivate'
+    ));
+    /**
+     * Ajax Api
+     */
+    /*
+     * Validate User By school code and student code
+     */
+    Route::Post('/school/student/validation', array(
+        'as' => 'student-validation-post',
+        'uses' => 'SchoolController@postValidateSchoolForStudents'
     ));
 });

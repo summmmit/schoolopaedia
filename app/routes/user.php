@@ -4,7 +4,6 @@
  * Unauthenticated Group
  */
 Route::group(array('before' => 'guest'), function() {
-
     /*
      * CSRF protection
      */
@@ -22,13 +21,6 @@ Route::group(array('before' => 'guest'), function() {
         Route::Post('/user/account', array(
             'as' => 'user-account-create-post',
             'uses' => 'UserLoginController@postCreate'
-        ));
-        /*
-         *  Create Account (post)
-         */
-        Route::Post('/account/create', array(
-            'as' => 'account-create-post',
-            'uses' => 'AccountController@postCreate'
         ));
         /*
          *  User Sign-in (post)
@@ -78,7 +70,7 @@ Route::group(array('before' => 'guest'), function() {
 /*
  * Authenticated Group
  */
-Route::group(array('before' => 'auth'), function() {
+Route::group(array('before' => 'UserAuth'), function() {
 
     /*
      * CSRF protection
@@ -113,9 +105,17 @@ Route::group(array('before' => 'auth'), function() {
      *
      * SignOUt (get)
      */
-    Route::get('/user/account/sign-out', array(
+    Route::get('/user/sign/out', array(
         'as' => 'user-sign-out',
-        'uses' => 'UserAccountController@getSignOut'
+        'uses' => 'UserLoginController@getSignOut'
+    ));
+
+    /*
+     * User Welcome Settings (get)
+     */
+    Route::get('/user/welcome/settings', array(
+        'as' => 'user-home',
+        'uses' => 'UserLoginController@getWelcomeSettings'
     ));
 
     /*
@@ -123,7 +123,7 @@ Route::group(array('before' => 'auth'), function() {
      */
     Route::get('/user/home', array(
         'as' => 'user-home',
-        'uses' => 'UserAccountController@getUserHome'
+        'uses' => 'UserLoginController@getUserHome'
     ));
 
     /*

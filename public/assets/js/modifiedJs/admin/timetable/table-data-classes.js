@@ -103,8 +103,6 @@ var TableDataClasses = function() {
                 stream_id: stream_id
             };
 
-            console.log(data);
-
             bootbox.confirm("Are you sure to delete this row?", function(result) {
                 if (result) {
                     $.blockUI({

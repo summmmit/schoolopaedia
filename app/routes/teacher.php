@@ -10,7 +10,7 @@ Route::group(array('before' => 'guest'), function() {
         /*
          *  User Sign-in (post)
          */
-        Route::Post('/teacher/signin/post', array(
+        Route::Post('/teacher/sign/in/post', array(
             'as' => 'teacher-sign-in-post',
             'uses' => 'UserAccountController@postSignIn'
         ));

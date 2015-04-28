@@ -108,5 +108,20 @@ class SchoolController extends BaseController {
     public function getSchoolTest() {
         return View::make('admin.school-test');
     }
+    
+    public function postValidateSchoolForStudents(){
+        $registration_code = Input::get('registration_code');
+        $code_for_students = Input::get('code_for_students');
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Validation is Successfull',
+            'errors' => null,
+            'result' => array(
+                'school' => $registration_code
+            )
+        );
+        return Response::json($response);
+    }
 
 }

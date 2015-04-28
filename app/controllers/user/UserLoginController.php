@@ -44,11 +44,6 @@ class UserLoginController extends BaseController {
                 $activationCode  = $user -> GetActivationCode();
                 $userId = $user -> getId();
 
-                //send email
-                Mail::send('emails.auth.activate.activate-user', array('link' => URL::route('user-account-activate', $activationCode), 'activationCode' => $activationCode, 'userId' => $userId, 'email' => $email), function($message) use ($user) {
-                    $message->to($user->email)->subject('Activate Your Account');
-                });
-
                 //send email with link to activate.
                 /*Mail::send('emails.register_confirm', $data, function($m) use ($data) {
                  $m -> to($data['email']) -> subject('Thanks for Registration - Support Team');
@@ -69,6 +64,11 @@ class UserLoginController extends BaseController {
 
                 $userDetails -> user_id = $userId;
                 $userDetails -> save();
+
+                //send email
+                Mail::send('emails.auth.activate.activate-user', array('link' => URL::route('user-account-activate', $activationCode), 'activationCode' => $activationCode, 'userId' => $userId, 'email' => $email), function($message) use ($user) {
+                    $message->to($user->email)->subject('Activate Your Account');
+                });
 
                 //success!
                 Session::flash('global', 'Thanks for sign up . Please activate your account by clicking activation link in your email');
@@ -171,6 +171,8 @@ class UserLoginController extends BaseController {
             return Redirect::to('/user/sign/in') -> withErrors($v) -> withInput(Input::except('password'));
         } else {
             try {
+
+
                 //Try to authenticate user
                 $user = Sentry::getUserProvider() -> findByLogin(Input::get('identity'));
 
@@ -207,9 +209,9 @@ class UserLoginController extends BaseController {
                 Session::flash('global', 'User is banned.');
                 return Redirect::to('/user/sign/in');
             }
-
+            
             Session::flash('global', 'Loggedin Successfully');
-            return Redirect::to('/user/home');
+            return Redirect::intended('/user/home');
 
         }
 
@@ -218,6 +220,14 @@ class UserLoginController extends BaseController {
     public function getSignOut(){
         Sentry::logout();
         return Redirect::to('/user/sign/in');
+    }
+
+    public function getUserHome() {      
+        return View::make('user.home');
+    }
+    
+    public function getWelcomeSettings(){
+        return View::make('user.welcome-settings');
     }
 
 }

@@ -32,6 +32,14 @@ App::after(function($request, $response)
 | integrates HTTP Basic authentication for quick, simple checking.
 |
 */
+Route::filter('UserAuth', function()
+{
+    if ( ! Sentry::check()) 
+    {     
+        return Redirect::guest('/user/sign/in');
+    }
+});
+
 
 Route::filter('auth', function()
 {
@@ -43,7 +51,7 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::guest('/user/signin');
+			return Redirect::guest('/user/sign/in');
 		}
 	}
 });
@@ -67,7 +75,8 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) return Redirect::to('/');
+	if (Auth::check()) 
+            return Redirect::to('/');
 });
 
 /*
