@@ -41,4 +41,11 @@ Route::group(array('before' => 'guest'), function() {
         'as' => 'student-validation-post',
         'uses' => 'SchoolController@postValidateSchoolForStudents'
     ));
+    /*
+     * Get Current School Session
+     */
+    Route::Post('/school/current/session', array(
+        'as' => 'school-current-session',
+        'uses' => 'SchoolController@postGetSchoolCurrentSession'
+    ));
 });

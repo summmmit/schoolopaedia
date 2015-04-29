@@ -60,23 +60,15 @@ var WelcomeSettingsWizard = function() {
                 code_for_students: {
                     required: true
                 },
-                password: {
-                    minlength: 6,
-                    required: true
-                },
-                password_again: {
+                first_name: {
                     required: true,
-                    minlength: 5,
-                    equalTo: "#password"
+                    minlength: 2
                 },
-                full_name: {
+                last_name: {
                     required: true,
-                    minlength: 2,
+                    minlength: 2
                 },
-                phone: {
-                    required: true
-                },
-                gender: {
+                sex: {
                     required: true
                 },
                 address: {
@@ -149,38 +141,66 @@ var WelcomeSettingsWizard = function() {
             displayConfirm();
         }
         $(".next-step").unbind("click").click(function(e) {
+
             e.preventDefault();
+            if($(this).attr('id') === "next-step-1"){
 
-            var data = {
-                registration_code: $(this).parents('#step-1').find('#registration-code').val(),
-                code_for_students: $(this).parents('#step-1').find('#code-for-students').val(),
-            };
+                var data = {
+                    registration_code: $(this).parents('#step-1').find('#registration-code').val(),
+                    code_for_students: $(this).parents('#step-1').find('#code-for-students').val(),
+                };
 
-            console.log(data);
+                $.blockUI({
+                    message: '<i class="fa fa-spinner fa-spin"></i> Validating Your School Codes......'
+                });
+                $.ajax({
+                    url: 'http://sumit.com/school/student/validation',
+                    dataType: 'json',
+                    cache: false,
+                    method: 'POST',
+                    data: data,
+                    success: function(data, response) {
+                        $.unblockUI();
+                        if(data.status == "success"){
+                            toastr.success("Thank You , You Have Been Registered with The School: <br>" + data.result.school.school_name);
+                            wizardContent.smartWizard("goForward");
+                        }else{
+                            toastr.warning("Sorry U cant be Registered.<br> Contact Your School");
+                        }
+                    }
+                });
+            }else if($(this).attr('id') === "next-step-2"){
 
-            $.blockUI({
-                message: '<i class="fa fa-spinner fa-spin"></i> Validating Your School Codes......'
-            });
-            $.ajax({
-                url: 'http://localhost/projects/schools/public/school/student/validation',
-                dataType: 'json',
-                cache: false,
-                method: 'POST',
-                data: data,
-                success: function(data, response) {
-                    $.unblockUI();
-                    toastr.success("Thank You , You Have Been Registered For this School");
-                }
-            });
-            wizardContent.smartWizard("goForward");
+                var data = {
+                    first_name: $(this).parents('#step-2').find('#first-name').val(),
+                    last_name: $(this).parents('#step-2').find('#last-name').val(),
+                    sex:       $('input:radio[name=sex]:checked').val()
+                };
+
+                $.blockUI({
+                    message: '<i class="fa fa-spinner fa-spin"></i> Updating Your Details......'
+                });
+                $.ajax({
+                    url: 'http://sumit.com/user/update/brief/update',
+                    dataType: 'json',
+                    cache: false,
+                    method: 'POST',
+                    data: data,
+                    success: function(data, response) {
+                        $.unblockUI();
+                        if(data.status == "success"){
+                            toastr.success("Welcome " + data.result.details.first_name + "<br> Your Details Have been Updated");
+                            wizardContent.smartWizard("goForward");
+                        }else{
+                            toastr.warning("Sorry Ur details cant be Updated.<br>Contact Your School");
+                        }
+                    }
+                });
+            }
         });
         $(".back-step").unbind("click").click(function(e) {
             e.preventDefault();
             wizardContent.smartWizard("goBackward");
-        });
-        $(".finish-step").unbind("click").click(function(e) {
-            e.preventDefault();
-            onFinish(obj, context);
         });
     };
     var leaveAStepCallback = function(obj, context) {

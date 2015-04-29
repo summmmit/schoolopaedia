@@ -65,6 +65,20 @@ Route::group(array('before' => 'guest'), function() {
         'as' => 'user-account-recover',
         'uses' => 'UserAccountController@getRecover'
     ));
+    /*
+     *  User Facebook Login
+     */
+    Route::get('/social/facebook/{auth?}',array(
+        'as'=>'user-facebook-auth',
+        'uses'=>'UserLoginController@getFacebookLogin'
+    ));
+    /*
+     *  User Google Login
+     */
+    Route::get('/gauth/{auth?}',array(
+        'as'=>'user-google-auth',
+        'uses'=>'UserLoginController@getGoogleLogin'
+    ));
 });
 
 /*
@@ -97,7 +111,7 @@ Route::group(array('before' => 'UserAuth'), function() {
          */
         Route::Post('/user/class/set/intial', array(
             'as' => 'user-class-set-initial-post',
-            'uses' => 'UserAccountController@postSetInitial'
+            'uses' => 'UserClassController@postSetInitial'
         ));
     });
     /*
@@ -114,7 +128,7 @@ Route::group(array('before' => 'UserAuth'), function() {
      * User Welcome Settings (get)
      */
     Route::get('/user/welcome/settings', array(
-        'as' => 'user-home',
+        'as' => 'user-welcome-settings',
         'uses' => 'UserLoginController@getWelcomeSettings'
     ));
 
@@ -139,7 +153,7 @@ Route::group(array('before' => 'UserAuth'), function() {
      */
     Route::get('/user/class/set/intial', array(
         'as' => 'user-class-set-initial',
-        'uses' => 'UserAccountController@getSetInitial'
+        'uses' => 'UserLoginController@getSetInitial'
     ));
 
     /*
@@ -218,15 +232,37 @@ Route::group(array('before' => 'UserAuth'), function() {
         'as' => 'user-events',
         'uses' => 'UserClassController@getEvents'
     ));
-    
-    
-    
     /**
-     * Ajax APi for Attendance 
+     * Ajax Api's
+     */
+    /**
+     * APi for Attendance
      */
     Route::Post('/user/attendance/new/application/leave', array(
         'as' => 'user-attendance-new-attendance-leave',
         'uses' => 'UserClassController@postNewLeaveApplication'
-    ));  
-    
+    ));
+    /**
+     * APi for Brief Details Updation
+     */
+    Route::Post('/user/update/brief/update', array(
+        'as' => 'user-update-brief-update',
+        'uses' => 'UserClassController@postBriefRegistration'
+    ));
+    /*
+     * Api to get All the Classes to a Stream  (post)
+     */
+    Route::Post('/user/classes/from/stream/id', array(
+        'as' => 'user-get-classes-from-stream-id',
+        'uses' => 'UserClassController@postGetClassesFromStreamId'
+    ));
+    /*
+     * Api to get section by Class   (post)
+     */
+    Route::Post('user/get/sections/from/class/id', array(
+        'as' => 'user-get-sections-from-class-id',
+        'uses' => 'UserClassController@postGetSections'
+    ));
+
+
 });

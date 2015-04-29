@@ -112,6 +112,7 @@ return array(
         'Orangehill\Iseed\IseedServiceProvider',
         'Stevebauman\Location\LocationServiceProvider',
         'Cartalyst\Sentry\SentryServiceProvider',
+        'Artdarek\OAuth\OAuthServiceProvider'
     ),
     /*
       |--------------------------------------------------------------------------
@@ -176,5 +177,6 @@ return array(
         'Image' => 'Intervention\Image\Facades\Image',
         'Location' => 'Stevebauman\Location\Facades\Location',
         'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+        'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
     ),
 );

@@ -7,7 +7,7 @@ var IntialSettings = function() {
         $('#form-field-select-session').on('change', function() {
 
             $.blockUI({
-                message: '<i class="fa fa-spinner fa-spin"></i> Doing some synchronisation with backend...'
+                message: '<i class="fa fa-spinner fa-spin"></i> Fetching Streams Available.....'
             });
             $('#form-field-select-stream').parentsUntil('form-group').removeClass('no-display');
             $.unblockUI();
@@ -17,7 +17,7 @@ var IntialSettings = function() {
 
             var stream_id = $(this).val();
             $.blockUI({
-                message: '<i class="fa fa-spinner fa-spin"></i> Doing some synchronisation with backend...'
+                message: '<i class="fa fa-spinner fa-spin"></i> Fetching Classes Available...'
             });
             if (stream_id) {
                 $('#form-field-select-class').parentsUntil('form-group').removeClass('no-display');
@@ -27,7 +27,7 @@ var IntialSettings = function() {
                 };
 
                 $.ajax({
-                    url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/classes/from/stream/id',
+                    url: 'http://sumit.com//user/classes/from/stream/id',
                     dataType: 'json',
                     data: data,
                     method: 'POST',
@@ -48,7 +48,7 @@ var IntialSettings = function() {
 
             var class_id = $(this).val();
             $.blockUI({
-                message: '<i class="fa fa-spinner fa-spin"></i> Doing some synchronisation with backend...'
+                message: '<i class="fa fa-spinner fa-spin"></i> Fetching Section to Your Class...'
             });
             if (class_id) {
                 $('#form-field-select-section').parentsUntil('form-group').removeClass('no-display');
@@ -58,7 +58,7 @@ var IntialSettings = function() {
                 };
 
                 $.ajax({
-                    url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/sections',
+                    url: 'http://sumit.com/user/get/sections/from/class/id',
                     dataType: 'json',
                     data: data,
                     method: 'POST',
@@ -78,7 +78,7 @@ var IntialSettings = function() {
         $('#form-field-select-section').on('change', function() {
 
             var section_id = $(this).val();
-            
+
             if (section_id) {
                 $('#form-button-submit').removeClass('no-display');
             }

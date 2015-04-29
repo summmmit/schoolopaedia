@@ -101,7 +101,7 @@
                     <div class="row">
                         <div class="col-md-offset-6 col-md-2 no-display" id="form-button-submit">
                             <button class="btn btn-green btn-block" type="submit">
-                                Update <i class="fa fa-arrow-circle-right"></i>
+                                Register <i class="fa fa-arrow-circle-right"></i>
                             </button>
                         </div>
                     </div>

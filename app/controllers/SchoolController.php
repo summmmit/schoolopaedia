@@ -113,12 +113,50 @@ class SchoolController extends BaseController {
         $registration_code = Input::get('registration_code');
         $code_for_students = Input::get('code_for_students');
 
+        $school = Schools::where('registration_code', '=', $registration_code)
+                  ->where('code_for_students', '=', $code_for_students)->get()->first();
+
+        if($school->count() > 0){
+
+            $user = Sentry::getUser();
+            $user->school_id = $school->id;
+            $user->save();
+
+            $users_login_info = new UsersLoginInfo();
+            $users_login_info->user_id = $user->id;
+            $users_login_info->school_id = $school->id;
+            $users_login_info->save();
+
+            $response = array(
+                'status' => 'success',
+                'msg' => 'Validation is Successfull',
+                'result' => array(
+                    'school' => $school
+                )
+            );
+            return Response::json($response);
+        }else{
+
+            $response = array(
+                'status' => 'failed',
+                'msg' => 'Validation is not Successfull',
+                'result' => array(
+                    'school' => null
+                )
+            );
+            return Response::json($response);
+        }
+    }
+
+    public function postGetSchoolCurrentSession(){
+        $school_id = Sentry::getUser()->school_id();
+
+        $school_session = SchoolSession::where('school_id', '=', $school_id)->OrderBy('session_start', 'desc')->get()->first();
         $response = array(
-            'status' => 'success',
-            'msg' => 'Validation is Successfull',
-            'errors' => null,
+            'status' => 'failed',
+            'msg' => 'Validation is not Successfull',
             'result' => array(
-                'school' => $registration_code
+                'school_session' => $school_session
             )
         );
         return Response::json($response);

@@ -183,13 +183,6 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
         'uses' => 'AdminTimeTableController@postDeleteStreams'
     ));
     /*
-     * Admin Sections  (post)
-     */
-    Route::Post('/admin/time/table/get/sections', array(
-        'as' => 'admin-time-table-get-streams',
-        'uses' => 'AdminTimeTableController@postGetSections'
-    ));
-    /*
      * Admin Sections Add or Edit (post)
      */
     Route::Post('/admin/time/table/add/sections', array(
@@ -258,14 +251,7 @@ Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() 
     Route::Post('/admin/time/table/get/teachers', array(
         'as' => 'admin-time-table-get-teachers',
         'uses' => 'AdminTimeTableController@postGetTeachers'
-    ));    
-    /*
-     * Admin get All the Classes to a Stream  (post)
-     */
-    Route::Post('/admin/time/table/get/classes/from/stream/id', array(
-        'as' => 'admin-time-table-get-classes-from-stream-id',
-        'uses' => 'AdminTimeTableController@postGetClassesFromStreamId'
-    )); 
+    ));
     /*
      * 
      * School Settings 

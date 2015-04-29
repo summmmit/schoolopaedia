@@ -54,10 +54,10 @@
             <br>
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <a class="btn btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>
+                    <a href="{{ URL::route('user-google-auth'); }}" class="btn btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>
                 </div>
                 <div class="col-md-6 text-center">
-                    <a class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+                    <a href="{{ URL::route('user-facebook-auth'); }}" class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
                 </div>
             </div>
         </fieldset>

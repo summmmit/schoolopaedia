@@ -1,5 +1,4 @@
 <?php
-
 class UserLoginController extends BaseController {
 
     //Show register Form
@@ -171,8 +170,6 @@ class UserLoginController extends BaseController {
             return Redirect::to('/user/sign/in') -> withErrors($v) -> withInput(Input::except('password'));
         } else {
             try {
-
-
                 //Try to authenticate user
                 $user = Sentry::getUserProvider() -> findByLogin(Input::get('identity'));
 
@@ -209,10 +206,209 @@ class UserLoginController extends BaseController {
                 Session::flash('global', 'User is banned.');
                 return Redirect::to('/user/sign/in');
             }
-            
-            Session::flash('global', 'Loggedin Successfully');
-            return Redirect::intended('/user/home');
 
+            $users_login_info = UsersLoginInfo::where('user_id', '=', $user->id)->get();
+
+            Session::flash('global', 'Loggedin Successfully');
+
+            if($users_login_info->count() > 0){
+                $school_id = $user->school_id;
+
+                $school_session = SchoolSession::where('school_id', '=', $school_id)->OrderBy('session_start', 'desc')->get()->first();
+
+                $user_registered_to_session = UsersRegisteredToSession::where('school_session_id', '=', $school_session->id)
+                                              ->where('school_id', '=', $school_id)->get();
+                if($user_registered_to_session->count() > 0){
+
+                    return Redirect::to(route('user-home'));
+                }else{
+                    Session::flash('global', 'Loggedin Successfully.<br>You Have to Register For new School Session first');
+                    return Redirect::to(route('user-class-set-initial'));
+                }
+
+            }else{
+                return Redirect::to(route('user-welcome-settings'));
+            }
+        }
+
+    }
+
+    //this is the code for facebook Login
+    public function getFacebookLogin($auth=NULL)
+    {
+        if ($auth == 'auth')
+        {
+            try
+            {
+                Hybrid_Endpoint::process();
+            }
+            catch (Exception $e)
+            {
+                return Redirect::to('fbauth');
+            }
+            return;
+        }
+        try {
+            // create a HybridAuth object
+            $socialAuth = new Hybrid_Auth(app_path() . '/config/packages/hybridauth/fbauth.php');
+            // authenticate with Google
+            $provider = $socialAuth->authenticate("Facebook");
+            // fetch user profile
+            $userProfile = $provider->getUserProfile();
+        }
+        catch(Exception $e) {
+            // exception codes can be found on HybBridAuth's web site
+            return $e->getMessage();
+        }
+        // access user profile data
+        echo "Connected with: <b>{$provider->id}</b><br />";
+        echo "As: <b>{$userProfile->displayName}</b><br />";
+        echo "<pre>" . print_r( $userProfile, true ) . "</pre><br />";
+
+        // logout
+        //$provider->logout();
+    }
+
+    //this is the method that will handle the Google Login
+
+    public function getGoogleLogin($auth=NULL)
+    {
+        if ($auth == 'auth')
+        {
+            Hybrid_Endpoint::process();
+
+        }
+        try {
+            $oauth = new Hybrid_Auth(app_path() . '/config/packages/hybridauth/gauth.php');
+            $provider = $oauth->authenticate('Google');
+            $profile = $provider->getUserProfile();
+        }
+        catch(exception $e)
+        {
+            return $e->getMessage();
+        }
+
+
+        echo "<pre>";
+        print_r( $profile );
+        echo "</pre><br />";
+
+        return $profile->email.'<a href="logout">Log Out</a>';
+
+    }
+
+    public function loginWithSocial($social_provider, $action = "") {
+        // check URL segment
+        if ($action == "auth") {
+
+            // process authentication
+            try {
+                Session::set('provider', $social_provider);
+                Hybrid_Endpoint::process();
+            } catch (Exception $e) {
+                // redirect back to http://URL/social/
+                return Redirect::route('loginWith');
+            }
+            return;
+        }
+
+        try {
+            // create a HybridAuth object
+            $socialAuth = new Hybrid_Auth(app_path() . '/config/hybridauth.php');
+            // authenticate with Provider
+            $provider = $socialAuth -> authenticate($social_provider);
+
+            // fetch user profile
+            $userProfile = $provider -> getUserProfile();
+
+            print_r($userProfile);
+            die;
+        } catch(Exception $e) {
+            // exception codes can be found on HybBridAuth's web site
+            Session::flash('error_msg', $e -> getMessage());
+            return Redirect::to('/login');
+        }
+
+        $this -> createOAuthProfile($userProfile);
+
+        return Redirect::to('/');
+    }
+
+    public function createOAuthProfile($userProfile) {
+
+        if (isset($userProfile -> username)){
+            $username = strlen($userProfile -> username) > 0 ? $userProfile -> username : "";
+        }
+
+        if (isset($userProfile -> screen_name)){
+            $username = strlen($userProfile -> screen_name) > 0 ? $userProfile -> screen_name : "";
+        }
+
+        if (isset($userProfile -> displayName)){
+            $username = strlen($userProfile -> displayName) > 0 ? $userProfile -> displayName : "";
+        }
+
+        $email = strlen($userProfile -> email) > 0 ? $userProfile -> email : "";
+        $email = strlen($userProfile -> emailVerified) > 0 ? $userProfile -> emailVerified : "";
+
+        $password = $this -> generatePassword();
+
+        if (Profile::where('email', $email) -> count() <= 0) {
+            $user = Sentry::register(array('email' => $email, 'password' => $password), true);
+
+            try {
+                $user_group = Sentry::findGroupById(1);
+            } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+                $this -> createGroup('users');
+                $this -> createGroup('admin');
+                $user_group = Sentry::findGroupById(1);
+            }
+
+            $user -> addGroup($user_group);
+
+            $profile = new Profile();
+
+            $profile -> user_id = $user -> getId();
+            $profile -> email = $email;
+            $profile -> username = $username;
+            $profile -> save();
+        }
+        //Login user
+        //Try to authenticate user
+        try {
+            $user = Sentry::findUserByLogin($email);
+
+            $throttle = Sentry::getThrottleProvider() -> findByUserId($user -> id);
+
+            $throttle -> check();
+
+            //Authenticate user
+            $credentials = array('email' => $email, 'password' => Input::get('password'));
+
+            Sentry::login($user, false);
+
+            //At this point we may get many exceptions lets handle all user management and throttle exceptions
+        } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
+            Session::flash('error_msg', 'Login field is required.');
+            return Redirect::to('/login');
+        } catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
+            Session::flash('error_msg', 'Password field is required.');
+            return Redirect::to('/login');
+        } catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
+            Session::flash('error_msg', 'Wrong password, try again.');
+            return Redirect::to('/login');
+        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            Session::flash('error_msg', 'User was not found.');
+            return Redirect::to('/login');
+        } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
+            Session::flash('error_msg', 'User is not activated.');
+            return Redirect::to('/login');
+        } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
+            Session::flash('error_msg', 'User is suspended ');
+            return Redirect::to('/login');
+        } catch (Cartalyst\Sentry\Throttling\UserBannedException $e) {
+            Session::flash('error_msg', 'User is banned.');
+            return Redirect::to('/login');
         }
 
     }
@@ -229,5 +425,13 @@ class UserLoginController extends BaseController {
     public function getWelcomeSettings(){
         return View::make('user.welcome-settings');
     }
+
+    public function getSetInitial(){
+        $session = SchoolSession::where('school_id', '=', Sentry::getUser()->school_id)->orderBy('session_start', 'desc')->get()->first();
+        $streams = Streams::where('school_id', '=',Sentry::getUser()->school_id)->get();
+
+        return View::make('user.initial-school-settings')->with('session', $session)->with('streams', $streams);
+    }
+
 
 }

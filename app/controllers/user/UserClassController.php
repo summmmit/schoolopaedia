@@ -2,24 +2,6 @@
 
 class UserClassController extends BaseController {
 
-    protected $user;
-    protected $schoolId;
-
-    public function __construct() {
-
-        $this->user = Auth::user();
-
-        $this->schoolId = $this->user->school_id;
-    }
-
-    protected function getUser() {
-        return $this->user;
-    }
-
-    protected function getSchoolId() {
-        return $this->schoolId;
-    }
-
     public function getUsers(){
         return View::make('user.class-users');
     }
@@ -84,8 +66,25 @@ class UserClassController extends BaseController {
         return View::make('user.events');
     }
 
+    public function postSetInitial(){
+        $session_id = Input::get('session_id');
+        $section_id = Input::get('section_id');
+
+        $users_to_class = new UsersRegisteredToSession();
+        $users_to_class->session_id = $session_id;
+        $users_to_class->section_id = $section_id;
+        $users_to_class->user_id = Sentry::getUser()->id;
+        if($users_to_class->save()){
+            return Redirect::route('user-home')->with('global', 'You Have Been Successfully Registered for this session');
+        }else{
+            return Redirect::route('user-class-set-initial')->with('global', 'You can not be registered this time. Please Try later.');
+        }
+    }
     /**
-     * Ajax APi for Attendance 
+     * Ajax Api's
+     */
+    /**
+     * APi for Attendance
      */    
     public function postNewLeaveApplication(){       
 
@@ -97,6 +96,77 @@ class UserClassController extends BaseController {
                 'periods' => "aasdgasdgs"
             )
         );
+        return Response::json($response);
+    }
+    /**
+     * Api for Brief Registration
+     */
+    public function postBriefRegistration(){
+
+        $first_name = Input::get('first_name');
+        $last_name = Input::get('last_name');
+        $sex = Input::get('sex');
+
+        $user_details = UserDetails::where('user_id', '=', Sentry::getUser()->id)->get()->first();
+
+        $user_details->first_name = $first_name;
+        $user_details->last_name = $last_name;
+        $user_details->sex = $sex;
+
+        if($user_details->save()){
+
+            $response = array(
+                'status' => 'success',
+                'result' => array(
+                    'details' => $user_details
+                )
+            );
+            return Response::json($response);
+        }else{
+
+            $response = array(
+                'status' => 'failed',
+                'result' => array(
+                    'details' => null
+                )
+            );
+            return Response::json($response);
+        }
+    }
+    /**
+     * Api for getting Classes by Stream Id
+     */
+    public function postGetClassesFromStreamId() {
+
+        $stream_id = Input::get('stream_id');
+        $school_id = Sentry::getUser()->school_id;
+
+        $classes = Classes::where('streams_id', '=', $stream_id)->where('school_id', '=', $school_id)->get();
+
+        $response = array(
+            'status' => 'success',
+            'result' => array(
+                'classes' => $classes
+            )
+        );
+
+        return Response::json($response);
+    }
+    /**
+     * Api to get Sections from class
+     */
+    public function postGetSections() {
+        $classId = Input::get('class_id');
+
+        $sections = Sections::where('class_id', '=', $classId)->get();
+
+        $response = array(
+            'status' => 'success',
+            'result' => array(
+                'sections' => $sections
+            )
+        );
+
         return Response::json($response);
     }
 
