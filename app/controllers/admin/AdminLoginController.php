@@ -16,7 +16,7 @@ class AdminLoginController extends BaseController {
         );
 
         if ($validator->fails()) {
-            return Redirect::route('user-account-create')
+            return Redirect::route('admin-account-create')
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -50,11 +50,11 @@ class AdminLoginController extends BaseController {
 
                 //If no groups created then create new groups
                 try {
-                    $user_group = Sentry::findGroupById(2);
+                    $user_group = Sentry::findGroupById(1);
                 } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
                     $this -> createGroup('administrator');
                     $this -> createGroup('students');
-                    $user_group = Sentry::findGroupById(2);
+                    $user_group = Sentry::findGroupById(1);
                 }
 
                 $user -> addGroup($user_group);
@@ -65,20 +65,20 @@ class AdminLoginController extends BaseController {
                 $userDetails -> save();
 
                 //send email
-                Mail::send('emails.auth.activate.activate-user', array('link' => URL::route('user-account-activate', $activationCode), 'activationCode' => $activationCode, 'userId' => $userId, 'email' => $email), function($message) use ($user) {
+                Mail::send('emails.auth.activate.activate-admin', array('link' => URL::route('admin-account-activate', $activationCode), 'activationCode' => $activationCode, 'userId' => $userId, 'email' => $email), function($message) use ($user) {
                     $message->to($user->email)->subject('Activate Your Account');
                 });
 
                 //success!
                 Session::flash('global', 'Thanks for sign up . Please activate your account by clicking activation link in your email');
-                return Redirect::to('/user/account');
+                return Redirect::to('/admin/account/create');
 
             } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
                 Session::flash('global', 'Username/Email Required.');
-                return Redirect::to('/register') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
+                return Redirect::to('/admin/account/create') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
             } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
                 Session::flash('global', 'User Already Exist.');
-                return Redirect::to('/register') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
+                return Redirect::to('/admin/account/create') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
             }
 
         }
@@ -121,22 +121,22 @@ class AdminLoginController extends BaseController {
             // Attempt to activate the user
             if ($user -> attemptActivation($activationCode)) {
                 Session::flash('global', 'User Activation Successfull Please login below.');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             } else {
                 Session::flash('global', 'Unable to activate user Try again later or contact Support Team.');
-                return Redirect::to('/user/register');
+                return Redirect::to(route('admin-account-create'));
             }
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             Session::flash('global', 'User was not found.');
-            return Redirect::to('/user/register');
+            return Redirect::to(route('admin-account-create'));
         } catch (Cartalyst\Sentry\Users\UserAlreadyActivatedException $e) {
             Session::flash('global', 'User is already activated.');
-            return Redirect::to('/user/register');
+            return Redirect::to(route('admin-account-create'));
         }
     }
 
     public function getSignIn(){
-        return View::make('user.account.login');
+        return View::make('admin.account.login');
     }
 
     //Authenticate User
@@ -160,14 +160,14 @@ class AdminLoginController extends BaseController {
 
             } else {
                 Session::flash('global', 'User does not exist');
-                return Redirect::to('/user/sign/in') -> withInput(Input::except('password'));
+                return Redirect::to('/admin/sign/in') -> withInput(Input::except('password'));
             }
         }
 
         $v = Validator::make($inputs, $rules);
 
         if ($v -> fails()) {
-            return Redirect::to('/user/sign/in') -> withErrors($v) -> withInput(Input::except('password'));
+            return Redirect::to('/admin/sign/in') -> withErrors($v) -> withInput(Input::except('password'));
         } else {
             try {
                 //Try to authenticate user
@@ -186,25 +186,25 @@ class AdminLoginController extends BaseController {
                 //At this point we may get many exceptions lets handle all user management and throttle exceptions
             } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
                 Session::flash('global', 'Login field is required.');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             } catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
                 Session::flash('global', 'Password field is required.');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             } catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
                 Session::flash('global', 'Wrong password, try again.');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
                 Session::flash('global', 'User was not found.');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
                 Session::flash('global', 'User is not activated.');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
                 Session::flash('global', 'User is suspended ');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             } catch (Cartalyst\Sentry\Throttling\UserBannedException $e) {
                 Session::flash('global', 'User is banned.');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             }
 
             $users_login_info = UsersLoginInfo::where('user_id', '=', $user->id)->get();
