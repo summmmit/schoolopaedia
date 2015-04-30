@@ -82,14 +82,14 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
          */
         Route::Post('/admin/edit', array(
             'as' => 'admin-edit-post',
-            'uses' => 'AdminAccountController@postEdit'
+            'uses' => 'AdminLoginController@postEdit'
         ));
         /*
          *  Change Admin login Details (post)
          */
         Route::Post('/admin/login/details', array(
             'as' => 'admin-login-details-post',
-            'uses' => 'AdminAccountController@postChangePassword'
+            'uses' => 'AdminLoginController@postChangePassword'
         ));
         /*
          * Admin Time Table Set (post)
@@ -104,7 +104,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
      *
      * SignOUt (get)
      */
-    Route::get('/admin/account/sign/out', array(
+    Route::get('/sign/out', array(
         'as' => 'admin-sign-out',
         'uses' => 'AdminAccountController@getSignOut'
     ));
@@ -113,14 +113,14 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
      */
     Route::get('/admin/home', array(
         'as' => 'admin-dashboard',
-        'uses' => 'AdminAccountController@getAdminHome'
+        'uses' => 'AdminLoginController@getAdminHome'
     ));
     /*
      * Admin Profile (get)
      */
     Route::get('/admin/profile', array(
         'as' => 'admin-profile',
-        'uses' => 'AdminAccountController@getAdminProfile'
+        'uses' => 'AdminLoginController@getAdminProfile'
     ));
     /*
      * Admin Time Table Set (get)
