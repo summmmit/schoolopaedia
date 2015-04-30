@@ -198,15 +198,13 @@ class UserAccountController extends BaseController {
     }
 
     public function getUserHome() {
-        
-       // $day_id = date('N',time());
-        
         return View::make('user.user-home');
     }
 
     public function getUserProfile() {
-        $user = Auth::user();
-        return View::make('user.user-profile')->withuser($user);
+        $user = Sentry::getUser();
+        $user_details = UserDetails::where('user_id', '=', $user->id)->get()->first();
+        return View::make('user.profile')->withuser($user)->with('user_details', $user_details);
     }
 
     public function postEdit() {

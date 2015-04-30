@@ -2,7 +2,7 @@
 /*
  * Unauthenticated Group
  */
-Route::group(array('prefix' => 'administrator', 'before' => 'guest'), function() {
+Route::group(array('prefix' => 'admin', 'before' => 'guest'), function() {
 
     /*
      * CSRF protection
@@ -11,66 +11,66 @@ Route::group(array('prefix' => 'administrator', 'before' => 'guest'), function()
         /*
          *  Admin Sign-in (post)
          */
-        Route::Post('/admin/signin/post', array(
+        Route::Post('/sign/in/post', array(
             'as' => 'admin-sign-in-post',
-            'uses' => 'AdminAccountController@postSignIn'
+            'uses' => 'AdminLoginController@postSignIn'
         ));
         /*
          *  Admin Create Account (post)
          */
-        Route::Post('/admin/account', array(
+        Route::Post('/account/create', array(
             'as' => 'admin-account-create-post',
-            'uses' => 'AdminAccountController@postCreate'
+            'uses' => 'AdminLoginController@postCreate'
         ));
         /*
          *  Admin Sign-in (post)
          */
-        Route::Post('/admin/forgot/password/post', array(
+        Route::Post('/forgot/password/post', array(
             'as' => 'admin-forgot-password-post',
-            'uses' => 'AdminAccountController@postForgotPassword'
+            'uses' => 'AdminLoginController@postForgotPassword'
         ));
     });
     /*
      * Admin Create Account (get)
      */
-    Route::get('/admin/account', array(
+    Route::get('/account/create', array(
         'as' => 'admin-account-create',
-        'uses' => 'AdminAccountController@getCreate'
+        'uses' => 'AdminLoginController@getCreate'
     ));
     /*
      * Admin SignIn Account (get)
      */
-    Route::get('/admin/sign-in', array(
+    Route::get('/sign/in', array(
         'as' => 'admin-sign-in',
-        'uses' => 'AdminAccountController@getSignIn'
+        'uses' => 'AdminLoginController@getSignIn'
     ));
     /*
      * Admin Activate Account (get)
      */
-    Route::get('/admin/account/activate/{code}', array(
+    Route::get('/account/activate/{code}', array(
         'as' => 'admin-account-activate',
-        'uses' => 'AdminAccountController@getActivate'
+        'uses' => 'AdminLoginController@getActivate'
     ));
     /*
      * Admin Forgot password (get)
      */
-    Route::get('/admin/forgot/password', array(
+    Route::get('/forgot/password', array(
         'as' => 'admin-forgot-password',
-        'uses' => 'AdminAccountController@getForgotPassword'
+        'uses' => 'AdminLoginController@getForgotPassword'
     ));
     /*
      * Admin Recover Account (get)
      */
-    Route::get('/admin/account/recover/{code}', array(
+    Route::get('/account/recover/{code}', array(
         'as' => 'admin-account-recover',
-        'uses' => 'AdminAccountController@getRecover'
+        'uses' => 'AdminLoginController@getRecover'
     ));
 });
 
 /*
  * Authenticated Group
  */
-Route::group(array('prefix' => 'administrator', 'before' => 'auth'), function() {
+Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
 
     /*
      * CSRF protection

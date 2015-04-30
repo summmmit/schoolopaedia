@@ -64,7 +64,7 @@
                         <div class="col-sm-4">
                             <div class="user-left">
                                 <div class="center">
-                                    <h4>{{ ucfirst($user->first_name) }} {{ ucfirst($user->last_name) }} </h4>
+                                    <h4>{{ ucfirst($user_details->first_name) }} {{ ucfirst($user->$user_details) }} </h4>
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
                                         <div class="user-image">
                                             <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user->pic) }}" alt="">
@@ -107,53 +107,31 @@
                                     <tbody>
                                         <tr>
                                             <td> Full Name </td>
-                                            <td> {{ ucfirst($user->first_name) }} {{ ucfirst($user->middle_name) }} {{ ucfirst($user->last_name) }} </td>
+                                            <td> {{ ucfirst($user_details->first_name) }} {{ ucfirst($user_details->middle_name) }} {{ ucfirst($user_details->last_name) }} </td>
                                             <td><a href="#panel_edit_account" class="show-tab"><i
                                                         class="fa fa-pencil edit-user-info"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
-                                            @if($user->relation_with_person == 0)
-                                            <td>Father's Name</td>
-                                            @elseif($user->relation_with_person == 1)                                        
-                                            <td>Husband's Name</td>
-                                            @endif
-                                            <td>{{ $user->relative_id }}</td>
-                                            <td><a href="#panel_edit_account" class="show-tab"><i
-                                                        class="fa fa-pencil edit-user-info"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Voter ID</td>
-                                            <td><span class="label label-green label-info">{{ $user->voter_id }}</span></td>
+                                            <td>Roll Number</td>
+                                            <td><span class="label label-green label-info">{{ $user_details->username }}</span></td>
                                             <td><a href="#panel_edit_account" class="show-tab"><i
                                                         class="fa fa-pencil edit-user-info"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Date of Birth</td>
-                                            <td>{{ $user->dob }}</td>
+                                            <td>{{ $user_details->dob or 'Not Yet Set' }}</td>
                                             <td><a href="#panel_edit_account" class="show-tab"><i
                                                         class="fa fa-pencil edit-user-info"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Gender</td>
-                                            @if($user->sex == 0)
+                                            @if($user_details->sex == 1)
                                             <td>Female</td>
-                                            @elseif($user->sex == 1)                                        
+                                            @elseif($user_details->sex == 0)                                        
                                             <td>Male</td>
-                                            @endif
-                                            <td><a href="#panel_edit_account" class="show-tab"><i
-                                                        class="fa fa-pencil edit-user-info"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Marriage Status</td>
-                                            @if($user->marriage_status == 0)
-                                            <td><span class="label label-sm label-info">Unmarried</span></td>
-                                            @elseif($user->marriage_status == 1)      
-                                            <td><span class="label label-sm label-info">Married</span></td>
                                             @endif
                                             <td><a href="#panel_edit_account" class="show-tab"><i
                                                         class="fa fa-pencil edit-user-info"></i></a>
@@ -176,7 +154,10 @@
                                         <tr>
                                             <td>Mobile Number:</td>
                                             <td></td>
-                                            <td>{{ $user->mobile_number }}</td>
+                                            <td>{{ $user_details->mobile_number or 'Not Yet Set' }}</td>
+                                            <td><a href="#panel_edit_account" class="show-tab"><i
+                                                        class="fa fa-pencil edit-user-info"></i></a>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -190,7 +171,7 @@
                                         <tr>
                                             <td>Last Logged In</td>
                                             <td></td>
-                                            <td>(22/12/2015 22:15 PM)</td>
+                                            <td>{{ date_format($user->last_login, "d-M-Y H:i A") }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -325,7 +306,7 @@
                                             Update Image
                                         </label>
                                         <div class="fileupload fileupload-new" data-provides="fileupload">
-                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user->pic) }}" alt="">
+                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user_details->pic) }}" alt="">
                                             </div>
                                             <div class="fileupload-preview fileupload-exists thumbnail"></div> <br>
                                             <div class="user-edit-image-buttons">
@@ -345,7 +326,7 @@
                                                 <label class="control-label">
                                                     First Name
                                                 </label>
-                                                <input type="text" value="{{ $user->first_name or '' }}" class="form-control" id="first_name" name="first_name">
+                                                <input type="text" value="{{ $user_details->first_name or '' }}" class="form-control" id="first_name" name="first_name">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -353,7 +334,7 @@
                                                 <label class="control-label">
                                                     Middle Name <span class="symbol"></span>
                                                 </label>
-                                                <input type="text" value="{{ $user->middle_name or '' }}" class="form-control" id="middle_name" name="middle_name">
+                                                <input type="text" value="{{ $user_details->middle_name or '' }}" class="form-control" id="middle_name" name="middle_name">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -361,7 +342,7 @@
                                                 <label class="control-label">
                                                     Last Name <span class="symbol required"></span>
                                                 </label>
-                                                <input type="text" value="{{ $user->last_name or '' }}" class="form-control" id="last_name" name="last_name">
+                                                <input type="text" value="{{ $user_details->last_name or '' }}" class="form-control" id="last_name" name="last_name">
                                             </div>
                                         </div>
                                     </div>
@@ -369,14 +350,18 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">
-                                                    @if($user->relation_with_person == '0')
-                                                    Father's Name
-                                                    @elseif($user->relation_with_person == '1')
-                                                    Husband's Name
-                                                    @endif
-                                                    <span class="symbol required"></span>
+                                                    Gender <span class="symbol required"></span>
                                                 </label>
-                                                <input type="text" value="{{ $user->relative_id or '' }}" class="form-control" id="relative_id" name="relative_id">
+                                                <div>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" class="grey" value="0" name="sex" id="sex_female" {{ $user_details->sex == '1' ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        Female
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" class="grey" value="1" name="sex"  id="sex_male" {{ $user_details->sex == '0' ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        Male
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -389,7 +374,7 @@
                                                         <select name="dd" id="dd" class="form-control">
                                                             <option value="">DD</option>  <!-- Bug here ...........this need to be in blade form -->
                                                             <?php for ($i = 01; $i <= 31; $i++) { ?>                                                    
-                                                                <option value="<?php echo $i; ?>" <?php if (date('d', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
+                                                                <option value="<?php echo $i; ?>" <?php if (date('d', strtotime($user_details->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
                                                             <?php } ?>                    
                                                         </select>
                                                     </div>
@@ -397,49 +382,13 @@
                                                         <select name="mm" id="mm" class="form-control">
                                                             <option value="">MM</option>  <!-- Bug here ...........this need to be in blade form -->
                                                             <?php for ($i = 01; $i <= 12; $i++) { ?>                                                    
-                                                                <option value="<?php echo $i; ?>" <?php if (date('m', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
+                                                                <option value="<?php echo $i; ?>" <?php if (date('m', strtotime($user_details->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
                                                             <?php } ?>                                                
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="text" value="{{ (strtotime($user->dob) == '') ? '' : date('Y', strtotime($user->dob)) }}" id="yyyy" name="yyyy" class="form-control">
+                                                        <input type="text" value="{{ (strtotime($user_details->dob) == '') ? '' : date('Y', strtotime($user_details->dob)) }}" id="yyyy" name="yyyy" class="form-control">
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">
-                                                    Gender <span class="symbol required"></span>
-                                                </label>
-                                                <div>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" class="grey" value="0" name="sex" id="sex_female" {{ (($user->sex) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
-                                                        Female
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" class="grey" value="1" name="sex"  id="sex_male" {{ (($user->sex) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
-                                                        Male
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">
-                                                    Marriage Status <span class="symbol required"></span>
-                                                </label>
-                                                <div>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" class="grey" value="0" name="marriage_status" id="unmarried" {{ (($user->marriage_status) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
-                                                        UnMarried
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" class="grey" value="1" name="marriage_status"  id="married" {{ (($user->marriage_status) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
-                                                        Married
-                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -455,7 +404,7 @@
                                             <label class="control-label">
                                                 Mobile Number <span class="symbol required"></span>
                                             </label>
-                                            <input type="number" value="{{ $user->mobile_number or '' }}" class="form-control" id="mobile_number" name="mobile_number">
+                                            <input type="number" value="{{ $user_details->mobile_number or '' }}" class="form-control" id="mobile_number" name="mobile_number">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -463,7 +412,7 @@
                                             <label class="control-label">
                                                 Home Phone Number
                                             </label>
-                                            <input type="number" value="{{ $user->home_number or '' }}" class="form-control" id="home_number" name="home_number">
+                                            <input type="number" value="{{ $user_details->home_number or '' }}" class="form-control" id="home_number" name="home_number">
                                         </div>
                                     </div>
                                 </div>
@@ -471,19 +420,19 @@
                                     <label class="control-label">
                                         Address 1 <span class="symbol required"></span>
                                     </label>
-                                    <input class="form-control" type="text" name="add_1" value="{{ $user->add_1 or '' }}" id="add_1">
+                                    <input class="form-control" type="text" name="add_1" value="{{ $user_details->add_1 or '' }}" id="add_1">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Address 2 <span class="symbol required"></span>
                                     </label>
-                                    <input class="form-control" type="text" name="add_2" value="{{ $user->add_2 or '' }}" id="add_2">
+                                    <input class="form-control" type="text" name="add_2" value="{{ $user_details->add_2 or '' }}" id="add_2">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         City
                                     </label>
-                                    <input class="form-control tooltips" value="{{ $user->city or '' }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
+                                    <input class="form-control tooltips" value="{{ $user_details->city or '' }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8">
@@ -505,7 +454,7 @@
                                             <label class="control-label">
                                                 Pin Code <span class="symbol required"></span>
                                             </label>
-                                            <input class="form-control" type="text" name="pin_code" id="pin_code" value="{{ $user->pin_code or '' }}">
+                                            <input class="form-control" type="text" name="pin_code" id="pin_code" value="{{ $user_details->pin_code or '' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -552,12 +501,41 @@
                             <div class="col-md-6">
                                 <table class="table table-condensed table-hover">
                                     <thead>
-                                        <tr>
+                                    <tr>
                                             <th colspan="3"><h3>Login Details</h3></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-
+                                        <tr>
+                                            <td class="column-left">Current Email:</td>
+                                            <td class="column-right text-center">{{ $user->email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">Last Login</td>
+                                            <td class="column-right text-center">{{ $user->last_login }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">Skype Id</td>
+                                            <td class="column-right text-center">{{ $user->skype }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">
+                                                <img src="{{ URL::asset('assets/projects/images/no_img.png'); }}" width="90px" height="90px">
+                                            </td>
+                                            <td class="column-right text-center"><a href="">Connect Facebook</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">
+                                                <img src="{{ URL::asset('assets/projects/images/no_img.png'); }}" width="90px" height="90px">
+                                            </td>
+                                            <td class="column-right text-center"><a href="#">Connect Google</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">
+                                                <img src="{{ URL::asset('assets/projects/images/no_img.png'); }}" width="90px" height="90px">
+                                            </td>
+                                            <td class="column-right text-center"><a href="#">Connect Instagram</a></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -565,12 +543,6 @@
                         <div class="col-md-6">
                             <form action="{{ URL::route('user-login-details-post'); }}" role="form" id="form" method="post">
                                 <h3>Update Details</h3>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Email Address
-                                    </label>
-                                    <input type="email" value="{{ $user->email or '' }}" class="form-control" id="email" name="email">
-                                </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Current Password

@@ -68,10 +68,14 @@ class UserClassController extends BaseController {
 
     public function postSetInitial(){
         $session_id = Input::get('session_id');
+        $stream_id = Input::get('stream_id');
+        $class_id = Input::get('class_id');
         $section_id = Input::get('section_id');
 
-        $users_to_class = new UsersRegisteredToSession();
+        $users_to_class = new UsersToClass();
         $users_to_class->session_id = $session_id;
+        $users_to_class->stream_id  = $stream_id;
+        $users_to_class->class_id   = $class_id;
         $users_to_class->section_id = $section_id;
         $users_to_class->user_id = Sentry::getUser()->id;
         if($users_to_class->save()){

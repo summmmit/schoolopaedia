@@ -19,55 +19,6 @@
         </div>
         @endif
         <fieldset>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="first_name" placeholder="First Name" {{ (Input::old('first_name')) ? 'value = "' .e(Input::old('first_name')). '" ':'' }}>
-                           @if ($errors->has('first_name')) <p class="help-block alert-danger">{{ $errors->first('first_name') }}</p> @endif
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="last_name" placeholder="Last Name" {{ (Input::old('last_name')) ? 'value = "' .e(Input::old('last_name')). '" ':'' }}>
-                           @if ($errors->has('last_name')) <p class="help-block alert-danger">{{ $errors->first('last_name') }}</p> @endif
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="city" placeholder="City" {{ (Input::old('city')) ? 'value = "' .e(Input::old('city')). '" ':'' }}>
-                           @if ($errors->has('city')) <p class="help-block alert-danger">{{ $errors->first('city') }}</p> @endif
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="state" placeholder="state" {{ (Input::old('state')) ? 'value = "' .e(Input::old('state')). '" ':'' }}>
-                           @if ($errors->has('state')) <p class="help-block alert-danger">{{ $errors->first('state') }}</p> @endif
-            </div>
-            <div class="form-group">
-                <div>
-                    <label class="radio-inline">
-                        <input type="radio" class="grey" value="0" name="sex">
-                        Female
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" class="grey" value="1" name="sex">
-                        Male
-                    </label>
-                </div>
-            </div>
-            <p>
-                Enter your School details below:
-            </p>
-            <div class="form-group">
-                <span class="input-icon">
-                    <input type="text" class="form-control" name="school_registration_code" placeholder="School Code" value="{{ Input::old('school_registration_code') or '' }}">
-                    @if ($errors->has('school_registration_code')) <p class="help-block alert-danger">{{ $errors->first('school_registration_code') }}</p> @endif
-                    <i class="fa fa-envelope"></i> </span>
-            </div>
-            <div class="form-group">
-                <span class="input-icon">
-                    <input type="text" class="form-control" name="admin_registration_code" placeholder="Admin Code" value="{{ Input::old('admin_registration_code') or '' }}">
-                    @if ($errors->has('admin_registration_code')) <p class="help-block alert-danger">{{ $errors->first('admin_registration_code') }}</p> @endif
-                    <i class="fa fa-envelope"></i> </span>
-            </div>
             <p>
                 Enter your account details below:
             </p>

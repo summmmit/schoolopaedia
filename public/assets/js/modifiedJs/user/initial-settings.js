@@ -27,7 +27,7 @@ var IntialSettings = function() {
                 };
 
                 $.ajax({
-                    url: 'http://sumit.com//user/classes/from/stream/id',
+                    url: 'http://localhost/projects/schools/public/user/classes/from/stream/id',
                     dataType: 'json',
                     data: data,
                     method: 'POST',
@@ -58,7 +58,7 @@ var IntialSettings = function() {
                 };
 
                 $.ajax({
-                    url: 'http://sumit.com/user/get/sections/from/class/id',
+                    url: 'http://localhost/projects/schools/public/user/get/sections/from/class/id',
                     dataType: 'json',
                     data: data,
                     method: 'POST',

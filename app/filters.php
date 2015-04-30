@@ -40,6 +40,13 @@ Route::filter('UserAuth', function()
     }
 });
 
+Route::filter('AdminAuth', function()
+{
+    if ( ! Sentry::check()) 
+    {     
+        return Redirect::guest('/user/sign/in');
+    }
+});
 
 Route::filter('auth', function()
 {
