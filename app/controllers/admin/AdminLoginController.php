@@ -223,7 +223,7 @@ class AdminLoginController extends BaseController {
                     return Redirect::to(route('user-home'));
                 }else{
                     Session::flash('global', 'Loggedin Successfully.<br>You Have to Register For new School Session first');
-                    return Redirect::to(route('user-class-set-initial'));
+                    return Redirect::to(route('admin-school-set-sessions'));
                 }
 
             }else{
@@ -422,8 +422,8 @@ class AdminLoginController extends BaseController {
         return View::make('admin.welcome-settings');
     }
 
-    public function getUserHome() {      
-        return View::make('user.home');
+    public function getAdminHome() {      
+        return View::make('admin.home');
     }
     
     // for the school sessions

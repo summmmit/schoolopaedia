@@ -151,7 +151,9 @@ class SchoolController extends BaseController {
     public function postGetSchoolCurrentSession(){
         $school_id = Sentry::getUser()->school_id();
 
-        $school_session = SchoolSession::where('school_id', '=', $school_id)->OrderBy('session_start', 'desc')->get()->first();
+        $school_session = SchoolSession::where('school_id', '=', $school_id)->
+                                        where('current_session', '=', 1)
+                                        ->get();
         $response = array(
             'status' => 'failed',
             'msg' => 'Validation is not Successfull',

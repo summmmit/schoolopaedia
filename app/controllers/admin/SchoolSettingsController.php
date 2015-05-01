@@ -13,7 +13,7 @@ class SchoolSettingsController extends BaseController {
 
     public function __construct() {
 
-        $this->user = Auth::user();
+        $this->user = Sentry::getUser();
 
         $this->schoolId = $this->user->school_id;
     }
@@ -36,15 +36,17 @@ class SchoolSettingsController extends BaseController {
     public function postSetSchoolSessions() {
         $start_session_from = Input::get('start_session_from');
         $end_session_untill = Input::get('end_session_untill');
+        $current_session = Input::get('current_session');
 
         $school_session = new SchoolSession();
         $school_session->session_start = $start_session_from;
         $school_session->session_end = $end_session_untill;
-        $school_session->school_id = $this->getSchoolId();
+        $school_session->school_id = Sentry::getUser()->school_id;
+        $school_session->current_session = ($current_session == "on") ? 1 : 0;
 
         $school_session->save();
 
-        return Redirect::route('admin-school-set-sessions');
+        return Redirect::route('admin-home');
     }
 
     public function getSchoolSessions() {

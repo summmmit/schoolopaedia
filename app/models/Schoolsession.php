@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class SchoolSession extends Eloquent {
 
-    protected $fillable = array('session_start', 'session_end', 'school_id');
+    protected $fillable = array('session_start', 'session_end', 'school_id', 'current_session');
 
     use SoftDeletingTrait;
 

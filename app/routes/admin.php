@@ -119,8 +119,8 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
      * Admin Home (get)
      */
     Route::get('/admin/home', array(
-        'as' => 'admin-dashboard',
-        'uses' => 'AdminAccountController@getAdminHome'
+        'as' => 'admin-home',
+        'uses' => 'AdminLoginController@getAdminHome'
     ));
     /*
      * Admin Profile (get)
@@ -284,14 +284,14 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * Set Initial School Session
      */
-    Route::get('/admin/school/set/sessions', array(
+    Route::get('/school/set/sessions', array(
         'as' => 'admin-school-set-sessions',
         'uses' => 'AdminLoginController@getSetSchoolSessions'
     ));
     /*
      * Set Initial School Session (post)
      */
-    Route::Post('/admin/school/set/sessions/post', array(
+    Route::Post('/school/set/sessions/post', array(
         'as' => 'admin-school-set-sessions-post',
         'uses' => 'SchoolSettingsController@postSetSchoolSessions'
     ));
