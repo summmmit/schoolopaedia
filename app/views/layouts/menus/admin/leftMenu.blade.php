@@ -1,4 +1,9 @@
+<?php
+$user_id = Sentry::getUser()->id;
 
+$userDetails = UserDetails::where('user_id', '=', $user_id)->get()->first();
+
+?>
 
 <div class="main-navigation left-wrapper transition-left">
     <div class="navigation-toggler hidden-sm hidden-xs">
@@ -7,17 +12,17 @@
     </div>
     <div class="user-profile border-top padding-horizontal-10 block">
         <div class="inline-block">
-            <img src="{{ URL::asset('assets/projects/images/profilepics/'.Auth::user()->pic) }}" alt="" height="50px" width="50px">
+            <img src="{{ URL::asset('assets/projects/images/profilepics/'.$userDetails->pic) }}" alt="" height="50px" width="50px">
         </div>
         <div class="inline-block">
             <h5 class="no-margin"> Welcome </h5>
-            <h4 class="no-margin"> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} </h4>
+            <h4 class="no-margin"> {{ $userDetails->first_name }} {{ $userDetails->last_name }} </h4>
         </div>
     </div>
     <!-- start: MAIN NAVIGATION MENU -->
     <ul class="main-navigation-menu">
         <li>
-            <a href="{{ URL::route('admin-dashboard'); }}"><i class="fa fa-home"></i> <span class="title"> Home </span><span class="label label-default pull-right "> HOME </span> </a>
+            <a href="{{ URL::route('admin-home'); }}"><i class="fa fa-home"></i> <span class="title"> Home </span><span class="label label-default pull-right "> HOME </span> </a>
         </li>
         <li>
             <a href="{{ URL::route('admin-profile'); }}"><i class="fa fa-desktop"></i> <span class="title"> Your Profile </span></a>

@@ -29,7 +29,15 @@
                 <h4 class="panel-title">Set <span class="text-bold">Current Session</span></h4>
             </div>
             <div class="panel-body">
-                <form action="{{ URL::route('admin-school-set-sessions-post'); }}" method="post">
+                <form action="{{ URL::route('admin-school-set-sessions-post'); }}" method="post" id="form">
+                    <div class="row">
+                        <div class="col-md-offset-4 col-md-4">                                 
+                            <!-- Some Message to be Displayed start-->
+                            <div class="errorHandler alert alert-danger no-display">
+                                <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-offset-4 col-md-4">
                             <div class="form-group">
@@ -57,7 +65,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-offset-6 col-md-2">
+                        <div class="col-md-offset-4 col-md-2">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="current_session" class="red" checked="checked">
+                                Make it Current Session ?
+                            </label>
+                        </div>
+                        <div class="col-md-2">
                             <button class="btn btn-green btn-block" type="submit">
                                 Update <i class="fa fa-arrow-circle-right"></i>
                             </button>
@@ -77,10 +91,12 @@
 
 <!-- Scripts for This page only -->
 <script src="{{ URL::asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'); }}"></script>
+<script src="{{ URL::asset('assets/js/modifiedJs/admin/validation.js'); }}"></script>
 <script>
 jQuery(document).ready(function() {
     Main.init();
     SVExamples.init();
+    Validation.init();
     $('.date-picker').datepicker({
         autoclose: true
     });

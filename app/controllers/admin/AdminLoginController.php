@@ -74,7 +74,7 @@ class AdminLoginController extends BaseController {
                 return Redirect::to('/admin/account/create');
 
             } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
-                Session::flash('global', 'Username/Email Required.');
+                Session::flash('global', 'Email Required.');
                 return Redirect::to('/admin/account/create') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
             } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
                 Session::flash('global', 'User Already Exist.');
@@ -124,14 +124,14 @@ class AdminLoginController extends BaseController {
                 return Redirect::to('/admin/sign/in');
             } else {
                 Session::flash('global', 'Unable to activate user Try again later or contact Support Team.');
-                return Redirect::to(route('admin-account-create'));
+                return Redirect::to('/admin/account/create');
             }
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             Session::flash('global', 'User was not found.');
-            return Redirect::to(route('admin-account-create'));
+            return Redirect::to('/admin/account/create');
         } catch (Cartalyst\Sentry\Users\UserAlreadyActivatedException $e) {
             Session::flash('global', 'User is already activated.');
-            return Redirect::to(route('admin-account-create'));
+            return Redirect::to('/admin/account/create');
         }
     }
 
@@ -223,11 +223,11 @@ class AdminLoginController extends BaseController {
                     return Redirect::to(route('user-home'));
                 }else{
                     Session::flash('global', 'Loggedin Successfully.<br>You Have to Register For new School Session first');
-                    return Redirect::to(route('user-class-set-initial'));
+                    return Redirect::to(route('admin-school-set-sessions'));
                 }
 
             }else{
-                return Redirect::to(route('user-welcome-settings'));
+                return Redirect::to(route('admin-welcome-settings'));
             }
         }
 
@@ -415,23 +415,54 @@ class AdminLoginController extends BaseController {
 
     public function getSignOut(){
         Sentry::logout();
-        return Redirect::to('/user/sign/in');
-    }
-
-    public function getUserHome() {      
-        return View::make('user.home');
+        return Redirect::to('/admin/sign/in');
     }
     
-    public function getWelcomeSettings(){
-        return View::make('user.welcome-settings');
+    public function getWelcomeSettings(){   
+        return View::make('admin.welcome-settings');
     }
 
-    public function getSetInitial(){
-        $session = SchoolSession::where('school_id', '=', Sentry::getUser()->school_id)->orderBy('session_start', 'desc')->get()->first();
-        $streams = Streams::where('school_id', '=',Sentry::getUser()->school_id)->get();
-
-        return View::make('user.initial-school-settings')->with('session', $session)->with('streams', $streams);
+    public function getAdminHome() {      
+        return View::make('admin.home');
     }
+    
+    // for the school sessions
+    public function getSetSchoolSessions() {
+        return View::make('admin.set-initial-school-sessions');
+    }
+    /**
+     * Api for Brief Registration
+     */
+    public function postBriefRegistration(){
 
+        $first_name = Input::get('first_name');
+        $last_name = Input::get('last_name');
+        $sex = Input::get('sex');
 
+        $user_details = UserDetails::where('user_id', '=', Sentry::getUser()->id)->get()->first();
+
+        $user_details->first_name = $first_name;
+        $user_details->last_name = $last_name;
+        $user_details->sex = $sex;
+
+        if($user_details->save()){
+
+            $response = array(
+                'status' => 'success',
+                'result' => array(
+                    'details' => $user_details
+                )
+            );
+            return Response::json($response);
+        }else{
+
+            $response = array(
+                'status' => 'failed',
+                'result' => array(
+                    'details' => null
+                )
+            );
+            return Response::json($response);
+        }
+    }
 }

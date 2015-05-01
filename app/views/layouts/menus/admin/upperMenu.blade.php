@@ -1,10 +1,15 @@
+<?php
+$user_id = Sentry::getUser()->id;
 
+$userDetails = UserDetails::where('user_id', '=', $user_id)->get()->first();
+
+?>
 <ul class="nav navbar-right">
     <!-- start: USER DROPDOWN -->
     <li class="dropdown current-user">
         <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-            <img src="{{ URL::asset('assets/projects/images/profilepics/'.Auth::user()->pic) }}" class="img-circle" alt="" width="30px" height="30px">
-            <span class="username hidden-xs">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span> <i class="fa fa-caret-down "></i>
+            <img src="{{ URL::asset('assets/projects/images/profilepics/'.$userDetails->pic) }}" class="img-circle" alt="" width="30px" height="30px">
+            <span class="username hidden-xs">{{ $userDetails->first_name }} {{ $userDetails->last_name }}</span> <i class="fa fa-caret-down "></i>
         </a>
         <ul class="dropdown-menu dropdown-dark">
             <li>

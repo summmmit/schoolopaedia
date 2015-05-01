@@ -3,9 +3,6 @@
 <!-- start: REGISTER BOX -->
 <div class="box-register">
     <h3>Sign Up</h3>
-    <p>
-        Enter your personal details below:
-    </p>
     <form class="form-register" action="{{ URL::route('admin-account-create-post'); }}" method="post">
         <div class="errorHandler alert alert-danger no-display">
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.

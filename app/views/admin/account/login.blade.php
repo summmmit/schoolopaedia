@@ -22,7 +22,7 @@
         <fieldset>
             <div class="form-group">
                 <span class="input-icon">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address" value="{{ Input::old('email') or '' }}">
+                    <input type="text" class="form-control" name="identity" placeholder="Email Address" value="{{ Input::old('identity') or '' }}">
                     <i class="fa fa-user"></i> </span>
             </div>
             <div class="form-group form-actions">
