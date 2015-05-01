@@ -47,7 +47,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'guest'), function() {
     /*
      * Admin Activate Account (get)
      */
-    Route::get('/account/activate/{code}', array(
+    Route::get('/{userid}/activate/{code}', array(
         'as' => 'admin-account-activate',
         'uses' => 'AdminLoginController@getActivate'
     ));
@@ -109,6 +109,13 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
         'uses' => 'AdminAccountController@getSignOut'
     ));
     /*
+     * User Welcome Settings (get)
+     */
+    Route::get('/welcome/settings', array(
+        'as' => 'admin-welcome-settings',
+        'uses' => 'AdminLoginController@getWelcomeSettings'
+    ));
+    /*
      * Admin Home (get)
      */
     Route::get('/admin/home', array(
@@ -121,6 +128,13 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     Route::get('/admin/profile', array(
         'as' => 'admin-profile',
         'uses' => 'AdminAccountController@getAdminProfile'
+    ));
+    /**
+     * APi for Brief Details Updation
+     */
+    Route::Post('/brief/update', array(
+        'as' => 'admin-brief-update',
+        'uses' => 'AdminLoginController@postBriefRegistration'
     ));
     /*
      * Admin Time Table Set (get)
@@ -272,7 +286,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
      */
     Route::get('/admin/school/set/sessions', array(
         'as' => 'admin-school-set-sessions',
-        'uses' => 'SchoolSettingsController@getSetSchoolSessions'
+        'uses' => 'AdminLoginController@getSetSchoolSessions'
     ));
     /*
      * Set Initial School Session (post)

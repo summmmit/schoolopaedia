@@ -48,4 +48,11 @@ Route::group(array('before' => 'guest'), function() {
         'as' => 'school-current-session',
         'uses' => 'SchoolController@postGetSchoolCurrentSession'
     ));
+    /*
+     * Validate Admin By school code and student code
+     */
+    Route::Post('/school/admin/validation', array(
+        'as' => 'admin-validation-post',
+        'uses' => 'SchoolController@postValidateSchoolForAdmin'
+    ));
 });

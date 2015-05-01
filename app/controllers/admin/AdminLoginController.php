@@ -50,11 +50,11 @@ class AdminLoginController extends BaseController {
 
                 //If no groups created then create new groups
                 try {
-                    $user_group = Sentry::findGroupById(2);
+                    $user_group = Sentry::findGroupById(1);
                 } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
                     $this -> createGroup('administrator');
                     $this -> createGroup('students');
-                    $user_group = Sentry::findGroupById(2);
+                    $user_group = Sentry::findGroupById(1);
                 }
 
                 $user -> addGroup($user_group);
@@ -71,14 +71,14 @@ class AdminLoginController extends BaseController {
 
                 //success!
                 Session::flash('global', 'Thanks for sign up . Please activate your account by clicking activation link in your email');
-                return Redirect::to('/user/account');
+                return Redirect::to('/admin/account/create');
 
             } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
-                Session::flash('global', 'Username/Email Required.');
-                return Redirect::to('/register') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
+                Session::flash('global', 'Email Required.');
+                return Redirect::to('/admin/account/create') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
             } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
                 Session::flash('global', 'User Already Exist.');
-                return Redirect::to('/register') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
+                return Redirect::to('/admin/account/create') -> withErrors($validator) -> withInput(Input::except(array('password', 'password_confirmation')));
             }
 
         }
@@ -121,22 +121,22 @@ class AdminLoginController extends BaseController {
             // Attempt to activate the user
             if ($user -> attemptActivation($activationCode)) {
                 Session::flash('global', 'User Activation Successfull Please login below.');
-                return Redirect::to('/user/sign/in');
+                return Redirect::to('/admin/sign/in');
             } else {
                 Session::flash('global', 'Unable to activate user Try again later or contact Support Team.');
-                return Redirect::to('/user/register');
+                return Redirect::to('/admin/account/create');
             }
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             Session::flash('global', 'User was not found.');
-            return Redirect::to('/user/register');
+            return Redirect::to('/admin/account/create');
         } catch (Cartalyst\Sentry\Users\UserAlreadyActivatedException $e) {
             Session::flash('global', 'User is already activated.');
-            return Redirect::to('/user/register');
+            return Redirect::to('/admin/account/create');
         }
     }
 
     public function getSignIn(){
-        return View::make('user.account.login');
+        return View::make('admin.account.login');
     }
 
     //Authenticate User
@@ -160,14 +160,14 @@ class AdminLoginController extends BaseController {
 
             } else {
                 Session::flash('global', 'User does not exist');
-                return Redirect::to('/user/sign/in') -> withInput(Input::except('password'));
+                return Redirect::to('/admin/sign/in') -> withInput(Input::except('password'));
             }
         }
 
         $v = Validator::make($inputs, $rules);
 
         if ($v -> fails()) {
-            return Redirect::to('/user/sign/in') -> withErrors($v) -> withInput(Input::except('password'));
+            return Redirect::to('/admin/sign/in') -> withErrors($v) -> withInput(Input::except('password'));
         } else {
             try {
                 //Try to authenticate user
@@ -227,7 +227,7 @@ class AdminLoginController extends BaseController {
                 }
 
             }else{
-                return Redirect::to(route('user-welcome-settings'));
+                return Redirect::to(route('admin-welcome-settings'));
             }
         }
 
@@ -415,23 +415,54 @@ class AdminLoginController extends BaseController {
 
     public function getSignOut(){
         Sentry::logout();
-        return Redirect::to('/user/sign/in');
+        return Redirect::to('/admin/sign/in');
+    }
+    
+    public function getWelcomeSettings(){   
+        return View::make('admin.welcome-settings');
     }
 
     public function getUserHome() {      
         return View::make('user.home');
     }
     
-    public function getWelcomeSettings(){
-        return View::make('user.welcome-settings');
+    // for the school sessions
+    public function getSetSchoolSessions() {
+        return View::make('admin.set-initial-school-sessions');
     }
+    /**
+     * Api for Brief Registration
+     */
+    public function postBriefRegistration(){
 
-    public function getSetInitial(){
-        $session = SchoolSession::where('school_id', '=', Sentry::getUser()->school_id)->orderBy('session_start', 'desc')->get()->first();
-        $streams = Streams::where('school_id', '=',Sentry::getUser()->school_id)->get();
+        $first_name = Input::get('first_name');
+        $last_name = Input::get('last_name');
+        $sex = Input::get('sex');
 
-        return View::make('user.initial-school-settings')->with('session', $session)->with('streams', $streams);
+        $user_details = UserDetails::where('user_id', '=', Sentry::getUser()->id)->get()->first();
+
+        $user_details->first_name = $first_name;
+        $user_details->last_name = $last_name;
+        $user_details->sex = $sex;
+
+        if($user_details->save()){
+
+            $response = array(
+                'status' => 'success',
+                'result' => array(
+                    'details' => $user_details
+                )
+            );
+            return Response::json($response);
+        }else{
+
+            $response = array(
+                'status' => 'failed',
+                'result' => array(
+                    'details' => null
+                )
+            );
+            return Response::json($response);
+        }
     }
-
-
 }

@@ -32,13 +32,7 @@ class SchoolSettingsController extends BaseController {
         
         return $this->schoolSessionId = $session->id;
     }
-
-    // for the school sessions
-
-    public function getSetSchoolSessions() {
-        return View::make('admin.set-initial-school-sessions');
-    }
-
+    
     public function postSetSchoolSessions() {
         $start_session_from = Input::get('start_session_from');
         $end_session_untill = Input::get('end_session_untill');
