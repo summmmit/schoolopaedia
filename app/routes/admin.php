@@ -80,21 +80,21 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
         /*
          *  Edit Admin Details (post)
          */
-        Route::Post('/admin/edit', array(
+        Route::Post('/edit', array(
             'as' => 'admin-edit-post',
             'uses' => 'AdminLoginController@postEdit'
         ));
         /*
          *  Change Admin login Details (post)
          */
-        Route::Post('/admin/login/details', array(
+        Route::Post('/login/details', array(
             'as' => 'admin-login-details-post',
             'uses' => 'AdminLoginController@postChangePassword'
         ));
         /*
          * Admin Time Table Set (post)
          */
-        Route::Post('/admin/time/table', array(
+        Route::Post('/time/table', array(
             'as' => 'admin-time-table-post',
             'uses' => 'AdminTimeTableController@postTimeTableCreate'
         ));
@@ -118,14 +118,14 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * Admin Home (get)
      */
-    Route::get('/admin/home', array(
+    Route::get('/home', array(
         'as' => 'admin-home',
         'uses' => 'AdminLoginController@getAdminHome'
     ));
     /*
      * Admin Profile (get)
      */
-    Route::get('/admin/profile', array(
+    Route::get('/profile', array(
         'as' => 'admin-profile',
         'uses' => 'AdminLoginController@getAdminProfile'
     ));
@@ -139,7 +139,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * Admin Time Table Set (get)
      */
-    Route::get('/admin/time/table', array(
+    Route::get('/time/table', array(
         'as' => 'admin-time-table',
         'uses' => 'AdminTimeTableController@getTimeTableCreate'
     ));
@@ -274,7 +274,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * Admin School Test  (post)
      */
-    Route::get('/admin/school/test', array(
+    Route::get('/school/test', array(
         'as' => 'admin-school-test',
         'uses' => 'SchoolController@getSchoolTest'
     ));
@@ -305,14 +305,14 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      *
      */
-    Route::get('/admin/school/sessions', array(
+    Route::get('/school/sessions', array(
         'as' => 'admin-school-sessions',
         'uses' => 'SchoolSettingsController@getSchoolSessions'
     ));
     /*
      * School All settings Ajax  (post)
      */
-    Route::get('/admin/school/settings', array(
+    Route::get('/school/settings', array(
         'as' => 'admin-school-settings',
         'uses' => 'SchoolSettingsController@getSchoolSettings'
     ));
@@ -336,6 +336,48 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     Route::Post('/admin/ajax/school/timings/close/from', array(
         'as' => 'admin-ajax-school-timings-close-from',
         'uses' => 'SchoolSettingsController@postScheduleCloseFrom'
+    ));
+    /**
+     * Get All School Students
+     */
+    Route::get('/school/students', array(
+        'as' => 'admin-school-students',
+        'uses' => 'SchoolSettingsController@getSchoolStudents'
+    ));
+    /**
+     * Get All School Teachers
+     */
+    Route::get('/school/teachers', array(
+        'as' => 'admin-school-teachers',
+        'uses' => 'SchoolSettingsController@getSchoolTeachers'
+    ));
+    /**
+     * Get or Create New School Events
+     */
+    Route::get('/school/events', array(
+        'as' => 'admin-school-events',
+        'uses' => 'SchoolSettingsController@getSchoolEvents'
+    ));
+    /**
+     * Api for getting the events types for new event calendar
+     */
+    Route::Post('/get/event/types', array(
+        'as' => 'admin-get-event-types',
+        'uses' => 'SchoolSettingsController@postGetEventTypes'
+    ));
+    /**
+     * Api for creating Event
+     */
+    Route::Post('/create/event', array(
+        'as' => 'admin-create-event',
+        'uses' => 'SchoolSettingsController@postCreateEvent'
+    ));
+    /**
+     * Api for Getting all the Events
+     */
+    Route::Post('/get/events', array(
+        'as' => 'admin-get-events',
+        'uses' => 'SchoolSettingsController@postGetEvent'
     ));
     
 });

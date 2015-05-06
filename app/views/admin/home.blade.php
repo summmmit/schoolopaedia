@@ -18,7 +18,15 @@
 @stop
 
 @section('content')
-Admin Home
+    <div class="row">
+        <div class="col-sm-12">
+            @if(Session::has('global'))
+            <div class="errorHandler alert alert-success">
+                <i class="fa fa-remove-sign"></i>{{ Session::get('global') }}
+            </div>
+            @endif
+        </div>
+    </div>
 @stop
 
 @section('scripts')

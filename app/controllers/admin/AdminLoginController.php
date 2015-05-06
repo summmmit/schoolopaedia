@@ -207,23 +207,22 @@ class AdminLoginController extends BaseController {
                 return Redirect::to('/admin/sign/in');
             }
 
-            $users_login_info = UsersLoginInfo::where('user_id', '=', $user->id)->get();
+        //    $users_login_info = UsersLoginInfo::where('user_id', '=', $user->id)->get();
+
+
 
             Session::flash('global', 'Loggedin Successfully');
 
-            if($users_login_info->count() > 0){
+            if($user->school_id != null && $user->last_login != null){
                 $school_id = $user->school_id;
 
-                $school_session = SchoolSession::where('school_id', '=', $school_id)->OrderBy('session_start', 'desc')->get()->first();
+                $users_login_info = new UsersLoginInfo();
+                $users_login_info->user_id = $user->id;
+                $users_login_info->school_id = $school_id;
 
-                $user_registered_to_session = UsersRegisteredToSession::where('school_session_id', '=', $school_session->id)
-                                              ->where('school_id', '=', $school_id)->get();
-                if($user_registered_to_session->count() > 0){
-
-                    return Redirect::to(route('user-home'));
-                }else{
-                    Session::flash('global', 'Loggedin Successfully.<br>You Have to Register For new School Session first');
-                    return Redirect::to(route('admin-school-set-sessions'));
+                if($users_login_info->save()){
+                    Session::flash('global', 'Loggedin Successfully.');
+                    return Redirect::to(route('admin-home'));
                 }
 
             }else{
@@ -270,7 +269,6 @@ class AdminLoginController extends BaseController {
     }
 
     //this is the method that will handle the Google Login
-
     public function getGoogleLogin($auth=NULL)
     {
         if ($auth == 'auth')

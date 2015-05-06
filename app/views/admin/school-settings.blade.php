@@ -12,7 +12,7 @@
 @stop
 
 @section('page_header')
-<h1><i class="fa fa-pencil-square"></i> School Session ( {{ date_format(date_create($session->session_start), "F/Y") }} --- {{ date_format(date_create($session->session_end), "F/Y") }} )</h1>
+<h1><i class="fa fa-pencil-square"></i> School Session ( {{ date_format(date_create($current_session->session_start), "F/Y") }} --- {{ date_format(date_create($current_session->session_end), "F/Y") }} )</h1>
 @stop
 
 @section('page_breadcrumb')
@@ -47,7 +47,12 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#school-session-details" data-toggle="tab">
+                                    <a href="#school-session" data-toggle="tab">
+                                        <i class="green fa fa-home"></i> School Session
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#school-schedule" data-toggle="tab">
                                         <i class="green fa fa-home"></i> School Schedule
                                     </a>
                                 </li>
@@ -58,34 +63,34 @@
                                         <tbody>
                                             <tr>
                                                 <td>School Name</td>
-                                                <td>Aum Sun Public School</td>
+                                                <td>{{ $school->school_name }}</td>
                                             </tr>
                                             <tr>
                                                 <td>School Logo</td>
                                                 <td>
-                                                    <img class="thumbnail" src="{{ URL::asset('assets/projects/images/rotating_card_profile2.png'); }}">
+                                                    <img class="thumbnail" src="{{ URL::asset('assets/projects/images/'.$school->logo); }}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>School Manager</td>
-                                                <td>Sumit Prasad</td>
+                                                <td>{{ $school->manager_full_name }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Phone Number</td>
-                                                <td>05168-222541</td>
+                                                <td>{{ $school->phone_number }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Registered Email Address</td>
-                                                <td>summmmit44@gmail.com</td>
+                                                <td>{{ $school->email }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Address</td>
                                                 <td>
                                                     <address>
-                                                        239/9, New Defence Colony <br>
-                                                        Muradnagar, Ghaziabad <br>
-                                                        Uttar Pradesh<br>
-                                                        India (201206)
+                                                        {{ $school->add_1 }}<br>
+                                                        {{ $school->add_2 }} {{ $school->city }}<br>
+                                                        {{ $school->state }}<br>
+                                                        {{ $school->country }} ({{ $school->pin_code }})
                                                     </address>
                                                 </td>
                                             </tr>
@@ -116,12 +121,39 @@
                                             </tr>
                                             <tr>
                                                 <td>Registered Since</td>
-                                                <td></td>
+                                                <td>{{ date_format(date_create($school->registration_date), "d - F - Y") }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="tab-pane fade" id="school-session-details">
+                                <div class="tab-pane fade" id="school-session">
+                                    <table id="table-school-session" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>Session Start</td>
+                                            <td>Session End</td>
+                                            <td class="center">Current</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $i = 1; ?>
+                                        @foreach($sessions as $session)
+                                            <tr data-school-session-id="{{ $session->id }}">
+                                                <td>{{ $i++ }}</td>
+                                                <td>{{ date_format(date_create($session->session_start), "F/Y") }}</td>
+                                                <td>{{ date_format(date_create($session->session_end), "F/Y") }}</td>
+                                                <td class="center">
+                                                    <div class="radio-inline">
+                                                        <input type="radio" class="square-red" name="current_session" {{ $session->current_session ? 'checked' : '' }}>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                <div class="tab-pane fade" id="school-schedule">
                                     <table id="table-school-schedule" class="table table-bordered table-striped">
                                         <tbody>
                                             @foreach($schedules as $schedule)

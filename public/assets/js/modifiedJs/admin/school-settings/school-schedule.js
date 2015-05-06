@@ -20,7 +20,7 @@ var Schedule = function() {
             }
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/school/set/schedule/post',
+                url: 'http://localhost/projects/schools/public/admin/admin/school/set/schedule/post',
                 dataType: 'json',
                 data: data,
                 method: 'POST',
@@ -49,7 +49,7 @@ var Schedule = function() {
                     if ($.trim(value) == '')
                         return 'Value is required.';
                 },
-                url: 'http://localhost/projects/schools/public/administrator/admin/ajax/school/timings/start/from',
+                url: 'http://localhost/projects/schools/public/admin/admin/ajax/school/timings/start/from',
                 title: 'Edit Start_from',
                 type: 'text',
                 send: 'always',
@@ -62,7 +62,7 @@ var Schedule = function() {
                     if ($.trim(value) == '')
                         return 'Value is required.';
                 },
-                url: 'http://localhost/projects/schools/public/administrator/admin/ajax/school/timings/lunch/from',
+                url: 'http://localhost/projects/schools/public/admin/admin/ajax/school/timings/lunch/from',
                 title: 'Edit Start_from',
                 type: 'text',
                 send: 'always',

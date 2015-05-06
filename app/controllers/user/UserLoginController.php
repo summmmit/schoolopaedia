@@ -214,10 +214,10 @@ class UserLoginController extends BaseController {
             if($users_login_info->count() > 0){
                 $school_id = $user->school_id;
 
-                $school_session = SchoolSession::where('school_id', '=', $school_id)->OrderBy('session_start', 'desc')->get()->first();
+                $school_session = SchoolSession::where('school_id', '=', $school_id)->where('current_session', '=', 1)->get()->first();
 
-                $user_registered_to_session = UsersRegisteredToSession::where('school_session_id', '=', $school_session->id)
-                                              ->where('school_id', '=', $school_id)->get();
+                $user_registered_to_session = UsersToClass::where('session_id', '=', $school_session->id)
+                                              ->where('user_id', '=', Sentry::getUser()->id)->get();
                 if($user_registered_to_session->count() > 0){
 
                     return Redirect::to(route('user-home'));
@@ -427,7 +427,8 @@ class UserLoginController extends BaseController {
     }
 
     public function getSetInitial(){
-        $session = SchoolSession::where('school_id', '=', Sentry::getUser()->school_id)->orderBy('session_start', 'desc')->get()->first();
+        $session = SchoolSession::where('school_id', '=', Sentry::getUser()->school_id)
+                                ->where('current_session', '=', 1)->get()->first();
         $streams = Streams::where('school_id', '=',Sentry::getUser()->school_id)->get();
 
         return View::make('user.initial-school-settings')->with('session', $session)->with('streams', $streams);

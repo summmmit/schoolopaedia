@@ -154,7 +154,7 @@ var WelcomeSettingsWizard = function() {
                     message: '<i class="fa fa-spinner fa-spin"></i> Validating Your School Codes......'
                 });
                 $.ajax({
-                    url: 'http://sumit.com/school/student/validation',
+                    url: 'http://localhost/projects/schools/public/school/student/validation',
                     dataType: 'json',
                     cache: false,
                     method: 'POST',
@@ -181,7 +181,7 @@ var WelcomeSettingsWizard = function() {
                     message: '<i class="fa fa-spinner fa-spin"></i> Updating Your Details......'
                 });
                 $.ajax({
-                    url: 'http://sumit.com/user/update/brief/update',
+                    url: 'http://localhost/projects/schools/public/user/update/brief/update',
                     dataType: 'json',
                     cache: false,
                     method: 'POST',
