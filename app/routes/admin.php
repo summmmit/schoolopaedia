@@ -29,6 +29,13 @@ Route::group(array('prefix' => 'admin', 'before' => 'guest'), function() {
             'as' => 'admin-forgot-password-post',
             'uses' => 'AdminLoginController@postForgotPassword'
         ));
+        /**
+         * Admin Store New Password
+         */
+        Route::Post('/store/new/password/post', array(
+            'as' => 'admin-store-new-password-post',
+            'uses' => 'AdminLoginController@postStoreNewPassword'
+        ));
     });
     /*
      * Admin Create Account (get)
@@ -61,9 +68,9 @@ Route::group(array('prefix' => 'admin', 'before' => 'guest'), function() {
     /*
      * Admin Recover Account (get)
      */
-    Route::get('/account/recover/{code}', array(
-        'as' => 'admin-account-recover',
-        'uses' => 'AdminLoginController@getRecover'
+    Route::get('/reset/password', array(
+        'as' => 'admin-reset-password',
+        'uses' => 'AdminLoginController@getResetPassword'
     ));
 });
 
@@ -234,7 +241,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * Admin Timetable  (post)
      */
-    Route::get('/admin/time/table/get/create', array(
+    Route::get('/time/table/get/create', array(
         'as' => 'admin-create-time-table',
         'uses' => 'AdminTimeTableController@getCreateTimeTable'
     ));

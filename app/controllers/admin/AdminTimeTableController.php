@@ -12,7 +12,7 @@ class AdminTimeTableController extends BaseController {
 
     public function __construct() {
 
-        $this->user = Auth::user();
+        $this->user = Sentry::getUser();
 
         $this->schoolId = $this->user->school_id;
     }
