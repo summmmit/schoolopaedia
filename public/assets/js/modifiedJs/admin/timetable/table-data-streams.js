@@ -1,9 +1,5 @@
 var TableDataStreams = function() {
     "use strict";
-    //function to initiate DataTable
-    //DataTable is a highly flexible tool, based upon the foundations of progressive enhancement,
-    //which will add advanced interaction controls to any HTML table
-    //For more information, please visit https://datatables.net/
     var runDataTable_AddStreams = function() {
         var newRow = false;
         var actualEditingRow = null;
@@ -91,7 +87,7 @@ var TableDataStreams = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/stream',
+                        url: 'http://localhost/projects/schools/public/admin/time/table/delete/stream',
                         dataType: 'json',
                         method: 'POST',
                         cache: false,
@@ -131,7 +127,7 @@ var TableDataStreams = function() {
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/stream',
+                url: 'http://localhost/projects/schools/public/admin/time/table/add/stream',
                 dataType: 'json',
                 method: 'POST',
                 cache: false,

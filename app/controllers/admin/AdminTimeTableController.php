@@ -166,9 +166,9 @@ class AdminTimeTableController extends BaseController {
 
         $response = array(
             'status' => 'success',
-            'msg' => 'Streams Retrieved successfully',
-            'errors' => null,
-            'streams' => $streams
+            'result' => array(
+                'streams' => $streams
+            )
         );
 
         return Response::json($response);
@@ -198,14 +198,12 @@ class AdminTimeTableController extends BaseController {
             if ($new_stream_id) {
 
                 $streams = Streams::find($new_stream_id);
-                $streams->stream_name = $new_stream;
+                $streams->stream_name = ucwords($new_stream);
 
                 if ($streams->save()) {
 
                     $response = array(
                         'status' => 'success',
-                        'msg' => 'Setting created successfully',
-                        'errors' => null,
                         'data_send' => array(
                             'id' => $streams->id,
                             'inserted_item' => $streams->stream_name
@@ -224,8 +222,6 @@ class AdminTimeTableController extends BaseController {
 
                     $response = array(
                         'status' => 'success',
-                        'msg' => 'Setting created successfully',
-                        'errors' => null,
                         'data_send' => array(
                             'id' => $streams->id,
                             'inserted_item' => $streams->stream_name
@@ -282,6 +278,23 @@ class AdminTimeTableController extends BaseController {
 
             return Response::json($response);
         }
+    }
+
+    public function postGetSections(){
+
+        $class_id = Input::get('class_id');
+
+        $sections = Sections::where('class_id', '=', $class_id)->get();
+
+
+        $response = array(
+            'status' => 'success',
+            'result' => array(
+                'sections' => $sections
+            )
+        );
+
+        return Response::json($response);
     }
 
     public function postAddSections() {
@@ -542,8 +555,6 @@ class AdminTimeTableController extends BaseController {
 
         $response = array(
             'status' => 'success',
-            'msg' => 'Classes and Stream Pair fetched successfully',
-            'errors' => null,
             'result' => array(
                 'stream_class_pairs' => $stream_Class_Pairs,
             ),
