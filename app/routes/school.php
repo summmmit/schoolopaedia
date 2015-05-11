@@ -35,13 +35,6 @@ Route::group(array('before' => 'guest'), function() {
      * Ajax Api
      */
     /*
-     * Validate User By school code and student code
-     */
-    Route::Post('/school/student/validation', array(
-        'as' => 'student-validation-post',
-        'uses' => 'SchoolController@postValidateSchoolForStudents'
-    ));
-    /*
      * Get Current School Session
      */
     Route::Post('/school/current/session', array(
@@ -49,10 +42,31 @@ Route::group(array('before' => 'guest'), function() {
         'uses' => 'SchoolController@postGetSchoolCurrentSession'
     ));
     /*
-     * Validate Admin By school code and student code
+     * Validate User By school code and student code
+     */
+    Route::Post('/school/student/validation', array(
+        'as' => 'student-validation-post',
+        'uses' => 'SchoolController@postValidateSchoolForStudents'
+    ));
+    /*
+     * Validate Admin By school code and admin code
      */
     Route::Post('/school/admin/validation', array(
         'as' => 'admin-validation-post',
         'uses' => 'SchoolController@postValidateSchoolForAdmin'
+    ));
+    /*
+     * Validate Admin By school code and teacher code
+     */
+    Route::Post('/school/validation', array(
+        'as' => 'school-validation-post',
+        'uses' => 'SchoolController@postValidateSchool'
+    ));
+    /*
+     * Briefly Update the details of the user
+     */
+    Route::Post('/school/brief/update', array(
+        'as' => 'school-brief-update-post',
+        'uses' => 'SchoolController@postBriefRegistration'
     ));
 });

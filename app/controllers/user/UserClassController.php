@@ -103,41 +103,6 @@ class UserClassController extends BaseController {
         return Response::json($response);
     }
     /**
-     * Api for Brief Registration
-     */
-    public function postBriefRegistration(){
-
-        $first_name = Input::get('first_name');
-        $last_name = Input::get('last_name');
-        $sex = Input::get('sex');
-
-        $user_details = UserDetails::where('user_id', '=', Sentry::getUser()->id)->get()->first();
-
-        $user_details->first_name = $first_name;
-        $user_details->last_name = $last_name;
-        $user_details->sex = $sex;
-
-        if($user_details->save()){
-
-            $response = array(
-                'status' => 'success',
-                'result' => array(
-                    'details' => $user_details
-                )
-            );
-            return Response::json($response);
-        }else{
-
-            $response = array(
-                'status' => 'failed',
-                'result' => array(
-                    'details' => null
-                )
-            );
-            return Response::json($response);
-        }
-    }
-    /**
      * Api for getting Classes by Stream Id
      */
     public function postGetClassesFromStreamId() {

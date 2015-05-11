@@ -70,7 +70,7 @@
                     </div>
                     <div class="topbar-tools">
                         <!-- start: TOP NAVIGATION MENU -->
-                        @include('layouts.menus.admin.upperMenu')
+                        @include('layouts.menus.upperMenu')
                         <!-- Upper Menu Ends from here  -->
                     </div>
                 </div>
@@ -83,7 +83,7 @@
             <nav id="pageslide-left" class="pageslide inner">
                 <div class="navbar-content">
                     <!-- start: LEFT SIDEBAR -->
-                    @include('layouts.menus.admin.leftMenu')
+                    @include('layouts.menus.leftMenu')
                     <!-- end: LEFT SIDEBAR -->
                 </div>
                 <div class="slide-tools">

@@ -242,13 +242,6 @@ Route::group(array('before' => 'UserAuth'), function() {
         'as' => 'user-attendance-new-attendance-leave',
         'uses' => 'UserClassController@postNewLeaveApplication'
     ));
-    /**
-     * APi for Brief Details Updation
-     */
-    Route::Post('/user/update/brief/update', array(
-        'as' => 'user-update-brief-update',
-        'uses' => 'UserClassController@postBriefRegistration'
-    ));
     /*
      * Api to get All the Classes to a Stream  (post)
      */

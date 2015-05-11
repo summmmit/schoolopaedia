@@ -19,7 +19,7 @@ Route::group(array('prefix' => 'teacher', 'before' => 'guest'), function() {
          */
         Route::Post('/sign/in/post', array(
             'as' => 'teacher-sign-in-post',
-            'uses' => 'UserAccountController@postSignIn'
+            'uses' => 'TeacherLoginController@postSignIn'
         ));
     });
     /*
@@ -75,12 +75,56 @@ Route::group(array('prefix' => 'teacher', 'before' => 'teacherAuth'), function()
         ));
     });
     /*
-     * non - protection Routes
      *
      * SignOUt (get)
+     */
+    Route::get('/sign/out', array(
+        'as' => 'teacher-sign-out',
+        'uses' => 'TeacherLoginController@getSignOut'
+    ));
+    /*
+     * User Welcome Settings (get)
+     */
+    Route::get('/welcome/settings', array(
+        'as' => 'teacher-welcome-settings',
+        'uses' => 'TeacherLoginController@getWelcomeSettings'
+    ));
+    /*
+     * Admin Home (get)
+     */
+    Route::get('/home', array(
+        'as' => 'teacher-home',
+        'uses' => 'TeacherLoginController@getTeacherHome'
+    ));
+    /*
+     * Admin Profile (get)
+     */
+    Route::get('/profile', array(
+        'as' => 'teacher-profile',
+        'uses' => 'TeacherLoginController@getAdminProfile'
+    ));
+    /*
+     * Teacher Attendance (get)
      */
     Route::get('/teacher/attendance', array(
         'as' => 'teacher-attendance',
         'uses' => 'TeacherController@getAttendance'
+    ));
+    /*
+     * School All settings (get)
+     */
+    /*
+     * Set Initial School Session
+     */
+    Route::get('/school/set/sessions', array(
+        'as' => 'teacher-school-set-sessions',
+        'uses' => 'TeacherLoginController@getSchoolSessions'
+    ));
+    /*
+     * Set Initial School Session (post)
+     */
+    Route::Post('/school/set/sessions/post', array(
+        'as' => 'teacher-school-set-sessions-post',
+        'uses' => 'TeacherLoginController@postSetSchoolSessions'
     ));
 });

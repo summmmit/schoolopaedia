@@ -1,4 +1,4 @@
-var AdminWelcomeSettingsWizard = function() {
+var WelcomeSettingsWizard = function() {
 
     "use strict";
     var wizardContent = $('#wizard');
@@ -57,7 +57,7 @@ var AdminWelcomeSettingsWizard = function() {
                 registration_code: {
                     required: true
                 },
-                code_for_students: {
+                code_for_teachers: {
                     required: true
                 },
                 first_name: {
@@ -119,14 +119,17 @@ var AdminWelcomeSettingsWizard = function() {
 
                 var data = {
                     registration_code: $(this).parents('#step-1').find('#registration-code').val(),
+                    code_for_teachers: $(this).parents('#step-1').find('#code-for-teachers').val(),
                     code_for_admin: $(this).parents('#step-1').find('#code-for-admin').val(),
+                    code_for_students: $(this).parents('#step-1').find('#code-for-students').val(),
+                    group_id:  $(this).parents('#step-1').find('#group-id').val()
                 };
 
                 $.blockUI({
                     message: '<i class="fa fa-spinner fa-spin"></i> Validating Your School Codes......'
                 });
                 $.ajax({
-                    url: 'http://localhost/projects/schools/public/school/admin/validation',
+                    url: 'http://localhost/projects/schoolopaedia/public/school/validation',
                     dataType: 'json',
                     cache: false,
                     method: 'POST',
@@ -153,7 +156,7 @@ var AdminWelcomeSettingsWizard = function() {
                     message: '<i class="fa fa-spinner fa-spin"></i> Updating Your Details......'
                 });
                 $.ajax({
-                    url: 'http://localhost/projects/schools/public/admin/brief/update',
+                    url: 'http://localhost/projects/schoolopaedia/public/school/brief/update',
                     dataType: 'json',
                     cache: false,
                     method: 'POST',

@@ -20,7 +20,7 @@ class TeacherLoginController extends BaseController
         );
 
         if ($validator->fails()) {
-            return Redirect::route('admin-account-create')
+            return Redirect::route('teacher-account-create')
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -415,7 +415,7 @@ class TeacherLoginController extends BaseController
 
     public function getForgotPassword()
     {
-        return View::make('admin.account.forgot-password');
+        return View::make('teacher.account.forgot-password');
     }
 
     public function postForgotPassword()
@@ -436,16 +436,16 @@ class TeacherLoginController extends BaseController
                 });
 
                 Session::flash('global', 'We have sent a link to your email account please follow that to reset your password');
-                return Redirect::to(route('admin-forgot-password'));
+                return Redirect::to(route('teacher-forgot-password'));
 
                 // Now you can send this code to your user via email for example.
             } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
                 Session::flash('global', 'User not found');
-                return Redirect::to(route('admin-forgot-password'));
+                return Redirect::to(route('teacher-forgot-password'));
             }
         } else {
             Session::flash('global', 'User not found');
-            return Redirect::to(route('admin-forgot-password'));
+            return Redirect::to(route('teacher-forgot-password'));
         }
     }
 
@@ -459,7 +459,7 @@ class TeacherLoginController extends BaseController
 
                 // Check if the reset password code is valid
                 if ($user->checkResetPasswordCode(Input::get('resetcode'))) {
-                    return View::make('admin.account.reset-password');
+                    return View::make('teacher.account.reset-password');
 
                 } else {
                     Session::flash('global', 'Invalid request . Please enter email to reset your password');
@@ -496,89 +496,73 @@ class TeacherLoginController extends BaseController
                         // Attempt to reset the user password
                         if ($user->attemptResetPassword(Input::get('resetcode'), Input::get('password'))) {
                             Session::flash('global', 'Password changed successfully . Please login below');
-                            return Redirect::to(route('admin-sign-in'));
+                            return Redirect::to(route('teacher-sign-in'));
                         } else {
                             Session::flash('global', 'Unable to reset password . Please try again');
-                            return Redirect::to(route('admin-forgot-password'));
+                            return Redirect::to(route('teacher-forgot-password'));
                         }
                     } else {
                         Session::flash('global', 'Unable to reset password . Please try again');
-                        return Redirect::to(route('admin-forgot-password'));
+                        return Redirect::to(route('teacher-forgot-password'));
                     }
                 } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
                     Session::flash('global', 'User not found');
-                    return Redirect::to(route('admin-forgot-password'));
+                    return Redirect::to(route('teacher-forgot-password'));
                 }
             } else {
                 Session::flash('global', 'Invalid request . Please enter email to reset your password');
-                return Redirect::to(route('admin-forgot-password'));
+                return Redirect::to(route('teacher-forgot-password'));
             }
         } else {
-            return Redirect::to(route('admin-reset-password').'?email=' . Input::get('email') . '&resetcode=' . Input::get('resetcode'))->withErrors($v)->withInput();
+            return Redirect::to(route('teacher-reset-password').'?email=' . Input::get('email') . '&resetcode=' . Input::get('resetcode'))->withErrors($v)->withInput();
         }
     }
 
     public function getSignOut()
     {
         Sentry::logout();
-        return Redirect::to('/admin/sign/in');
+        return Redirect::to(route('teacher-sign-in'));
     }
 
     public function getWelcomeSettings()
     {
-        return View::make('admin.welcome-settings');
+        return View::make('teacher.welcome-settings');
     }
 
-    public function getAdminHome()
+    public function getTeacherHome()
     {
-        return View::make('admin.home');
+        return View::make('teacher.home');
     }
 
     // for the school sessions
-    public function getSetSchoolSessions()
+    public function getSchoolSessions()
     {
-        return View::make('admin.set-initial-school-sessions');
+        $session = SchoolSession::where('school_id', '=', Sentry::getUser()->school_id)
+                                ->where('current_session', '=', 1)->get()->first();
+
+        return View::make('teacher.initial-school-settings')->with('session', $session);
     }
-
-    /**
-     * Api for Brief Registration
-     */
-    public function postBriefRegistration()
-    {
-
-        $first_name = Input::get('first_name');
-        $last_name = Input::get('last_name');
-        $sex = Input::get('sex');
-
-        $user_details = UserDetails::where('user_id', '=', Sentry::getUser()->id)->get()->first();
-
-        $user_details->first_name = $first_name;
-        $user_details->last_name = $last_name;
-        $user_details->sex = $sex;
-
-        if ($user_details->save()) {
-
-            $response = array(
-                'status' => 'success',
-                'result' => array(
-                    'details' => $user_details
-                )
-            );
-            return Response::json($response);
-        } else {
-
-            $response = array(
-                'status' => 'failed',
-                'result' => array(
-                    'details' => null
-                )
-            );
-            return Response::json($response);
+    
+    public function postSetSchoolSessions(){
+        
+        $session_id = Input::get('session_id');
+        
+        $user = Sentry::getUser();
+        
+        $users_to_session = new UsersRegisteredToSession();
+        $users_to_session->school_session_id = $session_id;
+        $users_to_session->school_id = $user->school_id;
+        $users_to_session->user_id = $user->id;
+        
+        if($users_to_session->save()){
+            return Redirect::route('teacher-home')->with('global', 'You Have Been Successfully Registered for this session');
+        }else{
+            return Redirect::route('teacher-school-set-sessions')->with('global', 'You can not be registered this time. Please Try later.');
         }
     }
 
-    public function getAdminProfile(){
+    public function getTeacherProfile(){
         $user = Sentry::getUser();
-        return View::make('admin.profile')->withuser($user);
+        return View::make('teacher.profile')->withuser($user);
     }
 }

@@ -108,15 +108,15 @@ class SchoolController extends BaseController {
     public function getSchoolTest() {
         return View::make('admin.school-test');
     }
-    
-    public function postValidateSchoolForStudents(){
+
+    public function postValidateSchoolForStudents() {
         $registration_code = Input::get('registration_code');
         $code_for_students = Input::get('code_for_students');
 
         $school = Schools::where('registration_code', '=', $registration_code)
-                  ->where('code_for_students', '=', $code_for_students)->get()->first();
+                        ->where('code_for_students', '=', $code_for_students)->get()->first();
 
-        if($school->count() > 0){
+        if ($school->count() > 0) {
 
             $user = Sentry::getUser();
             $user->school_id = $school->id;
@@ -135,7 +135,7 @@ class SchoolController extends BaseController {
                 )
             );
             return Response::json($response);
-        }else{
+        } else {
 
             $response = array(
                 'status' => 'failed',
@@ -148,12 +148,12 @@ class SchoolController extends BaseController {
         }
     }
 
-    public function postGetSchoolCurrentSession(){
+    public function postGetSchoolCurrentSession() {
         $school_id = Sentry::getUser()->school_id();
 
         $school_session = SchoolSession::where('school_id', '=', $school_id)->
-                                        where('current_session', '=', 1)
-                                        ->get();
+                where('current_session', '=', 1)
+                ->get();
         $response = array(
             'status' => 'failed',
             'msg' => 'Validation is not Successfull',
@@ -163,15 +163,15 @@ class SchoolController extends BaseController {
         );
         return Response::json($response);
     }
-    
-    public function postValidateSchoolForAdmin(){
+
+    public function postValidateSchoolForAdmin() {
         $registration_code = Input::get('registration_code');
         $code_for_admin = Input::get('code_for_admin');
 
         $school = Schools::where('registration_code', '=', $registration_code)
-                  ->where('code_for_admin', '=', $code_for_admin)->get()->first();
-        
-        if($school->count() > 0){
+                        ->where('code_for_admin', '=', $code_for_admin)->get()->first();
+
+        if ($school->count() > 0) {
 
             $user = Sentry::getUser();
             $user->school_id = $school->id;
@@ -190,13 +190,110 @@ class SchoolController extends BaseController {
                 )
             );
             return Response::json($response);
-        }else{
+        } else {
 
             $response = array(
                 'status' => 'failed',
                 'msg' => 'Validation is not Successfull',
                 'result' => array(
                     'school' => null
+                )
+            );
+            return Response::json($response);
+        }
+    }
+
+    public function postValidateSchool() {
+        $registration_code = Input::get('registration_code');
+        $group_id = Input::get('group_id');
+
+        try {
+            // Find the group using the group id
+            $group = Sentry::findGroupById($group_id);
+            // Get the group permissions
+            $groupPermissions = $group->getPermissions();
+        } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+            echo 'Group does not exist.';
+        }
+
+        if ($group->count() > 0) {
+            if ($group->id == 3) {
+
+                $code_for_teachers = Input::get('code_for_teachers');
+                $school = Schools::where('registration_code', '=', $registration_code)
+                                ->where('code_for_teachers', '=', $code_for_teachers)->get()->first();
+            } elseif ($group_id == 2) {
+                
+                $code_for_students = Input::get('code_for_students');
+                $school = Schools::where('registration_code', '=', $registration_code)
+                                ->where('code_for_students', '=', $code_for_students)->get()->first();
+            } elseif ($group_id == 1) {
+                
+                $code_for_admin = Input::get('code_for_admin');
+                $school = Schools::where('registration_code', '=', $registration_code)
+                                ->where('code_for_admin', '=', $code_for_admin)->get()->first();
+            }
+
+            if ($school->count() > 0) {
+
+                $user = Sentry::getUser();
+                $user->school_id = $school->id;
+                $user->save();
+
+                $users_login_info = new UsersLoginInfo();
+                $users_login_info->user_id = $user->id;
+                $users_login_info->school_id = $school->id;
+                $users_login_info->save();
+
+                $response = array(
+                    'status' => 'success',
+                    'result' => array(
+                        'school' => $school
+                    )
+                );
+                return Response::json($response);
+            } else {
+
+                $response = array(
+                    'status' => 'failed',
+                    'result' => array(
+                        'school' => null
+                    )
+                );
+                return Response::json($response);
+            }
+        }
+    }
+    /**
+     * Api for Brief Registration
+     */
+    public function postBriefRegistration(){
+
+        $first_name = Input::get('first_name');
+        $last_name = Input::get('last_name');
+        $sex = Input::get('sex');
+
+        $user_details = UserDetails::where('user_id', '=', Sentry::getUser()->id)->get()->first();
+
+        $user_details->first_name = $first_name;
+        $user_details->last_name = $last_name;
+        $user_details->sex = $sex;
+
+        if($user_details->save()){
+
+            $response = array(
+                'status' => 'success',
+                'result' => array(
+                    'details' => $user_details
+                )
+            );
+            return Response::json($response);
+        }else{
+
+            $response = array(
+                'status' => 'failed',
+                'result' => array(
+                    'details' => null
                 )
             );
             return Response::json($response);

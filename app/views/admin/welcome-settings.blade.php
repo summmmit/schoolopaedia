@@ -84,6 +84,7 @@
                                     <input type="text" class="form-control" id="code-for-admin" name="code_for_admin" placeholder="Admin Code Here">
                                 </div>
                             </div>
+                            <input type="hidden" id="group-id" name="group_id" value="1">
                             <div class="form-group">
                                 <div class="col-sm-2 col-sm-offset-8">
                                     <button class="btn btn-blue next-step btn-block" id="next-step-1">
@@ -165,13 +166,13 @@
 
 <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 <script src="{{ URL::asset('assets/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js'); }}"></script>
-<script src="{{ URL::asset('assets/js/modifiedJs/admin/welcome-settings-wizard.js'); }}"></script>
+<script src="{{ URL::asset('assets/js/modifiedJs/welcome-settings-wizard.js'); }}"></script>
 <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 <script>
     jQuery(document).ready(function() {
         Main.init();
         SVExamples.init();
-        AdminWelcomeSettingsWizard.init();
+        WelcomeSettingsWizard.init();
     });
 </script>
 

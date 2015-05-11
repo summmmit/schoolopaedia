@@ -136,13 +136,6 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
         'as' => 'admin-profile',
         'uses' => 'AdminLoginController@getAdminProfile'
     ));
-    /**
-     * APi for Brief Details Updation
-     */
-    Route::Post('/brief/update', array(
-        'as' => 'admin-brief-update',
-        'uses' => 'AdminLoginController@postBriefRegistration'
-    ));
     /*
      * Admin Time Table Set (get)
      */

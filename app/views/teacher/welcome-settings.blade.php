@@ -78,12 +78,13 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
-                                    Admin Code <span class="symbol required"></span>
+                                    Teachers Code <span class="symbol required"></span>
                                 </label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="code-for-admin" name="code_for_admin" placeholder="Admin Code Here">
+                                    <input type="text" class="form-control" id="code-for-teachers" name="code_for_teachers" placeholder="Teachers Code Here">
                                 </div>
                             </div>
+                            <input type="hidden" id="group-id" name="group_id" value="3">
                             <div class="form-group">
                                 <div class="col-sm-2 col-sm-offset-8">
                                     <button class="btn btn-blue next-step btn-block" id="next-step-1">
@@ -145,7 +146,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-2 col-sm-offset-8">
-                                    <a href="{{ URL::route('admin-school-set-sessions'); }}" class="btn btn-success finish-step btn-block">
+                                    <a href="{{ URL::route('teacher-school-set-sessions'); }}" class="btn btn-success finish-step btn-block">
                                         Finish <i class="fa fa-arrow-circle-right"></i>
                                     </a>
                                 </div>
@@ -165,13 +166,13 @@
 
 <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 <script src="{{ URL::asset('assets/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js'); }}"></script>
-<script src="{{ URL::asset('assets/js/modifiedJs/admin/welcome-settings-wizard.js'); }}"></script>
+<script src="{{ URL::asset('assets/js/modifiedJs/welcome-settings-wizard.js'); }}"></script>
 <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 <script>
     jQuery(document).ready(function() {
         Main.init();
         SVExamples.init();
-        AdminWelcomeSettingsWizard.init();
+        WelcomeSettingsWizard.init();
     });
 </script>
 
