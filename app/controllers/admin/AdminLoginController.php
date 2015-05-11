@@ -538,9 +538,4 @@ class AdminLoginController extends BaseController
     {
         return View::make('admin.set-initial-school-sessions');
     }
-
-    public function getAdminProfile(){
-        $user = Sentry::getUser();
-        return View::make('admin.profile')->withuser($user);
-    }
 }

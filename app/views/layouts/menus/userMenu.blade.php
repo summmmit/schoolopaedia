@@ -23,7 +23,7 @@ $userDetails = UserDetails::where('user_id', '=', $user_id)->get()->first();
 @if($user_group->groups_id == 1)
 @include('layouts.menus.admin.leftMenu')
 @elseif($user_group->groups_id == 2)
-@include('layouts.menus.student.leftMenu')
+@include('layouts.menus.user.leftMenu')
 @elseif($user_group->groups_id == 3)
 @include('layouts.menus.teacher.leftMenu')
 @endif
@@ -33,7 +33,7 @@ $userDetails = UserDetails::where('user_id', '=', $user_id)->get()->first();
 @if($user_group->groups_id == 1)
 @include('layouts.menus.admin.upperMenu')
 @elseif($user_group->groups_id == 2)
-@include('layouts.menus.student.upperMenu')
+@include('layouts.menus.user.upperMenu')
 @elseif($user_group->groups_id == 3)
 @include('layouts.menus.teacher.upperMenu')
 @endif

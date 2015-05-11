@@ -1,4 +1,4 @@
-@extends('layouts.user-main-layout')
+@extends('layouts.main-layout')
 
 @section('stylesheets')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/style.css'); }}" />

@@ -1,4 +1,4 @@
-@extends('layouts.user-main-layout')
+@extends('layouts.main-layout')
 @section('stylesheets')
     <style>
         .event-list {

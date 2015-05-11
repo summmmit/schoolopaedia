@@ -7,207 +7,29 @@
 
 class AdminAccountController  extends BaseController {
 
-    public function getCreate(){
-        return View::make('admin.account.register');
+    protected $user;
+    protected $schoolId;
+
+    public function __construct() {
+
+        $this->user = Sentry::getUser();
+
+        $this->schoolId = $this->user->school_id;
     }
 
-    public function postCreate(){
-
-        $validator = Validator::make(Input::all(),
-            array(
-                'first_name'            => 'required|max:30',
-                'last_name'             => 'required|max:30',
-                'city'                  => 'required|max:30',
-                'state'                 => 'required|max:30',
-                'sex'                   => 'required',
-                'school_registration_code' => 'required',
-                'admin_registration_code' => 'required',
-                'email'                 => 'max:60|email|unique:users',
-                'password'              => 'required|min:6',
-                'password_again'        => 'required|same:password',
-            )
-        );
-        if($validator->fails()){
-            return Redirect::route('admin-account-create')
-                ->withErrors($validator)
-                ->withInput();
-        }else{
-
-            $school_registration_code   = Input::get('school_registration_code');
-            $admin_registration_code    = Input::get('admin_registration_code');
-
-            $school = schools::where('registration_code', '=', $school_registration_code)
-                ->where('code_for_admin', '=', $admin_registration_code)
-                ->where('active', '=', 1)
-                ->get();
-
-            if(!$school->count()){
-                return Redirect::route('admin-account-create')
-                    ->with('global', 'Please input Correct School code and Admin Code.');
-            }
-
-            $first_name                 = Input::get('first_name');
-            $last_name                  = Input::get('last_name');
-            $email                      = Input::get('email');
-            $sex                        = Input::get('sex');
-            $city                       = Input::get('city');
-            $state                      = Input::get('state');
-            $password                   = Input::get('password');
-
-            // Unique Voter Id
-            $username                   = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', mt_rand(1,10))),1,10);
-            
-            //Activation Code
-            $code                       = str_random(60);
-
-            $now                        = date("Y-m-d H-i-s");
-            
-            $groups = Groups::find(2);
-
-            $input = array(
-                'first_name'                => $first_name,
-                'last_name'                 => $last_name,
-
-                'email'                     => $email,
-                'email_updated_at'          => $now,
-
-                'password'                  => Hash::make($password),
-                'password_updated_at'       => $now,
-
-                'username'                  => $username,
-                'sex'                       => $sex,
-                'city'                      => $city,
-                'state'                     => $state,
-                'address_updated_at'        => $now,
-
-                'code'                      => $code,
-                'active'                    => 0,
-                'mobile_verified'           => 0,
-                'permissions'               => $groups->id,
-                'school_id'                => $school->first()->id
-            );
-            
-            $User = User::create($input);
-            
-            if($User){
-
-                //send email
-                Mail::send('emails.auth.activate.activate-admin', array('link' => URL::route('admin-account-activate', $code), 'username' => $username), function($message) use ($User){
-                    $message->to($User->email, $User->username)->subject('Activate Your Account');
-                });
-                return Redirect::route('admin-sign-in')
-                    ->with('global', 'You have been Registered. You can activate Now.');
-            }else{
-                return Redirect::route('admin-sign-in')
-                    ->with('global', 'You have not Been Registered. Try Again Later Some time.');
-            }
-        }
-        
+    protected function getUser() {
+        return $this->user;
     }
 
-    public function getActivate($code){
-
-        $user = User::where('code' , '=', $code)->where('active', '=', 0);
-
-        if($user->count()){
-            $user = $user->first();
-
-            //update user
-
-            $user->active = 1;
-            $user->code = "";
-
-            if($user->save()){
-                return Redirect::route('admin-sign-in')
-                    ->with('global', 'Activated thanks. You can login now');
-            }
-        }
-        return Redirect::route('admin-sign-in')
-            ->with('global', 'Cant activate do after some time');
+    protected function getSchoolId() {
+        return $this->schoolId;
     }
 
-    public function getSignIn(){
-        return View::make('admin.account.login');
-
-    }
-
-    public function postSignIn(){
-        $validator = Validator::make(Input::all(),
-            array(
-                'email' => 'required',
-                'password' => 'required'
-            )
-        );
-        if($validator->fails()){
-            return Redirect::route('admin-sign-in')
-                ->withErrors($validator)
-                ->withInput();
-        }else{
-
-            $remember = (Input::has('remember')) ? true : false;
-
-            $auth = Auth::attempt(array(
-                'email'       => Input::get('email'),
-                'password'    => Input::get('password'),
-                'permissions' => 2
-            ), $remember);          
-
-            if($auth){
-                
-                $active = Auth::user()->active; 
-                
-                if($active == 0){
-                     Auth::logout();
-                     return Redirect::route('admin-sign-in')->with('global', 'Account Not Activated. Activate it.');
-                }elseif($active == 1){
-                    //log into the users_login_info table
-
-                    $prev_user_info = UsersLoginInfo::where('user_id', '=', Auth::user()->id)->get();
-
-                    if($prev_user_info->count() == 0){   //if count is 0 then send to set initial sessions page
-
-                        $user_info = new UsersLoginInfo();
-                        $user_info->user_id = Auth::user()->id;
-                        $user_info->school_id = Auth::user()->school_id;
-                        // other properties according to the ip
-                        $user_info->save();
-
-                        return Redirect::intended('/administrator/admin/school/set/sessions');
-                    }else{
-
-                        $user_info = new UsersLoginInfo();
-                        $user_info->user_id = Auth::user()->id;
-                        $user_info->school_id = Auth::user()->school_id;
-                        // other properties according to the ip
-                        $user_info->save();
-
-                        return Redirect::intended('/administrator/admin/home');
-                    }
-                }
-                
-            }else{
-                
-                return Redirect::route('admin-sign-in')
-                    ->with('global', 'Email Address or Password Wrong');
-            }
-        }
-
-        return Redirect::route('admin-sign-in')->with('global', 'account not activated');
-
-    }
-
-    public function getSignOut(){
-                Auth::logout();
-                return Redirect::route('admin-sign-in')->with('global', 'You Have Been Successfully Signed Out');
-    }
-    
-    public function getAdminHome(){
-        return View::make('admin.admin-home');
-    }
-    
     public function getAdminProfile(){
-        $user = Auth::user();            
-        return View::make('admin.admin-profile')->withuser($user);
+        $user = Sentry::getUser();
+        $user_details = UserDetails::where('user_id', '=', $user->id)->get()->first();
+        
+        return View::make('admin.profile')->with('user', $user)->with('user_details', $user_details);
     }
 
     public function postEdit(){
@@ -239,7 +61,6 @@ class AdminAccountController  extends BaseController {
                 'dd'                    => 'max:2',
                 'mm'                    => 'max:2',
                 'yyyy'                  => 'max:4',
-                'relative_id'           => 'max:30',
                 'add_1'                 => 'max:30',
                 'city'                  => 'max:30',
                 'state'                 => 'max:30',
@@ -253,48 +74,47 @@ class AdminAccountController  extends BaseController {
                 ->withInput();
         }else{
             
-            $user = User::find(Auth::user()->id);
+            $user = $this->getUser();
+            $user_details = UserDetails::where('user_id', '=', $user->id)->get()->first();
             
             $now                              = date("Y-m-d H-i-s");
             
-            $user->first_name                 = Input::get('first_name');
-            $user->middle_name                = Input::get('middle_name');
-            $user->last_name                  = Input::get('last_name');
+            $user_details->first_name                 = Input::get('first_name');
+            $user_details->middle_name                = Input::get('middle_name');
+            $user_details->last_name                  = Input::get('last_name');
             
-            if($user->mobile_number != Input::get('mobile_number')){
-              $user->mobile_number              = Input::get('mobile_number');
-              $user->mobile_updated_at          = $now;
+            if($user_details->mobile_number != Input::get('mobile_number')){
+              $user_details->mobile_number              = Input::get('mobile_number');
+              $user_details->mobile_updated_at          = $now;
             }
             
-            $user->home_number                = Input::get('home_number');
+            $user_details->home_number                = Input::get('home_number');
             
-            $user->dob                        = Input::get('yyyy')."-".Input::get('mm')."-".Input::get('dd');
-            $user->sex                        = Input::get('sex');
-            $user->marriage_status            = Input::get('marriage_status');
-            $user->relative_id                = Input::get('relative_id');
-            $user->relation_with_person       = Input::get('relation_with_person');
+            $user_details->dob                        = Input::get('yyyy')."-".Input::get('mm')."-".Input::get('dd');
+            $user_details->sex                        = Input::get('sex');
+            $user_details->marriage_status            = Input::get('marriage_status');
             
-            if(($user->add_1 != Input::get('add_1')) || ($user->add_2 != Input::get('add_2'))){
-              $user->add_1                      = Input::get('add_1');
-              $user->add_2                      = Input::get('add_2');
-              $user->address_updated_at         = $now;
+            if(($user_details->add_1 != Input::get('add_1')) || ($user_details->add_2 != Input::get('add_2'))){
+              $user_details->add_1                      = Input::get('add_1');
+              $user_details->add_2                      = Input::get('add_2');
+              $user_details->address_updated_at         = $now;
             }
             
-            if(($user->city != Input::get('city')) || ($user->state != Input::get('state')) || ($user->pin_code != Input::get('pin_code')) || ($user->country != Input::get('country'))){
+            if(($user_details->city != Input::get('city')) || ($user_details->state != Input::get('state')) || ($user_details->pin_code != Input::get('pin_code')) || ($user_details->country != Input::get('country'))){
             
-              $user->city                       = Input::get('city');
-              $user->state                      = Input::get('state');
-              $user->pin_code                   = Input::get('pin_code');
-              $user->country                    = Input::get('country');
-              $user->address_updated_at         = $now;
+              $user_details->city                       = Input::get('city');
+              $user_details->state                      = Input::get('state');
+              $user_details->pin_code                   = Input::get('pin_code');
+              $user_details->country                    = Input::get('country');
+              $user_details->address_updated_at         = $now;
             }
             
             if(isset($pic_New_Name)){
-              $user->pic                        = $pic_New_Name;
-              $user->pic_updated_at             = $now;
+              $user_details->pic                        = $pic_New_Name;
+              $user_details->pic_updated_at             = $now;
             }
                 
-            if($user->save()){
+            if($user_details->save()){
                 return Redirect::route('admin-profile')->with('details-changed', 'Your Details are updated');
             }else{
                 return Redirect::route('admin-profile')->with('details-not-changed', 'Your Details Couldnt updated. Some Error Occured');

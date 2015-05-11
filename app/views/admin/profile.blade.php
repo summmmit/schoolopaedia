@@ -2,11 +2,7 @@
 
 @section('page_header')
 <h1><i class="fa fa-pencil-square"></i> Your Details<small>These are the details of you as per our database.</small></h1>
-<?php
-$now = \Carbon\Carbon::createFromDate();
-?>
 @stop
-
 @section('page_breadcrumb')
 <ol class="breadcrumb">
     <li>
@@ -69,7 +65,7 @@ $now = \Carbon\Carbon::createFromDate();
                                 <div class="center">
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
                                         <div class="user-image">
-                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user->pic) }}" alt="">
+                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user_details->pic) }}" alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -83,41 +79,30 @@ $now = \Carbon\Carbon::createFromDate();
                                     <tbody>
                                         <tr>
                                             <td> Full Name </td>
-                                            <td> {{ ucfirst($user->first_name) }} {{ ucfirst($user->middle_name) }} {{ ucfirst($user->last_name) }} </td>
+                                            <td> {{ ucfirst($user_details->first_name) }} {{ ucfirst($user_details->middle_name) }} {{ ucfirst($user_details->last_name) }} </td>
                                             <td><a href="#panel_edit_account" class="show-tab"><i
                                                         class="fa fa-pencil edit-user-info"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
-                                            @if($user->relation_with_person == 0)
-                                            <td>Father's Name</td>
-                                            @elseif($user->relation_with_person == 1)                                        
-                                            <td>Husband's Name</td>
-                                            @endif
-                                            <td>{{ $user->relative_id }}</td>
-                                            <td><a href="#panel_edit_account" class="show-tab"><i
-                                                        class="fa fa-pencil edit-user-info"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Voter ID</td>
-                                            <td><span class="label label-green label-info">{{ $user->voter_id }}</span></td>
+                                            <td>UserName</td>
+                                            <td><span class="label label-green label-info">{{ $user_details->username }}</span></td>
                                             <td><a href="#panel_edit_account" class="show-tab"><i
                                                         class="fa fa-pencil edit-user-info"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Date of Birth</td>
-                                            <td>{{ $user->dob }}</td>
+                                            <td>{{ $user_details->dob }}</td>
                                             <td><a href="#panel_edit_account" class="show-tab"><i
                                                         class="fa fa-pencil edit-user-info"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Gender</td>
-                                            @if($user->sex == 0)
+                                            @if($user_details->sex == 0)
                                             <td>Female</td>
-                                            @elseif($user->sex == 1)                                        
+                                            @elseif($user_details->sex == 1)                                        
                                             <td>Male</td>
                                             @endif
                                             <td><a href="#panel_edit_account" class="show-tab"><i
@@ -126,9 +111,9 @@ $now = \Carbon\Carbon::createFromDate();
                                         </tr>
                                         <tr>
                                             <td>Marriage Status</td>
-                                            @if($user->marriage_status == 0)
+                                            @if($user_details->marriage_status == 0)
                                             <td><span class="label label-sm label-info">Unmarried</span></td>
-                                            @elseif($user->marriage_status == 1)      
+                                            @elseif($user_details->marriage_status == 1)      
                                             <td><span class="label label-sm label-info">Married</span></td>
                                             @endif
                                             <td><a href="#panel_edit_account" class="show-tab"><i
@@ -151,8 +136,8 @@ $now = \Carbon\Carbon::createFromDate();
                                         </tr>
                                         <tr>
                                             <td>Mobile Number:</td>
-                                            <td>{{ $user->mobile_number }}</td>
-                                            <td><small>(updated on {{ $user->mobile_updated_at }}) </small><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
+                                            <td>{{ $user_details->mobile_number }}</td>
+                                            <td><small>(updated on {{ $user_details->mobile_updated_at }}) </small><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -178,18 +163,18 @@ $now = \Carbon\Carbon::createFromDate();
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="user-left">                                    
-                                        <h4>Home Address :</h4><small>(Last updated on {{ $user->address_updated_at }})</small>
+                                        <h4>Home Address :</h4><small>(Last updated on {{ $user_details->address_updated_at }})</small>
                                         <address class="text-right">
-                                            <strong>{{ ucwords($user->add_1) }},</strong>
+                                            <strong>{{ ucwords($user_details->add_1) }},</strong>
                                             <br>
-                                            {{ ucwords($user->add_2) }},
+                                            {{ ucwords($user_details->add_2) }},
                                             <br>
-                                            {{ ucwords($user->city) }},
+                                            {{ ucwords($user_details->city) }},
                                             <br>
-                                            {{ ucwords($user->state) }}, {{ ucwords($user->country) }}
+                                            {{ ucwords($user_details->state) }}, {{ ucwords($user_details->country) }}
                                             <br>
                                             <strong>
-                                                <abbr title="zipcode">Pin Code:</abbr> ({{ $user->pin_code }})
+                                                <abbr title="zipcode">Pin Code:</abbr> ({{ $user_details->pin_code }})
                                             </strong>
                                         </address>  
                                     </div>
@@ -229,7 +214,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             Update Image
                                         </label>
                                         <div class="fileupload fileupload-new" data-provides="fileupload">
-                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user->pic) }}" alt="">
+                                            <div class="fileupload-new thumbnail"><img src="{{ URL::asset('assets/projects/images/profilepics/'.$user_details->pic) }}" alt="">
                                             </div>
                                             <div class="fileupload-preview fileupload-exists thumbnail"></div> <br>
                                             <div class="user-edit-image-buttons">
@@ -249,7 +234,7 @@ $now = \Carbon\Carbon::createFromDate();
                                                 <label class="control-label">
                                                     First Name
                                                 </label>
-                                                <input type="text" value="{{ $user->first_name or '' }}" class="form-control" id="first_name" name="first_name">
+                                                <input type="text" value="{{ $user_details->first_name or '' }}" class="form-control" id="first_name" name="first_name">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -257,7 +242,7 @@ $now = \Carbon\Carbon::createFromDate();
                                                 <label class="control-label">
                                                     Middle Name <span class="symbol"></span>
                                                 </label>
-                                                <input type="text" value="{{ $user->middle_name or '' }}" class="form-control" id="middle_name" name="middle_name">
+                                                <input type="text" value="{{ $user_details->middle_name or '' }}" class="form-control" id="middle_name" name="middle_name">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -265,24 +250,11 @@ $now = \Carbon\Carbon::createFromDate();
                                                 <label class="control-label">
                                                     Last Name <span class="symbol required"></span>
                                                 </label>
-                                                <input type="text" value="{{ $user->last_name or '' }}" class="form-control" id="last_name" name="last_name">
+                                                <input type="text" value="{{ $user_details->last_name or '' }}" class="form-control" id="last_name" name="last_name">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">
-                                                    @if($user->relation_with_person == '0')
-                                                    Father's Name
-                                                    @elseif($user->relation_with_person == '1')
-                                                    Husband's Name
-                                                    @endif
-                                                    <span class="symbol required"></span>
-                                                </label>
-                                                <input type="text" value="{{ $user->relative_id or '' }}" class="form-control" id="relative_id" name="relative_id">
-                                            </div>
-                                        </div>
                                         <div class="col-md-6">
                                             <div class="form-group connected-group">
                                                 <label class="control-label">
@@ -293,7 +265,7 @@ $now = \Carbon\Carbon::createFromDate();
                                                         <select name="dd" id="dd" class="form-control">
                                                             <option value="">DD</option>  <!-- Bug here ...........this need to be in blade form -->
                                                             <?php for ($i = 01; $i <= 31; $i++) { ?>                                                    
-                                                                <option value="<?php echo $i; ?>" <?php if (date('d', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
+                                                                <option value="<?php echo $i; ?>" <?php if (date('d', strtotime($user_details->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
                                                             <?php } ?>                    
                                                         </select>
                                                     </div>
@@ -301,13 +273,30 @@ $now = \Carbon\Carbon::createFromDate();
                                                         <select name="mm" id="mm" class="form-control">
                                                             <option value="">MM</option>  <!-- Bug here ...........this need to be in blade form -->
                                                             <?php for ($i = 01; $i <= 12; $i++) { ?>                                                    
-                                                                <option value="<?php echo $i; ?>" <?php if (date('m', strtotime($user->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
+                                                                <option value="<?php echo $i; ?>" <?php if (date('m', strtotime($user_details->dob)) == $i) echo"selected"; ?>><?php echo $i; ?></option>
                                                             <?php } ?>                                                
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="text" value="{{ (strtotime($user->dob) == '') ? '' : date('Y', strtotime($user->dob)) }}" id="yyyy" name="yyyy" class="form-control">
+                                                        <input type="text" value="{{ (strtotime($user_details->dob) == '') ? '' : date('Y', strtotime($user_details->dob)) }}" id="yyyy" name="yyyy" class="form-control">
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Gender <span class="symbol required"></span>
+                                                </label>
+                                                <div>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" class="grey" value="0" name="sex" id="sex_female" {{ (($user_details->sex) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        Female
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" class="grey" value="1" name="sex"  id="sex_male" {{ (($user_details->sex) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        Male
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -316,32 +305,15 @@ $now = \Carbon\Carbon::createFromDate();
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">
-                                                    Gender <span class="symbol required"></span>
-                                                </label>
-                                                <div>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" class="grey" value="0" name="sex" id="sex_female" {{ (($user->sex) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
-                                                        Female
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" class="grey" value="1" name="sex"  id="sex_male" {{ (($user->sex) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
-                                                        Male
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">
                                                     Marriage Status <span class="symbol required"></span>
                                                 </label>
                                                 <div>
                                                     <label class="radio-inline">
-                                                        <input type="radio" class="grey" value="0" name="marriage_status" id="unmarried" {{ (($user->marriage_status) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        <input type="radio" class="grey" value="0" name="marriage_status" id="unmarried" {{ (($user_details->marriage_status) == '0') ? 'checked' : '' }}>  <!-- Bug here -->
                                                         UnMarried
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" class="grey" value="1" name="marriage_status"  id="married" {{ (($user->marriage_status) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
+                                                        <input type="radio" class="grey" value="1" name="marriage_status"  id="married" {{ (($user_details->marriage_status) == '1') ? 'checked' : '' }}>  <!-- Bug here -->
                                                         Married
                                                     </label>
                                                 </div>
@@ -359,7 +331,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             <label class="control-label">
                                                 Mobile Number <span class="symbol required"></span>
                                             </label>
-                                            <input type="number" value="{{ $user->mobile_number or '' }}" class="form-control" id="mobile_number" name="mobile_number">
+                                            <input type="number" value="{{ $user_details->mobile_number or '' }}" class="form-control" id="mobile_number" name="mobile_number">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -367,7 +339,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             <label class="control-label">
                                                 Home Phone Number
                                             </label>
-                                            <input type="number" value="{{ $user->home_number or '' }}" class="form-control" id="home_number" name="home_number">
+                                            <input type="number" value="{{ $user_details->home_number or '' }}" class="form-control" id="home_number" name="home_number">
                                         </div>
                                     </div>
                                 </div>
@@ -375,19 +347,19 @@ $now = \Carbon\Carbon::createFromDate();
                                     <label class="control-label">
                                         Address 1 <span class="symbol required"></span>
                                     </label>
-                                    <input class="form-control" type="text" name="add_1" value="{{ $user->add_1 or '' }}" id="add_1">
+                                    <input class="form-control" type="text" name="add_1" value="{{ $user_details->add_1 or '' }}" id="add_1">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Address 2 <span class="symbol required"></span>
                                     </label>
-                                    <input class="form-control" type="text" name="add_2" value="{{ $user->add_2 or '' }}" id="add_2">
+                                    <input class="form-control" type="text" name="add_2" value="{{ $user_details->add_2 or '' }}" id="add_2">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         City
                                     </label>
-                                    <input class="form-control tooltips" value="{{ $user->city or '' }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
+                                    <input class="form-control tooltips" value="{{ $user_details->city or '' }}" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8">
@@ -409,7 +381,7 @@ $now = \Carbon\Carbon::createFromDate();
                                             <label class="control-label">
                                                 Pin Code <span class="symbol required"></span>
                                             </label>
-                                            <input class="form-control" type="text" name="pin_code" id="pin_code" value="{{ $user->pin_code or '' }}">
+                                            <input class="form-control" type="text" name="pin_code" id="pin_code" value="{{ $user_details->pin_code or '' }}">
                                         </div>
                                     </div>
                                 </div>

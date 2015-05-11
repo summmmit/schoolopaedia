@@ -89,7 +89,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
          */
         Route::Post('/edit', array(
             'as' => 'admin-edit-post',
-            'uses' => 'AdminLoginController@postEdit'
+            'uses' => 'AdminAccountController@postEdit'
         ));
         /*
          *  Change Admin login Details (post)
@@ -113,7 +113,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
      */
     Route::get('/sign/out', array(
         'as' => 'admin-sign-out',
-        'uses' => 'AdminAccountController@getSignOut'
+        'uses' => 'AdminLoginController@getSignOut'
     ));
     /*
      * User Welcome Settings (get)
@@ -134,7 +134,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
      */
     Route::get('/profile', array(
         'as' => 'admin-profile',
-        'uses' => 'AdminLoginController@getAdminProfile'
+        'uses' => 'AdminAccountController@getAdminProfile'
     ));
     /*
      * Admin Time Table Set (get)
