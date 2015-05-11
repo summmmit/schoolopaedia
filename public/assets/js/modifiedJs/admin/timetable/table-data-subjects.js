@@ -1,9 +1,5 @@
 var TableDataSubjects = function() {
     "use strict";
-    //function to initiate DataTable
-    //DataTable is a highly flexible tool, based upon the foundations of progressive enhancement,
-    //which will add advanced interaction controls to any HTML table
-    //For more information, please visit https://datatables.net/
     var runDataTable_AddSubjects = function() {
         var newRow = false;
         var actualEditingRow = null;
@@ -97,7 +93,7 @@ var TableDataSubjects = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/subjects',
+                        url: 'http://localhost/projects/schools/public/admin/time/table/delete/subjects',
                         dataType: 'json',
                         method: 'POST',
                         cache: false,
@@ -136,7 +132,7 @@ var TableDataSubjects = function() {
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/subjects',
+                url: 'http://localhost/projects/schools/public/admin/time/table/add/subjects',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -215,7 +211,7 @@ var TableDataSubjects = function() {
             };
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/sections',
+                url: 'http://localhost/projects/schools/public/admin/time/table/get/sections',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -248,7 +244,7 @@ var TableDataSubjects = function() {
             };
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/subjects',
+                url: 'http://localhost/projects/schools/public/admin/time/table/get/subjects',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -283,7 +279,7 @@ var TableDataSubjects = function() {
     var fetchClasses = function() {
 
         $.ajax({
-            url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/class/streams/pair',
+            url: 'http://localhost/projects/schools/public/admin/time/table/get/class/streams/pair',
             dataType: 'json',
             method: 'POST',
             success: function(data, response) {

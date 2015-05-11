@@ -29,6 +29,13 @@ Route::group(array('prefix' => 'admin', 'before' => 'guest'), function() {
             'as' => 'admin-forgot-password-post',
             'uses' => 'AdminLoginController@postForgotPassword'
         ));
+        /**
+         * Admin Store New Password
+         */
+        Route::Post('/store/new/password/post', array(
+            'as' => 'admin-store-new-password-post',
+            'uses' => 'AdminLoginController@postStoreNewPassword'
+        ));
     });
     /*
      * Admin Create Account (get)
@@ -61,9 +68,9 @@ Route::group(array('prefix' => 'admin', 'before' => 'guest'), function() {
     /*
      * Admin Recover Account (get)
      */
-    Route::get('/account/recover/{code}', array(
-        'as' => 'admin-account-recover',
-        'uses' => 'AdminLoginController@getRecover'
+    Route::get('/reset/password', array(
+        'as' => 'admin-reset-password',
+        'uses' => 'AdminLoginController@getResetPassword'
     ));
 });
 
@@ -150,119 +157,126 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * Admin Get Class and Streams Pair  (post)
      */
-    Route::Post('/admin/time/table/get/class/streams/pair', array(
+    Route::Post('/time/table/get/class/streams/pair', array(
         'as' => 'admin-time-table-get-class-streams-pair',
         'uses' => 'AdminTimeTableController@postGetClassStreamPair'
     ));
     /*
      * Admin Classes Add or Edit (post)
      */
-    Route::Post('/admin/time/table/add/classes', array(
+    Route::Post('/time/table/add/classes', array(
         'as' => 'admin-time-table-add-classes-post',
         'uses' => 'AdminTimeTableController@postAddClasses'
     ));
     /*
      * Admin Classes Delete (post)
      */
-    Route::Post('/admin/time/table/delete/classes', array(
+    Route::Post('/time/table/delete/classes', array(
         'as' => 'admin-time-table-delete-classes-post',
         'uses' => 'AdminTimeTableController@postDeleteClasses'
     ));
     /*
      * Admin Classes get (post)
      */
-    Route::Post('/admin/time/table/get/classes', array(
+    Route::Post('/time/table/get/classes', array(
         'as' => 'admin-time-table-get-classes-post',
         'uses' => 'AdminTimeTableController@postGetClasses'
     ));
     /*
      * Admin Streams  (post)
      */
-    Route::Post('/admin/time/table/get/streams', array(
+    Route::Post('/time/table/get/streams', array(
         'as' => 'admin-time-table-get-streams',
         'uses' => 'AdminTimeTableController@postGetStreams'
     ));
     /*
      * Admin Streams Add or Edit (post)
      */
-    Route::Post('/admin/time/table/add/stream', array(
+    Route::Post('/time/table/add/stream', array(
         'as' => 'admin-time-table-add-stream-post',
         'uses' => 'AdminTimeTableController@postAddStreams'
     ));
     /*
      * Admin Streams Delete (post)
      */
-    Route::Post('/admin/time/table/delete/stream', array(
+    Route::Post('/time/table/delete/stream', array(
         'as' => 'admin-time-table-delete-stream-post',
         'uses' => 'AdminTimeTableController@postDeleteStreams'
     ));
     /*
+     * Admin get Sections (post)
+     */
+    Route::Post('/time/table/get/sections', array(
+        'as' => 'admin-time-table-get-sections-post',
+        'uses' => 'AdminTimeTableController@postGetSections'
+    ));
+    /*
      * Admin Sections Add or Edit (post)
      */
-    Route::Post('/admin/time/table/add/sections', array(
+    Route::Post('/time/table/add/sections', array(
         'as' => 'admin-time-table-add-sections-post',
         'uses' => 'AdminTimeTableController@postAddSections'
     ));
     /*
      * Admin Sections Delete (post)
      */
-    Route::Post('/admin/time/table/delete/sections', array(
+    Route::Post('/time/table/delete/sections', array(
         'as' => 'admin-time-table-delete-sections-post',
         'uses' => 'AdminTimeTableController@postDeleteSections'
     ));
     /*
      * Admin Subjects  (post)
      */
-    Route::Post('/admin/time/table/get/subjects', array(
+    Route::Post('/time/table/get/subjects', array(
         'as' => 'admin-time-table-get-subjects',
         'uses' => 'AdminTimeTableController@postGetSubjects'
     ));
     /*
      * Admin Sections Add or Edit (post)
      */
-    Route::Post('/admin/time/table/add/subjects', array(
+    Route::Post('/time/table/add/subjects', array(
         'as' => 'admin-time-table-add-subjects-post',
         'uses' => 'AdminTimeTableController@postAddSubjects'
     ));
     /*
      * Admin Sections Delete (post)
      */
-    Route::Post('/admin/time/table/delete/subjects', array(
+    Route::Post('/time/table/delete/subjects', array(
         'as' => 'admin-time-table-delete-subjects-post',
         'uses' => 'AdminTimeTableController@postDeleteSubjects'
     ));
     /*
      * Admin Timetable  (post)
      */
-    Route::get('/admin/time/table/get/create', array(
+    Route::get('/time/table/get/create', array(
         'as' => 'admin-create-time-table',
         'uses' => 'AdminTimeTableController@getCreateTimeTable'
     ));
     /*
      * Admin get TimeTable by Class  (post)
      */
-    Route::Post('/admin/time/table/get/periods', array(
+    Route::Post('/time/table/get/periods', array(
         'as' => 'admin-time-table-get-periods',
         'uses' => 'AdminTimeTableController@postGetPeriods'
     ));
     /*
      * Admin get TimeTable by Class  (post)
      */
-    Route::Post('/admin/time/table/add/periods', array(
+    Route::Post('/time/table/add/periods', array(
         'as' => 'admin-time-table-add-periods',
         'uses' => 'AdminTimeTableController@postAddPeriods'
     ));
     /*
      * Admin Period Delete (post)
      */
-    Route::Post('/admin/time/table/delete/periods', array(
+    Route::Post('/time/table/delete/periods', array(
         'as' => 'admin-time-table-delete-periods-post',
         'uses' => 'AdminTimeTableController@postDeletePeriods'
     ));
     /*
      * Admin get All the Teachers  (post)
      */
-    Route::Post('/admin/time/table/get/teachers', array(
+    Route::Post('/time/table/get/teachers', array(
         'as' => 'admin-time-table-get-teachers',
         'uses' => 'AdminTimeTableController@postGetTeachers'
     ));
@@ -298,7 +312,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * Set Initial School Schedule (post)
      */
-    Route::Post('/admin/school/set/schedule/post', array(
+    Route::Post('/school/set/schedule/post', array(
         'as' => 'admin-school-set-schedule-post',
         'uses' => 'SchoolSettingsController@postSetSchoolSchedule'
     ));
@@ -319,21 +333,21 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * School Timinings Daily Start From Ajax (post)
      */
-    Route::Post('/admin/ajax/school/timings/start/from', array(
+    Route::Post('/ajax/school/timings/start/from', array(
         'as' => 'admin-ajax-school-timings-start-from',
         'uses' => 'SchoolSettingsController@postScheduleStartFrom'
     ));
     /*
      * School Timinings Daily Lunch From Ajax (post)
      */
-    Route::Post('/admin/ajax/school/timings/lunch/from', array(
+    Route::Post('/ajax/school/timings/lunch/from', array(
         'as' => 'admin-ajax-school-timings-lunch-from',
         'uses' => 'SchoolSettingsController@postScheduleLunchFrom'
     ));
     /*
      * School Timinings Daily Closing From Ajax (post)
      */
-    Route::Post('/admin/ajax/school/timings/close/from', array(
+    Route::Post('/ajax/school/timings/close/from', array(
         'as' => 'admin-ajax-school-timings-close-from',
         'uses' => 'SchoolSettingsController@postScheduleCloseFrom'
     ));

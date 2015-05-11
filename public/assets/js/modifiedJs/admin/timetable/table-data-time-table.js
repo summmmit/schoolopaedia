@@ -44,7 +44,7 @@ var TableDataTimeTable = function() {
                 section_id: rowData.section_id
             };
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/subjects',
+                url: 'http://localhost/projects/schools/public/admin/time/table/get/subjects',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -67,7 +67,7 @@ var TableDataTimeTable = function() {
             });
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/teachers',
+                url: 'http://localhost/projects/schools/public/admin/time/table/get/teachers',
                 dataType: 'json',
                 method: 'POST',
                 success: function(data, response) {
@@ -176,7 +176,7 @@ var TableDataTimeTable = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schools/public/administrator/admin/time/table/delete/periods',
+                        url: 'http://localhost/projects/schools/public/admin/time/table/delete/periods',
                         dataType: 'json',
                         method: 'POST',
                         data: data,
@@ -221,7 +221,7 @@ var TableDataTimeTable = function() {
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/add/periods',
+                url: 'http://localhost/projects/schools/public/admin/time/table/add/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -316,7 +316,7 @@ var TableDataTimeTable = function() {
             };
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/sections',
+                url: 'http://localhost/projects/schools/public/admin/time/table/get/sections',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -358,7 +358,7 @@ var TableDataTimeTable = function() {
             };
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/periods',
+                url: 'http://localhost/projects/schools/public/admin/time/table/get/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -429,7 +429,7 @@ var TableDataTimeTable = function() {
 
     var fetchClasses = function() {
         $.ajax({
-            url: 'http://localhost/projects/schools/public/administrator/admin/time/table/get/class/streams/pair',
+            url: 'http://localhost/projects/schools/public/admin/time/table/get/class/streams/pair',
             dataType: 'json',
             method: 'POST',
             success: function(data, response) {

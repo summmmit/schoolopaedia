@@ -359,10 +359,6 @@ class AdminAccountController  extends BaseController {
             }
     }
 
-    public function getForgotPassword(){
-        return View::make('admin.account.forgot-password');
-    }
-
     public function postForgotPassword(){
         $validator = Validator::make(Input::all(),
             array(

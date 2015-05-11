@@ -121,8 +121,6 @@ var AdminWelcomeSettingsWizard = function() {
                     registration_code: $(this).parents('#step-1').find('#registration-code').val(),
                     code_for_admin: $(this).parents('#step-1').find('#code-for-admin').val(),
                 };
-                
-                console.log(data);
 
                 $.blockUI({
                     message: '<i class="fa fa-spinner fa-spin"></i> Validating Your School Codes......'

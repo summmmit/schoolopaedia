@@ -1,12 +1,17 @@
-Hello {{ $username }}<br><br>
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<h2>Password reset</h2>
 
-Your New Password is given below. <br><br>
-Use it to setup new password. <br><br>
-
---------<br>
-New Password : {{ $password }}
-<br>-------<br>
-
---------<br>
-Clik on the given link <br> {{ $link }}
-<br>-------<br>
+<div>
+    You have requested to reset your password . Follow the link below to change your password
+    <br/>
+    <a href="{{ URL::route('admin-reset-password') }}?email={{$email}}&resetcode={{$resetCode}}">
+        {{ URL::route('admin-reset-password') }}?email={{$email}}&resetcode={{$resetCode}}
+    </a>
+</div>
+</body>
+</html>
