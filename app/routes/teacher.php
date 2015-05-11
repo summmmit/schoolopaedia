@@ -2,7 +2,7 @@
 /*
  * Unauthenticated Group
  */
-Route::group(array('before' => 'guest'), function() {
+Route::group(array('prefix' => 'teacher', 'before' => 'guest'), function() {
     /*
      * CSRF protection
      */
@@ -10,7 +10,7 @@ Route::group(array('before' => 'guest'), function() {
         /*
          *  User Sign-in (post)
          */
-        Route::Post('/teacher/sign/in/post', array(
+        Route::Post('/sign/in/post', array(
             'as' => 'teacher-sign-in-post',
             'uses' => 'UserAccountController@postSignIn'
         ));
@@ -18,15 +18,15 @@ Route::group(array('before' => 'guest'), function() {
     /*
      * User Create Account (get)
      */
-    Route::get('/teacher/account', array(
+    Route::get('/account/create', array(
         'as' => 'teacher-account-create',
-        'uses' => 'UserAccountController@getCreate'
+        'uses' => 'TeacherLoginController@getCreate'
     ));
 });
 /*
  * Authenticated Group
  */
-Route::group(array('before' => 'auth'), function() {
+Route::group(array('prefix' => 'teacher', 'before' => 'teacherAuth'), function() {
     /*
      * CSRF protection
      */

@@ -48,6 +48,14 @@ Route::filter('AdminAuth', function()
     }
 });
 
+Route::filter('teacherAuth', function()
+{
+    if ( ! Sentry::check()) 
+    {     
+        return Redirect::guest('/teacher/sign/in');
+    }
+});
+
 Route::filter('auth', function()
 {
 	if (Auth::guest())
