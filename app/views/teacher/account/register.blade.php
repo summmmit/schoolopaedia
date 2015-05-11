@@ -3,7 +3,7 @@
 <!-- start: REGISTER BOX -->
 <div class="box-register">
     <h3>Sign Up</h3>
-    <form class="form-register" action="{{ URL::route('admin-account-create-post'); }}" method="post">
+    <form class="form-register" action="{{ URL::route('teacher-account-create-post'); }}" method="post">
         <div class="errorHandler alert alert-danger no-display">
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
         </div>
@@ -47,7 +47,7 @@
             </div>
             <div class="form-actions">
                 Already have an account?
-                <a href="{{ URL::route('admin-sign-in') }}">
+                <a href="{{ URL::route('teacher-sign-in') }}">
                     Log-in
                 </a>
                 <button type="submit" class="btn btn-green pull-right">

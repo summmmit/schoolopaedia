@@ -54,11 +54,12 @@ class TeacherLoginController extends BaseController
 
                 //If no groups created then create new groups
                 try {
-                    $user_group = Sentry::findGroupById(1);
+                    $user_group = Sentry::findGroupById(3);
                 } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
                     $this->createGroup('administrator');
                     $this->createGroup('students');
-                    $user_group = Sentry::findGroupById(1);
+                    $this->createGroup('teacher');
+                    $user_group = Sentry::findGroupById(3);
                 }
 
                 $user->addGroup($user_group);
@@ -75,14 +76,14 @@ class TeacherLoginController extends BaseController
 
                 //success!
                 Session::flash('global', 'Thanks for sign up . Please activate your account by clicking activation link in your email');
-                return Redirect::to('/admin/account/create');
+                return Redirect::to(route('teacher-account-create'));
 
             } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
                 Session::flash('global', 'Email Required.');
-                return Redirect::to('/admin/account/create')->withErrors($validator)->withInput(Input::except(array('password', 'password_confirmation')));
+                return Redirect::to(route('teacher-account-create'))->withErrors($validator)->withInput(Input::except(array('password', 'password_again')));
             } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
                 Session::flash('global', 'User Already Exist.');
-                return Redirect::to('/admin/account/create')->withErrors($validator)->withInput(Input::except(array('password', 'password_confirmation')));
+                return Redirect::to(route('teacher-account-create'))->withErrors($validator)->withInput(Input::except(array('password', 'password_again')));
             }
 
         }
@@ -127,23 +128,23 @@ class TeacherLoginController extends BaseController
             // Attempt to activate the user
             if ($user->attemptActivation($activationCode)) {
                 Session::flash('global', 'User Activation Successfull Please login below.');
-                return Redirect::to('/admin/sign/in');
+                return Redirect::to(route('teacher-sign-in'));
             } else {
                 Session::flash('global', 'Unable to activate user Try again later or contact Support Team.');
-                return Redirect::to('/admin/account/create');
+                return Redirect::to(route('teacher-account-create'));
             }
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             Session::flash('global', 'User was not found.');
-            return Redirect::to('/admin/account/create');
+            return Redirect::to(route('teacher-account-create'));
         } catch (Cartalyst\Sentry\Users\UserAlreadyActivatedException $e) {
             Session::flash('global', 'User is already activated.');
-            return Redirect::to('/admin/account/create');
+            return Redirect::to(route('teacher-account-create'));
         }
     }
 
     public function getSignIn()
     {
-        return View::make('admin.account.login');
+        return View::make('teacher.account.login');
     }
 
     //Authenticate User
@@ -168,14 +169,14 @@ class TeacherLoginController extends BaseController
 
             } else {
                 Session::flash('global', 'User does not exist');
-                return Redirect::to('/admin/sign/in')->withInput(Input::except('password'));
+                return Redirect::to(route('teacher-sign-in'))->withInput(Input::except('password'));
             }
         }
 
         $v = Validator::make($inputs, $rules);
 
         if ($v->fails()) {
-            return Redirect::to('/admin/sign/in')->withErrors($v)->withInput(Input::except('password'));
+            return Redirect::to(route('teacher-sign-in'))->withErrors($v)->withInput(Input::except('password'));
         } else {
             try {
                 //Try to authenticate user
@@ -194,25 +195,25 @@ class TeacherLoginController extends BaseController
                 //At this point we may get many exceptions lets handle all user management and throttle exceptions
             } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
                 Session::flash('global', 'Login field is required.');
-                return Redirect::to('/admin/sign/in');
+                return Redirect::to(route('teacher-sign-in'));
             } catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
                 Session::flash('global', 'Password field is required.');
-                return Redirect::to('/admin/sign/in');
+                return Redirect::to(route('teacher-sign-in'));
             } catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
                 Session::flash('global', 'Wrong password, try again.');
-                return Redirect::to('/admin/sign/in');
+                return Redirect::to(route('teacher-sign-in'));
             } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
                 Session::flash('global', 'User was not found.');
-                return Redirect::to('/admin/sign/in');
+                return Redirect::to(route('teacher-sign-in'));
             } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
                 Session::flash('global', 'User is not activated.');
-                return Redirect::to('/admin/sign/in');
+                return Redirect::to(route('teacher-sign-in'));
             } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
                 Session::flash('global', 'User is suspended ');
-                return Redirect::to('/admin/sign/in');
+                return Redirect::to(route('teacher-sign-in'));
             } catch (Cartalyst\Sentry\Throttling\UserBannedException $e) {
                 Session::flash('global', 'User is banned.');
-                return Redirect::to('/admin/sign/in');
+                return Redirect::to(route('teacher-sign-in'));
             }
 
             //    $users_login_info = UsersLoginInfo::where('user_id', '=', $user->id)->get();
@@ -229,11 +230,11 @@ class TeacherLoginController extends BaseController
 
                 if ($users_login_info->save()) {
                     Session::flash('global', 'Loggedin Successfully.');
-                    return Redirect::to(route('admin-home'));
+                    return Redirect::to(route('teacher-home'));
                 }
 
             } else {
-                return Redirect::to(route('admin-welcome-settings'));
+                return Redirect::to(route('teacher-welcome-settings'));
             }
         }
 
