@@ -58,7 +58,7 @@
             <div class="tab-content">
                 <div id="panel_overview" class="tab-pane fade in active">
                     <div class="row">
-                        <div class="col-sm-5 col-md-4">
+                        <div class="col-sm-5">
                             <div class="user-left">
                                 <h2><i class="fa fa-users"></i> Overview</h2>
                                 <hr>
@@ -158,47 +158,106 @@
                             </div>
                         </div> 
                         <div class="col-sm-7">
-                            <h3><i class="fa fa-paper-plane text-center"></i> Additional Information</h3>
-                            <hr>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="user-left">                                    
-                                        <h4>Home Address :</h4><small>(Last updated on {{ $user_details->address_updated_at }})</small>
-                                        <address class="text-right">
-                                            <strong>{{ ucwords($user_details->add_1) }},</strong>
-                                            <br>
-                                            {{ ucwords($user_details->add_2) }},
-                                            <br>
-                                            {{ ucwords($user_details->city) }},
-                                            <br>
-                                            {{ ucwords($user_details->state) }}, {{ ucwords($user_details->country) }}
-                                            <br>
-                                            <strong>
-                                                <abbr title="zipcode">Pin Code:</abbr> ({{ $user_details->pin_code }})
-                                            </strong>
-                                        </address>  
+                                <div class="col-sm-12">
+                                    <div class="panel panel-white space20">
+                                        <div class="panel-heading">
+                                            <i class="clip-menu"></i>
+                                            Recent Activities
+                                            <div class="panel-tools">
+                                                <a class="btn btn-xs btn-link panel-close" href="#">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body panel-scroll ps-container">
+                                            <ul class="activities">
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-blue"></i> <i class="fa fa-code fa-stack-1x fa-inverse"></i> </span> <span class="desc">You uploaded a new release.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            2 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <img alt="image" src="assets/images/avatar-2.jpg"> <span class="desc">Nicole Bell sent you a message.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            3 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-orange"></i> <i class="fa fa-database fa-stack-1x fa-inverse"></i> </span> <span class="desc">DataBase Migration.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            5 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-yellow"></i> <i class="fa fa-calendar-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">You added a new event to the calendar.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            8 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Kenneth Ross uploaded new images.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            9 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Peter Clark uploaded a new image.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            12 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Peter Clark uploaded a new image.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            12 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Peter Clark uploaded a new image.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            12 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="activity" href="javascript:void(0)">
+                                                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-green"></i> <i class="fa fa-file-image-o fa-stack-1x fa-inverse"></i> </span> <span class="desc">Peter Clark uploaded a new image.</span>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            12 hours ago
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <hr>                                      
-                                </div>
-                                <div class="col-md-6">
-                                    <h4>Work Address :</h4><small>(Last updated on 12/22/2015) </small>
-                                    <address class="text-right">
-                                        <strong>House Number: 256, Street Number: 9</strong>
-                                        <br>
-                                        New Defence Colony, Muradnagar
-                                        <br>
-                                        Ghaziabad
-                                        <br>
-                                        Uttar Pradesh, India
-                                        <br>
-                                        <strong>
-                                            <abbr title="zipcode">Pin Code:</abbr> (201206)
-                                        </strong>
-                                    </address> 
-                                    <hr>                                       
                                 </div>
                             </div>
-                            <hr>
                         </div>
                     </div>
                 </div>
@@ -426,49 +485,44 @@
                     <div class="row">
                         <div class="user-left">
                             <div class="col-md-6">
-                                <!-- start: MARKERS PANEL -->
-                                <div class="panel panel-white">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">Markers</h4>
-                                        <div class="panel-tools">
-                                            <div class="dropdown">
-                                                <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-                                                    <i class="fa fa-cog"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-light pull-right" role="menu">
-                                                    <li>
-                                                        <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="panel-refresh" href="#"> <i class="fa fa-refresh"></i> <span>Refresh</span> </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="panel-config" href="#panel-config" data-toggle="modal"> <i class="fa fa-wrench"></i> <span>Configurations</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="panel-expand" href="#"> <i class="fa fa-expand"></i> <span>Fullscreen</span></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <a class="btn btn-xs btn-link panel-close" href="#"> <i class="fa fa-times"></i> </a>
-                                        </div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="map" id="map2"></div>
-                                    </div>
-                                </div>
-                                <!-- end: MARKERS PANEL -->
+                                <table class="table table-condensed table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3"><h3>Login Details</h3></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="column-left">Current Email:</td>
+                                            <td class="column-right text-center">{{ $user->email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">Last Login</td>
+                                            <td class="column-right text-center">{{ $user->last_login }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">Skype Id</td>
+                                            <td class="column-right text-center">{{ $user->skype }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">
+                                                <img src="{{ URL::asset('assets/projects/images/no_img.png'); }}" width="90px" height="90px">
+                                            </td>
+                                            <td class="column-right text-center"><a href="">Connect Facebook</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-left">
+                                                <img src="{{ URL::asset('assets/projects/images/no_img.png'); }}" width="90px" height="90px">
+                                            </td>
+                                            <td class="column-right text-center"><a href="#">Connect Google</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <form action="{{ URL::route('admin-login-details-post'); }}" role="form" id="form" method="post">
+                            <form action="{{ URL::route('user-login-details-post'); }}" role="form" id="form" method="post">
                                 <h3>Update Details</h3>
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        Email Address
-                                    </label>
-                                    <input type="email" value="{{ $user->email or '' }}" class="form-control" id="email" name="email">
-                                </div>
                                 <div class="form-group">
                                     <label class="control-label">
                                         Current Password
@@ -521,22 +575,22 @@
     <script src="{{ URL::asset('assets/plugins/gmaps/gmaps.js'); }}"></script>
     <script>
 
-jQuery(document).ready(function() {    
-    
+jQuery(document).ready(function() {
+
     if (location.hash) {
         $('a[href=' + location.hash + ']').tab('show');
     }
     $(document.body).on("click", "a[data-toggle]", function(event) {
         location.hash = this.getAttribute("href");
     });
-    
+
     Main.init();
     SVExamples.init();
     PagesUserProfile.init();
     Maps.init();
 
 });
-        
+
 $(window).on('popstate', function() {
     var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
     $('a[href=' + anchor + ']').tab('show');
