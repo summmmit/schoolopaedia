@@ -1,5 +1,6 @@
 var TableDataStreams = function() {
     "use strict";
+    
     var runDataTable_AddStreams = function() {
         var newRow = false;
         var actualEditingRow = null;
@@ -87,7 +88,7 @@ var TableDataStreams = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schools/public/admin/time/table/delete/stream',
+                        url: localServer+'/admin/time/table/delete/stream',
                         dataType: 'json',
                         method: 'POST',
                         cache: false,
@@ -127,7 +128,7 @@ var TableDataStreams = function() {
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schools/public/admin/time/table/add/stream',
+                url: localServer+'/admin/time/table/add/stream',
                 dataType: 'json',
                 method: 'POST',
                 cache: false,

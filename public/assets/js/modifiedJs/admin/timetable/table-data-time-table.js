@@ -44,7 +44,7 @@ var TableDataTimeTable = function() {
                 section_id: rowData.section_id
             };
             $.ajax({
-                url: 'http://localhost/projects/schools/public/admin/time/table/get/subjects',
+                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/subjects',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -67,7 +67,7 @@ var TableDataTimeTable = function() {
             });
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/admin/time/table/get/teachers',
+                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/teachers',
                 dataType: 'json',
                 method: 'POST',
                 success: function(data, response) {
@@ -76,7 +76,7 @@ var TableDataTimeTable = function() {
                     var teachers = data.result.teachers;
                     for (i = 0; i < teachers.length; i++) {
                         var name = teachers[i].first_name + ' ' + teachers[i].middle_name + ' ' + teachers[i].last_name;
-                        // var picUrl = "http://localhost/projects/schools/public/assets/projects/images/" + data.teachers[i].pic;
+                        // var picUrl = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + data.teachers[i].pic;
                         //var pic = '<img class="thumbnail" src="'+ picUrl +'" height="50px" width="50px">';
                         if (teachers[i].id == rowData.teacher_id) {
                             selectTeacher.append('<option value="' + teachers[i].id + '" selected>' + name + '</option>');
@@ -102,7 +102,7 @@ var TableDataTimeTable = function() {
             oTimeTable.fnUpdate(subject, nRow, 2, false);
             var teacher = result.teacher.first_name + ' ' + result.teacher.middle_name + ' ' + result.teacher.last_name;
             oTimeTable.fnUpdate(teacher, nRow, 3, false);
-            var picUrl = "http://localhost/projects/schools/public/assets/projects/images/" + result.teacher.pic;
+            var picUrl = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + result.teacher.pic;
             var pic = '<img class="thumbnail" src="' + picUrl + '" height="50px" width="50px">';
             oTimeTable.fnUpdate(pic, nRow, 4, false);
             oTimeTable.fnUpdate('<a class="edit-row-time-table" href="">Edit</a>', nRow, 5, false);
@@ -176,7 +176,7 @@ var TableDataTimeTable = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schools/public/admin/time/table/delete/periods',
+                        url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/delete/periods',
                         dataType: 'json',
                         method: 'POST',
                         data: data,
@@ -221,7 +221,7 @@ var TableDataTimeTable = function() {
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schools/public/admin/time/table/add/periods',
+                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/add/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -316,7 +316,7 @@ var TableDataTimeTable = function() {
             };
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/admin/time/table/get/sections',
+                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/sections',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -358,7 +358,7 @@ var TableDataTimeTable = function() {
             };
 
             $.ajax({
-                url: 'http://localhost/projects/schools/public/admin/time/table/get/periods',
+                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -395,7 +395,7 @@ var TableDataTimeTable = function() {
             oTimeTable.fnUpdate(periods[i].subject.subject_name + '  (' + periods[i].subject.subject_code + ')', nRow, 2, false);
             oTimeTable.fnUpdate(periods[i].teacher.first_name + ' ' + periods[i].teacher.last_name, nRow, 3, false);
 
-            var urls = "http://localhost/projects/schools/public/assets/projects/images/" + periods[i].teacher.pic;
+            var urls = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + periods[i].teacher.pic;
             oTimeTable.fnUpdate('<img class="thumbnail" src="' + urls + '" width="50px" height="50px">', nRow, 4, false);
 
             oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 5, false);
@@ -429,7 +429,7 @@ var TableDataTimeTable = function() {
 
     var fetchClasses = function() {
         $.ajax({
-            url: 'http://localhost/projects/schools/public/admin/time/table/get/class/streams/pair',
+            url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/class/streams/pair',
             dataType: 'json',
             method: 'POST',
             success: function(data, response) {

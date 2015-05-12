@@ -679,6 +679,9 @@
         <!-- start: CORE JAVASCRIPTS  -->
         <script src="{{ URL::asset('assets/js/main.js'); }} "></script>
         <!-- end: CORE JAVASCRIPTS  -->
+        <!-- start: VARIABLES FOR JAVASCRIPTS  -->
+        <script src="{{ URL::asset('assets/js/required/javascript-variables.js'); }} "></script>
+        <!-- end: VARIABLES FOR JAVASCRIPTS  -->
         <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
         @yield('scripts')
         <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
