@@ -560,9 +560,4 @@ class TeacherLoginController extends BaseController
             return Redirect::route('teacher-school-set-sessions')->with('global', 'You can not be registered this time. Please Try later.');
         }
     }
-
-    public function getTeacherProfile(){
-        $user = Sentry::getUser();
-        return View::make('teacher.profile')->withuser($user);
-    }
 }

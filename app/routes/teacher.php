@@ -101,7 +101,7 @@ Route::group(array('prefix' => 'teacher', 'before' => 'teacherAuth'), function()
      */
     Route::get('/profile', array(
         'as' => 'teacher-profile',
-        'uses' => 'TeacherLoginController@getAdminProfile'
+        'uses' => 'TeacherAccountController@getTeacherProfile'
     ));
     /*
      * Teacher Attendance (get)
