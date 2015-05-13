@@ -627,14 +627,12 @@ class AdminTimeTableController extends BaseController {
         $period->users_id = $teacher_id;
 
         $subject = Subjects::find($subject_id);
-        $teacher = User::find($teacher_id);
+        $teacher = UserDetails::where('user_id', '=', $teacher_id);
 
         $period->save();
 
         $response = array(
             'status' => 'success',
-            'msg' => 'Setting created successfully',
-            'errors' => null,
             'result' => array(
                 'period' => $period,
                 'subject' => $subject,
@@ -689,8 +687,10 @@ class AdminTimeTableController extends BaseController {
         
         $query = "SELECT * 
                      FROM  `users` 
-                     JOIN users_groups ON users.id = users_groups.user_id
-                     JOIN users.id = user_details.user_id
+                     JOIN users_groups
+                     ON users.id = users_groups.user_id
+                     JOIN user_details
+                     ON users.id = user_details.user_id
                      AND users_groups.groups_id = ?
                      AND users.school_id = ?
                 ";

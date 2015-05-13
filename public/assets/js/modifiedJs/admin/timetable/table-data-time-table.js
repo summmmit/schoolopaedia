@@ -28,6 +28,7 @@ var TableDataTimeTable = function() {
                 sTime = "";
                 eTime = "";
             }
+
             var startTime = '<div class="col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-start-time" value="' + sTime + '">' +
                     '<span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span></div></div>';
             var endTime = '<div class="col-md-offset-2 col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-end-time" value="' + eTime + '">' +
@@ -35,16 +36,13 @@ var TableDataTimeTable = function() {
             jqTds[1].innerHTML = startTime + endTime;
             jqTds[2].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
             jqTds[3].innerHTML = '<select id="form-field-select-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
-            jqTds[4].innerHTML = '';
-            jqTds[5].innerHTML = '<a class="save-row-time-table" href="#">Save</a>';
-            jqTds[6].innerHTML = '<a class="cancel-row-time-table" href="#">Cancel</a>';
+            jqTds[4].innerHTML = '<a class="save-row-time-table" href="#">Save</a>';
+            jqTds[5].innerHTML = '<a class="cancel-row-time-table" href="#">Cancel</a>';
 
             var data = {
                 class_id: rowData.class_id,
                 section_id: rowData.section_id
             };
-            
-            console.log(data);
             
             $.ajax({
                 url: serverUrl + '/admin/time/table/get/subjects',
@@ -52,8 +50,6 @@ var TableDataTimeTable = function() {
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
-                    
-            console.log(data);
                     
                     var selectSubject = oTimeTable.find('#form-field-select-subject');
                     var selectSubjectRowId = oTimeTable.find('#form-field-select-subject').parent().attr('id');
@@ -77,18 +73,17 @@ var TableDataTimeTable = function() {
                 dataType: 'json',
                 method: 'POST',
                 success: function(data, response) {
-                    console.log(data);
                     var selectTeacher = oTimeTable.find('#form-field-select-teacher');
                     var i;
                     var teachers = data.result.teachers;
                     for (i = 0; i < teachers.length; i++) {
-                        var name = teachers[i].first_name + ' ' + teachers[i].middle_name + ' ' + teachers[i].last_name;
+                        var name = teachers[i].first_name + ' ' + teachers[i].last_name;
                         // var picUrl = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + data.teachers[i].pic;
                         //var pic = '<img class="thumbnail" src="'+ picUrl +'" height="50px" width="50px">';
                         if (teachers[i].id == rowData.teacher_id) {
-                            selectTeacher.append('<option value="' + teachers[i].id + '" selected>' + name + '</option>');
+                            selectTeacher.append('<option value="' + teachers[i].user_id + '" selected>' + name + '</option>');
                         } else {
-                            selectTeacher.append('<option value="' + teachers[i].id + '">' + name + '</option>');
+                            selectTeacher.append('<option value="' + teachers[i].user_id + '">' + name + '</option>');
                         }
                     }
                 }
@@ -109,11 +104,11 @@ var TableDataTimeTable = function() {
             oTimeTable.fnUpdate(subject, nRow, 2, false);
             var teacher = result.teacher.first_name + ' ' + result.teacher.middle_name + ' ' + result.teacher.last_name;
             oTimeTable.fnUpdate(teacher, nRow, 3, false);
-            var picUrl = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + result.teacher.pic;
-            var pic = '<img class="thumbnail" src="' + picUrl + '" height="50px" width="50px">';
-            oTimeTable.fnUpdate(pic, nRow, 4, false);
-            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="">Edit</a>', nRow, 5, false);
-            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="">Delete</a>', nRow, 6, false);
+            //var picUrl = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + result.teacher.pic;
+            //var pic = '<img class="thumbnail" src="' + picUrl + '" height="50px" width="50px">';
+            //oTimeTable.fnUpdate(pic, nRow, 4, false);
+            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="">Edit</a>', nRow, 4, false);
+            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="">Delete</a>', nRow, 5, false);
             oTimeTable.fnDraw();
             newRow = false;
             actualEditingRow = null;
@@ -126,7 +121,7 @@ var TableDataTimeTable = function() {
                     restoreRow(oTimeTable, actualEditingRow);
                 }
                 newRow = true;
-                var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '', '']);
+                var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '']);
                 var nRow = oTimeTable.fnGetNodes(aiNew[0]);
 
                 var rowData = {
@@ -224,6 +219,8 @@ var TableDataTimeTable = function() {
                 subject_id: subject_id,
                 teacher_id: teacher_id
             };
+
+            console.log(data);
 
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
@@ -468,9 +465,6 @@ var TableDataTimeTable = function() {
                 }
             }
         });
-    };
-
-    var fetchDays = function() {
     };
 
     return {

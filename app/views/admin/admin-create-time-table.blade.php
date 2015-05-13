@@ -91,7 +91,6 @@
                                         <th>Timings</th>
                                         <th>Subject Name (Subject Code)</th>
                                         <th>Teacher Name</th>
-                                        <th>Teacher Pic</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>

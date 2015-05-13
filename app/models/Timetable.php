@@ -16,23 +16,4 @@ class Timetable extends Eloquent {
      * @var string
      */
     protected $table = 'timetable';
-
-    /**
-     * belong to function for activate table
-     */
-    public function classes() {
-        return $this->belongsto('classes', 'id', 'classes_id');
-    }
-    /**
-     * belong to function for Subjects table
-     */
-    public function subjects() {
-        return $this->belongsto('subjects', 'id', 'subject_id');
-    }
-    /**
-     * belong to function for Users table
-     */
-    public function users() {
-        return $this->belongsto('users', 'id', 'users_id');
-    }
 }
