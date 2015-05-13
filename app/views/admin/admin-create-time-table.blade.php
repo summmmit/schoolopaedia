@@ -47,7 +47,7 @@
                 </div>
                 <div class="row no-display" id="form-select-section-day">
                     <div class="col-md-offset-3 col-md-4">
-                        <div class="form-group">
+                        <div class="form-group" id="form-select-section">
                             <label for="field-select-time-table-section">
                                 Select a section
                             </label>
@@ -57,15 +57,13 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="form-group" id="form-select-day">
                             <label for="field-select-time-table-day">
                                 Select a Day..
                             </label>
                             <select id="field-select-time-table-day" class="form-control">
-                                <option value="">Day...</option>
-                                @foreach($weekDays as $weekDay => $value)
-                                <option value="{{ $weekDay }}">{{ $weekDays[$weekDay] }}</option>
-                                @endforeach
+                                <option value="">Select a Day...</option>
+                                
                             </select>
                         </div>
                     </div>

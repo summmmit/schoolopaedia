@@ -686,13 +686,18 @@ class AdminTimeTableController extends BaseController {
     }
 
     public function postGetTeachers() {
-
-        $teachers = User::where('permissions', '=', 2)->get();
-
+        
+        $query = "SELECT * 
+                     FROM  `users` 
+                     JOIN users_groups ON users.id = users_groups.user_id
+                     JOIN users.id = user_details.user_id
+                     AND users_groups.groups_id = ?
+                     AND users.school_id = ?
+                ";
+        $teachers = DB::select($query, array(3, $this->getSchoolId()));
+        
         $response = array(
             'status' => 'success',
-            'msg' => 'Setting created successfully',
-            'errors' => null,
             'result' => array(
                 'teachers' => $teachers
             )

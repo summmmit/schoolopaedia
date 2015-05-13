@@ -88,7 +88,7 @@ var TableDataStreams = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: localServer+'/admin/time/table/delete/stream',
+                        url: serverUrl+'/admin/time/table/delete/stream',
                         dataType: 'json',
                         method: 'POST',
                         cache: false,
@@ -128,7 +128,7 @@ var TableDataStreams = function() {
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: localServer+'/admin/time/table/add/stream',
+                url: serverUrl+'/admin/time/table/add/stream',
                 dataType: 'json',
                 method: 'POST',
                 cache: false,

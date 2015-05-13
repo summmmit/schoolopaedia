@@ -28,10 +28,10 @@ var TableDataTimeTable = function() {
                 sTime = "";
                 eTime = "";
             }
-            var startTime = '<div class="col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-start-time" value="' + sTime + '">'+
+            var startTime = '<div class="col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-start-time" value="' + sTime + '">' +
                     '<span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span></div></div>';
-            var endTime = '<div class="col-md-offset-2 col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-end-time" value="' + eTime + '">'+
-                '<span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span></div></div>';
+            var endTime = '<div class="col-md-offset-2 col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-end-time" value="' + eTime + '">' +
+                    '<span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span></div></div>';
             jqTds[1].innerHTML = startTime + endTime;
             jqTds[2].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
             jqTds[3].innerHTML = '<select id="form-field-select-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
@@ -43,12 +43,18 @@ var TableDataTimeTable = function() {
                 class_id: rowData.class_id,
                 section_id: rowData.section_id
             };
+            
+            console.log(data);
+            
             $.ajax({
-                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/subjects',
+                url: serverUrl + '/admin/time/table/get/subjects',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
+                    
+            console.log(data);
+                    
                     var selectSubject = oTimeTable.find('#form-field-select-subject');
                     var selectSubjectRowId = oTimeTable.find('#form-field-select-subject').parent().attr('id');
                     var i;
@@ -67,10 +73,11 @@ var TableDataTimeTable = function() {
             });
 
             $.ajax({
-                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/teachers',
+                url: serverUrl + '/admin/time/table/get/teachers',
                 dataType: 'json',
                 method: 'POST',
                 success: function(data, response) {
+                    console.log(data);
                     var selectTeacher = oTimeTable.find('#form-field-select-teacher');
                     var i;
                     var teachers = data.result.teachers;
@@ -124,7 +131,8 @@ var TableDataTimeTable = function() {
 
                 var rowData = {
                     class_id: $(this).parentsUntil('.panel').find('#field-select-time-table-class').val(),
-                    section_id: $(this).parentsUntil('.panel').find('#field-select-time-table-section').val()
+                    section_id: $(this).parentsUntil('.panel').find('#field-select-time-table-section').val(),
+                    day_id: $(this).parentsUntil('.panel').find('#field-select-time-table-day').val()
                 };
 
                 editRow(oTimeTable, nRow, rowData);
@@ -176,7 +184,7 @@ var TableDataTimeTable = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/delete/periods',
+                        url: serverUrl + '/admin/time/table/delete/periods',
                         dataType: 'json',
                         method: 'POST',
                         data: data,
@@ -221,7 +229,7 @@ var TableDataTimeTable = function() {
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/add/periods',
+                url: serverUrl + '/admin/time/table/add/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -295,28 +303,29 @@ var TableDataTimeTable = function() {
         });
 
         $('#field-select-time-table-class').on('change', function() {
-            var optionValue = $(this).val();
             oTimeTable.fnClearTable();
+            $('#add-row-time-table').addClass("no-display");
+            var class_id = $(this).val();
 
-            if (optionValue) {
+            if (class_id) {
                 $('#form-select-section-day').removeClass("no-display");
             } else {
                 $('#form-select-section-day').addClass("no-display");
             }
 
+            $('#field-select-time-table-day').empty().append('<option value="">Select a Day...</option>');
             $('#field-select-time-table-section').empty().append('<option value="">Select a Section...</option>');
-            $('#field-select-time-table-day').val("");
 
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
 
             var data = {
-                class_id: optionValue
+                class_id: class_id
             };
 
             $.ajax({
-                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/sections',
+                url: serverUrl + '/admin/time/table/get/sections',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -332,13 +341,32 @@ var TableDataTimeTable = function() {
 
         });
 
+        $('#field-select-time-table-section').on('change', function() {
+            oTimeTable.fnClearTable();
+            $('#add-row-time-table').addClass("no-display");
+            var section_id = $(this).val();
+
+            if (section_id) {
+
+                var i;
+                for (i = 0; i < weekDays.length; i++) {
+                    $('#field-select-time-table-day').append('<option value="' + weekDays[i].code + '">' + weekDays[i].name + '</option>');
+                }
+                
+            } else {
+                $('#field-select-time-table-day').empty().append('<option value="">Select a Day...</option>');
+            }
+
+
+        });
+
         $('#field-select-time-table-day').on('change', function() {
 
             var section_id = $('#field-select-time-table-section').val();
             var day_id = $('#field-select-time-table-day').val();
             oTimeTable.fnClearTable();
 
-            if (section_id) {
+            if (day_id) {
                 $('#add-row-time-table').removeClass("no-display");
             } else {
                 $('#add-row-time-table').addClass("no-display");
@@ -358,7 +386,7 @@ var TableDataTimeTable = function() {
             };
 
             $.ajax({
-                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/periods',
+                url: serverUrl + '/admin/time/table/get/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -411,9 +439,9 @@ var TableDataTimeTable = function() {
             var AmPm = timeString[1];
             var timeAmPm = AmPm.split(' ');
 
-            if(timeAmPm[1] == "AM" || timeAmPm[1] == "PM"){
+            if (timeAmPm[1] == "AM" || timeAmPm[1] == "PM") {
                 timeAmPm[1] = "";
-                timeString[1] = timeAmPm[0]+timeAmPm[1];
+                timeString[1] = timeAmPm[0] + timeAmPm[1];
             }
 
             if (timeString[0] > '12') {
@@ -429,7 +457,7 @@ var TableDataTimeTable = function() {
 
     var fetchClasses = function() {
         $.ajax({
-            url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/class/streams/pair',
+            url: serverUrl + '/admin/time/table/get/class/streams/pair',
             dataType: 'json',
             method: 'POST',
             success: function(data, response) {

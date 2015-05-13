@@ -24,7 +24,7 @@ var TableDataClasses = function() {
             jqTds[2].innerHTML = '<a class="save-row-classes" href="">Save</a>';
             jqTds[3].innerHTML = '<a class="cancel-row-classes" href="">Cancel</a>';
             $.ajax({
-                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/streams',
+                url: serverUrl+'/admin/time/table/get/streams',
                 dataType: 'json',
                 method: 'POST',
                 success: function(data, response) {
@@ -109,7 +109,7 @@ var TableDataClasses = function() {
                         message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
                     });
                     $.ajax({
-                        url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/delete/classes',
+                        url: serverUrl+'/admin/time/table/delete/classes',
                         dataType: 'json',
                         cache: false,
                         method: 'POST',
@@ -139,11 +139,12 @@ var TableDataClasses = function() {
                 class_id: class_id,
                 stream_id: stream_id
             };
+            
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/add/classes',
+                url: serverUrl+'/admin/time/table/add/classes',
                 dataType: 'json',
                 cache: false,
                 method: 'POST',
