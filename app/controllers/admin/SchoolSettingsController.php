@@ -354,5 +354,13 @@ class SchoolSettingsController extends BaseController {
         return Response::json($all_events);
 
     }
+    
+    public function getSchoolPeriods(){
+        
+        $school_schedule = SchoolSchedule::where('school_id', '=', $this->getSchoolId())->where('current_schedule', '=', 1)->get()->first();
+        
+        $periods = Periods::where('schedule_id', '=', $school_schedule->id)->get();
+        return View::make('admin.school-periods')->with('periods', $periods);
+    }
 
 }

@@ -29,12 +29,12 @@
         <ul class="sub-menu">
             <li>
                 <a href="#">
-                    <span class="title">Sessions</span>
+                    <span class="title">Schedule</span>
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <span class="title">Schedule</span>
+                <a href="{{ URL::route('admin-school-periods'); }}">
+                    <span class="title">Periods</span>
                 </a>
             </li>
         </ul>

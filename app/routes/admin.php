@@ -386,5 +386,12 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
         'as' => 'admin-get-events',
         'uses' => 'SchoolSettingsController@postGetEvent'
     ));
+    /**
+     * Get School Periods
+     */
+    Route::get('/school/periods', array(
+        'as' => 'admin-school-periods',
+        'uses' => 'SchoolSettingsController@getSchoolPeriods'
+    ));
     
 });
