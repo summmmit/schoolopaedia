@@ -100,6 +100,9 @@ var Validation = function() {
                 },
                 newsletter: {
                     required: true
+                },
+                period_name: {
+                    required: true
                 }
             },
             messages: {

@@ -27,14 +27,14 @@ class SchoolSettingsController extends BaseController {
     }
 
     protected function getSchoolSessionId() {
-        
+
         $session = SchoolSession::where('school_id', '=', $this->getschoolId())
-                                ->where('current_session', '=', 1)
-                                ->get()->first();
-        
+                        ->where('current_session', '=', 1)
+                        ->get()->first();
+
         return $this->schoolSessionId = $session->id;
     }
-    
+
     public function postSetSchoolSessions() {
         $start_session_from = Input::get('start_session_from');
         $end_session_untill = Input::get('end_session_untill');
@@ -102,17 +102,17 @@ class SchoolSettingsController extends BaseController {
         $school = Schools::find($this->getSchoolId());
 
         $schedule = SchoolSchedule::where('school_id', '=', $this->getschoolId())
-                                   ->where('school_session_id', '=', $this->getSchoolSessionId())
-                                   ->get();
+                ->where('school_session_id', '=', $this->getSchoolSessionId())
+                ->get();
         $sessions = SchoolSession::where('school_id', '=', $this->getschoolId())->get();
         $current_session = SchoolSession::where('school_id', '=', $this->getschoolId())
-                                         ->where('current_session', '=', 1)->get()->first();
-        
+                        ->where('current_session', '=', 1)->get()->first();
+
         return View::make('admin.school-settings')
-                   ->with('schedules', $schedule)
-                   ->with('sessions', $sessions)
-                   ->with('school', $school)
-                   ->with('current_session', $current_session);
+                        ->with('schedules', $schedule)
+                        ->with('sessions', $sessions)
+                        ->with('school', $school)
+                        ->with('current_session', $current_session);
     }
 
     public function postScheduleStartFrom() {
@@ -211,7 +211,7 @@ class SchoolSettingsController extends BaseController {
         }
     }
 
-    public function getSchoolStudentDetails(){
+    public function getSchoolStudentDetails() {
         $query = "select * from users
                   join users_groups
                   on users.id=users_groups.user_id and users_groups.groups_id=? and users.school_id=?
@@ -224,7 +224,7 @@ class SchoolSettingsController extends BaseController {
         return View::make('admin.school-students')->with('users', $all_users);
     }
 
-    public function getSchoolStudents(){
+    public function getSchoolStudents() {
         $query = "select
                         users.id,
                         users.school_id,
@@ -243,7 +243,7 @@ class SchoolSettingsController extends BaseController {
                   on users_to_class.user_id=users.id";
         $all_school_users = DB::select($query, array(2, $this->getSchoolId()));
         $i = 0;
-        foreach($all_school_users as $all_school_user){
+        foreach ($all_school_users as $all_school_user) {
 
             $class = Classes::find($all_school_user->class_id)->get()->first();
             $all_users[$i]['class_name'] = $class->class;
@@ -262,19 +262,20 @@ class SchoolSettingsController extends BaseController {
         return View::make('admin.school-students')->with('users', $all_users);
     }
 
-    public function getSchoolTeachers(){
+    public function getSchoolTeachers() {
 
         $all_teachers = 1;
         return View::make('admin.school-teachers')->with('teachers', $all_teachers);
     }
 
-    public function getSchoolEvents(){
+    public function getSchoolEvents() {
         return View::make('admin.events');
     }
+
     /**
      * Ajax Api for getting event types
      */
-    public function postGetEventTypes(){
+    public function postGetEventTypes() {
 
         $school_id = $this->getSchoolId();
         $event_types = EventTypes::where('school_id', '=', $school_id)->get();
@@ -288,35 +289,36 @@ class SchoolSettingsController extends BaseController {
 
         return Response::json($response);
     }
+
     /**
      * Ajax Api for getting event types
      */
-    public function postCreateEvent(){
+    public function postCreateEvent() {
 
         $title = Input::get('title');
         $start = Input::get('start');
-        $end   = Input::get('end');
+        $end = Input::get('end');
         $allDay = Input::get('allDay');
         $category = Input::get('category');
-        $content  = Input::get('content');
+        $content = Input::get('content');
         $school_id = $this->getSchoolId();
 
-        if($allDay == "true"){
+        if ($allDay == "true") {
             $allDay = 1;
-        }else{
+        } else {
             $allDay = 0;
         }
 
         $event = new Events();
         $event->title = $title;
         $event->start = date($start);
-        $event->end   = date($end);
+        $event->end = date($end);
         $event->allday = $allDay;
         $event->category = $category;
-        $event->content  = $content;
+        $event->content = $content;
         $event->school_id = $school_id;
 
-        if($event->save()){
+        if ($event->save()) {
 
             $response = array(
                 'status' => 'Success',
@@ -326,7 +328,7 @@ class SchoolSettingsController extends BaseController {
             );
 
             return Response::json($response);
-        }else{
+        } else {
 
             $response = array(
                 'status' => 'Failed',
@@ -339,28 +341,98 @@ class SchoolSettingsController extends BaseController {
         }
     }
 
-    public function postGetEvent(){
+    public function postGetEvent() {
 
         $school_id = $this->getSchoolId();
 
         $all_events = Events::where('school_id', '=', $school_id)->get();
 
         $i = 0;
-        foreach($all_events as $all_event){
+        foreach ($all_events as $all_event) {
             $event_type_name = EventTypes::where('id', '=', $all_event->category)->get()->first();
             $all_events[$i++]['category'] = $event_type_name->event_type_name;
         }
 
         return Response::json($all_events);
+    }
 
+    public function getSchoolPeriods() {
+
+        $schedules = SchoolSchedule::where('school_id', '=', $this->getschoolId())
+                ->where('school_session_id', '=', $this->getSchoolSessionId())
+                ->get();
+
+        $current_schedule = SchoolSchedule::where('school_id', '=', $this->getSchoolId())->where('current_schedule', '=', 1)->get()->first();
+
+        $periods = Periods::where('schedule_id', '=', $current_schedule->id)->get();
+        return View::make('admin.school-periods')->with('periods', $periods)->with('schedules', $schedules);
+    }
+
+    public function postSetSchoolPeriods() {
+
+        $period_id = Input::get('period_id');
+        $period_name = Input::get('period_name');
+        $start_time = Input::get('start_time');
+        $end_time = Input::get('end_time');
+
+        $school_schedule = SchoolSchedule::where('school_id', '=', $this->getSchoolId())->where('current_schedule', '=', 1)->get()->first();
+
+        if ($period_id) {
+            $period = Periods::find($period_id);
+        } else {
+            $period = new Periods();
+        }
+
+        $period->period_name = $period_name;
+        $period->start_time = $start_time;
+        $period->end_time = $end_time;
+        $period->schedule_id = $school_schedule->id;
+
+        if ($period->save()) {
+            
+            $response = array(
+                'status' => 'success',
+                'result' => array(
+                    'period' => $period,
+                )
+            );
+
+            return Response::json($response);
+        }
     }
     
-    public function getSchoolPeriods(){
-        
+    public function postDeleteSchoolPeriods(){
+
+        $period_id = Input::get('period_id');
+        $period_name = Input::get('period_name');
+        $start_time = Input::get('start_time');
+        $end_time = Input::get('end_time');
+
         $school_schedule = SchoolSchedule::where('school_id', '=', $this->getSchoolId())->where('current_schedule', '=', 1)->get()->first();
-        
-        $periods = Periods::where('schedule_id', '=', $school_schedule->id)->get();
-        return View::make('admin.school-periods')->with('periods', $periods);
+
+        if ($period_id) {
+            $period = Periods::find($period_id);
+        } else {
+            $period = new Periods();
+        }
+
+        $period->period_name = $period_name;
+        $period->start_time = $start_time;
+        $period->end_time = $end_time;
+        $period->schedule_id = $school_schedule->id;
+
+        if ($period->delete()) {
+            
+            $response = array(
+                'status' => 'success',
+                'result' => array(
+                    'period' => $period,
+                )
+            );
+
+            return Response::json($response);
+        }
+
     }
 
 }

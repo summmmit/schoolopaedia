@@ -158,7 +158,7 @@
                                         <tbody>
                                             @foreach($schedules as $schedule)
                                             <tr>
-                                                <td colspan="2" class="text-center text-box-light">{{ date_format(date_create($schedule->start_from), "F") }} - {{ date_format(date_create($schedule->close_untill), "F") }}</td>
+                                                <td colspan="2" class="text-center text-box-light">{{ date_format(date_create($schedule->start_from), "F / Y") }} - {{ date_format(date_create($schedule->close_untill), "F / Y") }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="column-left">School Opening Time</td>
