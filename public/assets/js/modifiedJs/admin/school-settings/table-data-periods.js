@@ -17,11 +17,12 @@ var TableDataPeriods = function() {
         }
 
         function editRow(oTable, nRow) {
+            console.log(nRow);
             var aData = oTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
             jqTds[0].innerHTML = '<input type="text" id="period_name" class="form-control" value="' + aData[0] + '">';
-            jqTds[1].innerHTML = '<input type="text" class="form-control" value="' + aData[1] + '" id="start_time" data-format="HH:mm" data-template="HH : mm">';
-            jqTds[2].innerHTML = '<input type="text" class="form-control" value="' + aData[2] + '" id="end_time" data-format="HH:mm" data-template="HH : mm">';
+            jqTds[1].innerHTML = '<input type="text" class="form-control" id="start_time" data-format="HH:mm" data-template="HH : mm" value="' + aData[1] + '">';
+            jqTds[2].innerHTML = '<input type="text" class="form-control" id="end_time" data-format="HH:mm" data-template="HH : mm" value="' + aData[2] + '">';
 
             jqTds[3].innerHTML = '<a class="save-row-periods" href="">Save</a>';
             jqTds[4].innerHTML = '<a class="cancel-row-periods" href="">Cancel</a>';
@@ -50,7 +51,7 @@ var TableDataPeriods = function() {
                 timeString[2] = 'PM';
             } else if (timeString[0] < '12') {
                 timeString[2] = 'AM';
-            }else{
+            } else {
                 timeString[2] = 'PM';
             }
             time = timeString[0] + ':' + timeString[1] + ' ' + timeString[2];
@@ -69,6 +70,52 @@ var TableDataPeriods = function() {
             newRow = false;
             actualEditingRow = null;
         }
+
+        $('#table-periods-profile').on('click', '#period-profile-show-button', function(e) {
+            e.preventDefault();
+            oTable.fnClearTable();
+            var period_profile_id = $(this).parents('tr').attr('data-period-profile-id');
+
+            $('#table-school-periods').attr('data-table-period-profile', period_profile_id);
+
+            var data = {
+                period_profile_id: period_profile_id
+            };
+
+            $.ajax({
+                url: serverUrl + '/admin/get/school/periods/by/id',
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                success: function(data) {
+                    $.unblockUI();
+                    if (data.status === "success") {
+                        var i;
+                        var results = data.result.periods;
+                        for (i = 0; i < results.length; i++) {
+
+                            var aiNew = oTable.fnAddData(['', '', '', '', '']);
+                            var nRow = oTable.fnGetNodes(aiNew[0]);
+                            var nTr = oTable.fnSettings().aoData[aiNew[0]].nTr;
+                            oTable.fnUpdate(results[i].period_name, nRow, 0, false);
+                            $('td', nTr)[0].setAttribute('id', 'period_name');
+                            oTable.fnUpdate(timeFormat(results[i].start_time), nRow, 1, false);
+                            $('td', nTr)[1].setAttribute('id', 'start_time');
+                            oTable.fnUpdate(timeFormat(results[i].end_time), nRow, 2, false);
+                            $('td', nTr)[2].setAttribute('id', 'end_time');
+                            oTable.fnUpdate('<a class="edit-row-periods" href="">Edit</a>', nRow, 3, false);
+                            oTable.fnUpdate('<a class="delete-row-periods" href="">Delete</a>', nRow, 4, false);
+                            nRow = nRow.setAttribute('data-period-id', results[i].id);
+                            oTable.fnDraw();
+                            newRow = false;
+                            actualEditingRow = null;
+                        }
+
+                    }
+                }
+            });
+
+        });
 
         $('body').on('click', '.add-row-periods', function(e) {
             e.preventDefault();
@@ -108,10 +155,13 @@ var TableDataPeriods = function() {
 
             var data = {
                 period_id: $(this).parents('tr').attr('data-period-id'),
-                period_name: $(this).parents('tr').find('#period_name').val(),
-                start_time: $(this).parents('tr').find('#start_time').val(),
-                end_time: $(this).parents('tr').find('#end_time').val()
+                period_name: $(this).parents('tr').find('#period_name').text(),
+                start_time: $(this).parents('tr').find('#start_time').text(),
+                end_time: $(this).parents('tr').find('#end_time').text(),
+                period_profile_id: $(this).parents('table').attr('data-table-period-profile')
             };
+
+            console.log(data);
 
             bootbox.confirm("Are you sure to delete this row?", function(result) {
                 if (result) {
@@ -127,16 +177,13 @@ var TableDataPeriods = function() {
                             $.unblockUI();
                             if (data.status === "success") {
                                 oTable.fnDeleteRow(nRow);
-                                 toastr.success('This Period Has Been Deleted Successfully');
+                                toastr.success('This Period Has Been Deleted Successfully');
                             }
                         }
                     });
 
                 }
             });
-
-
-
         });
 
         function validation(data) {
@@ -177,7 +224,8 @@ var TableDataPeriods = function() {
                 period_id: $(this).parents('tr').attr('data-period-id'),
                 period_name: $(this).parents('tr').find('#period_name').val(),
                 start_time: $(this).parents('tr').find('#start_time').val(),
-                end_time: $(this).parents('tr').find('#end_time').val()
+                end_time: $(this).parents('tr').find('#end_time').val(),
+                period_profile_id: $(this).parents('table').attr('data-table-period-profile')
             };
 
             if (validation(data)) {
@@ -239,25 +287,74 @@ var TableDataPeriods = function() {
             var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
             oTable.fnSetColumnVis(iCol, (bVis ? false : true));
         });
-        
-        $('#make-current-period-profile').on('ifChecked', function(e){
+
+        $('#make-current-period-profile').on('ifChecked', function(e) {
             e.preventDefault();
-            
-            $('#table-school-periods').find('tbody').find('tr').each(function(){
+
+            $('#table-school-periods').find('tbody').find('tr').each(function() {
                 console.log(this);
             });
-            
+
         });
     };
 
-    var validation = function() {
+    var periodsProfile = function() {
+
+        $('#add-new-periods-profile-button').on('click', function(e) {
+            e.preventDefault();
+            $('#add-new-periods-profile-row').removeClass('no-display');
+
+            $('#add-new-periods-profile-save-button').on('click', function(e) {
+                e.preventDefault();
+
+                var profile_name = $('#profile-name').val();
+
+                if (profile_name) {
+
+                    var data = {
+                        profile_name: profile_name
+                    };
+
+                    $.blockUI({
+                        message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
+                    });
+                    $.ajax({
+                        url: serverUrl + '/admin/set/school/periods/profile',
+                        dataType: 'json',
+                        data: data,
+                        method: 'POST',
+                        success: function(data) {
+                            $.unblockUI();
+                            $('#profile-name').val('');
+                            if (data.status === "success") {
+                                var rowCount = $('#table-periods-profile >tbody >tr').length;
+                                rowCount = rowCount + 1;
+                                var apend = '<tr data-period-profile-id=""><td>' + rowCount + '</td>\n\
+                                             <td><a class="show-sv" href="#subview-add-period-profile" data-startFrom="right">' + data.result.profile.profile_name + '</a></td>\n\
+                                             <td class="center"><div class="radio-inline"><input type="radio" class="square-red" name="make-current-period-profile"></div></td></tr>';
+                                $('#table-periods-profile').find('tbody').append(apend);
+                                $.hideSubview();
+                                toastr.success('This Period Profile Has Been Created Successfully');
+                            } else if (data.status === "failed") {
+                                $.hideSubview();
+                                toastr.info('This Period Profile Couldnt Created Successfully. Try Again Later');
+                            }
+                        }
+                    });
+                } else {
+                    $('#profile-name').parent().append('<span class="help-block">Please specify Profile name</span>').parents('.form-group').addClass('has-error');
+                }
+
+            });
+
+        });
 
     };
     return {
         //main function to initiate template pages
         init: function() {
             periods();
-            validation();
+            periodsProfile();
         }
     };
 }();

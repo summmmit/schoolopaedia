@@ -407,5 +407,19 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
         'as' => 'admin-delete-school-periods',
         'uses' => 'SchoolSettingsController@postDeleteSchoolPeriods'
     ));
+    /**
+     * Api for Creating School Periods Profile
+     */
+    Route::Post('/set/school/periods/profile', array(
+        'as' => 'admin-set-school-periods-profile',
+        'uses' => 'SchoolSettingsController@postSetSchoolPeriodsProfile'
+    ));
+    /**
+     * Api for Creating School Periods Table by Period Profile Id
+     */
+    Route::Post('/get/school/periods/by/id', array(
+        'as' => 'admin-get-school-periods-profile-by-id',
+        'uses' => 'SchoolSettingsController@postGetSchoolPeriodsProfileById'
+    ));
     
 });

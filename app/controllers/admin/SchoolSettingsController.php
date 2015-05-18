@@ -364,8 +364,11 @@ class SchoolSettingsController extends BaseController {
 
         $current_schedule = SchoolSchedule::where('school_id', '=', $this->getSchoolId())->where('current_schedule', '=', 1)->get()->first();
 
-        $periods = Periods::where('schedule_id', '=', $current_schedule->id)->get();
-        return View::make('admin.school-periods')->with('periods', $periods)->with('schedules', $schedules);
+        $periods_profiles = PeriodProfile::where('school_id', '=', $this->getSchoolId())->get();
+
+        $periods = Periods::all();
+        //$periods = "hello";
+        return View::make('admin.school-periods')->with('periods_profiles', $periods_profiles)->with('periods', $periods)->with('schedules', $schedules);
     }
 
     public function postSetSchoolPeriods() {
@@ -374,9 +377,7 @@ class SchoolSettingsController extends BaseController {
         $period_name = Input::get('period_name');
         $start_time = Input::get('start_time');
         $end_time = Input::get('end_time');
-
-        $school_schedule = SchoolSchedule::where('school_id', '=', $this->getSchoolId())->where('current_schedule', '=', 1)->get()->first();
-
+        $period_profile_id = Input::get('period_profile_id');
         if ($period_id) {
             $period = Periods::find($period_id);
         } else {
@@ -386,10 +387,47 @@ class SchoolSettingsController extends BaseController {
         $period->period_name = $period_name;
         $period->start_time = $start_time;
         $period->end_time = $end_time;
-        $period->schedule_id = $school_schedule->id;
 
         if ($period->save()) {
-            
+
+            $period_profile = new PeriodToPeriodProfile();
+            $period_profile->period_id = $period->id;
+            $period_profile->profile_id = $period_profile_id;
+
+            if ($period_profile->save()) {
+
+                $response = array(
+                    'status' => 'success',
+                    'result' => array(
+                        'period' => $period,
+                    )
+                );
+
+                return Response::json($response);
+            }
+        }
+    }
+
+    public function postDeleteSchoolPeriods() {
+
+        $period_id = Input::get('period_id');
+        $period_name = Input::get('period_name');
+        $start_time = Input::get('start_time');
+        $end_time = Input::get('end_time');
+        $period_profile_id = Input::get('period_profile_id');
+
+        if ($period_id) {
+            $period = Periods::find($period_id);            
+        } else {
+            $period = new Periods();
+        }
+
+        $period->period_name = $period_name;
+        $period->start_time = $start_time;
+        $period->end_time = $end_time;
+
+        if ($period->delete()) {
+
             $response = array(
                 'status' => 'success',
                 'result' => array(
@@ -400,39 +438,47 @@ class SchoolSettingsController extends BaseController {
             return Response::json($response);
         }
     }
-    
-    public function postDeleteSchoolPeriods(){
 
-        $period_id = Input::get('period_id');
-        $period_name = Input::get('period_name');
-        $start_time = Input::get('start_time');
-        $end_time = Input::get('end_time');
+    public function postSetSchoolPeriodsProfile() {
 
-        $school_schedule = SchoolSchedule::where('school_id', '=', $this->getSchoolId())->where('current_schedule', '=', 1)->get()->first();
+        $profile_name = Input::get('profile_name');
 
-        if ($period_id) {
-            $period = Periods::find($period_id);
-        } else {
-            $period = new Periods();
+        $profile = new PeriodProfile();
+        $profile->profile_name = $profile_name;
+        $profile->school_id = $this->getSchoolId();
+
+        $profile->save();
+
+        $response = array(
+            'status' => 'success',
+            'result' => array(
+                'profile' => $profile,
+            )
+        );
+
+        return Response::json($response);
+    }
+
+    public function postGetSchoolPeriodsProfileById() {
+
+        $period_profile_id = Input::get('period_profile_id');
+
+        $period_to_period_profiles = PeriodToPeriodProfile::where('profile_id', '=', $period_profile_id)->get();
+        $periods = array();
+        $i = 0;
+        foreach ($period_to_period_profiles as $period_to_period_profile) {
+            $periods[$i++] = Periods::where('id', '=', $period_to_period_profile->period_id)->get()->first();
         }
 
-        $period->period_name = $period_name;
-        $period->start_time = $start_time;
-        $period->end_time = $end_time;
-        $period->schedule_id = $school_schedule->id;
+        $response = array(
+            'status' => 'success',
+            'result' => array(
+                'periods_to_period_profiles' => $period_to_period_profiles,
+                'periods' => $periods
+            )
+        );
 
-        if ($period->delete()) {
-            
-            $response = array(
-                'status' => 'success',
-                'result' => array(
-                    'period' => $period,
-                )
-            );
-
-            return Response::json($response);
-        }
-
+        return Response::json($response);
     }
 
 }

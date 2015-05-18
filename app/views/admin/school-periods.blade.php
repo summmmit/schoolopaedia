@@ -39,7 +39,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive noBorderTop">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" id="table-periods-profile">
                         <thead>
                             <tr>
                                 <td>#</td>
@@ -48,38 +48,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
+                            <?php $i = 1; ?>
+                            @foreach($periods_profiles as $periods_profile)
+                            <tr data-period-profile-id="{{ $periods_profile->id }}">
+                                <td>{{ $i++ }}</td>
                                 <td>
-                                    <a class="show-sv" href="#subview-add-period-profile" data-startFrom="right" data-period-profile-id="">
-                                        Profile 1
+                                    <a class="show-sv" href="#subview-add-period-profile" data-startFrom="right" id="period-profile-show-button">
+                                        {{ $periods_profile->profile_name }}
                                     </a>
                                 </td>
                                 <td class="center">
                                     <div class="radio-inline">
-                                        <input type="radio" class="square-red" name="make-current-period-profile">
+                                        <input type="radio" class="square-red" name="make-current-period-profile" checked="{{ isset($periods_profile->current_profile) ? 'checked' : '' }}">
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <a class="show-sv" href="#subview-add-new-period-profile" data-startFrom="right">
-                                        Profile 2
-                                    </a>
-                                </td>
-                                <td class="center">
-                                    <div class="radio-inline">
-                                        <input type="radio" class="square-red" name="make-current-period-profile">
-                                    </div>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <a class="pull-right show-sv" href="#subview-add-new-period-profile" data-startFrom="right">
+                        <a class="pull-right show-sv" href="#subview-add-new-period-profile" data-startFrom="right" id="add-new-periods-profile-button">
                             Add New Period Profile
                         </a>
                     </div>
@@ -134,6 +124,33 @@
 
     @section('subview')
     <!--Start :  Subview for This page only -->
+    <div id="subview-add-new-period-profile" class="no-display">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-white panel-add-streams">
+                <div class="panel-heading">
+                    <h4> <i class="fa fa-calendar"></i> Periods Profile</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row" id="add-new-periods-profile-row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <input type="text" placeholder="Profile Name" id="profile-name" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="col-sm-6 space20">
+                                <button class="btn btn-green" id="add-new-periods-profile-save-button">
+                                    Add this Profile <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="subview-add-period-profile" class="no-display">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-white panel-add-streams">
@@ -148,11 +165,7 @@
                             </button>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <input type="text" placeholder="Profile Name" id="profile_name" class="form-control">
-                                </div>
-                            </div>
+                            <h3 class="text-center" id="period-profile-name"> Profile - 1</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -173,81 +186,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($periods as $period)
-                                <tr data-period-id="{{ $period->id }}">
-                                    <td>{{ $period->period_name }}</td>
-                                    <td>{{ date_format(date_create($period->start_time), "h:i A") }}</td>
-                                    <td>{{ date_format(date_create($period->end_time), "h:i A") }}</td>
-                                    <td>
-                                        <a href="#" class="edit-row-periods">
-                                            Edit
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="delete-row-periods">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="row">
                         <div class="col-sm-12 space20">
-                            <button class="btn btn-orange pull-right" id="save-period-profile">
-                                Save This Profile <i class="fa fa-save"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="subview-add-new-period-profile" class="no-display">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-white panel-add-streams">
-                <div class="panel-heading">
-                    <h4> <i class="fa fa-calendar"></i> Periods Profile</h4>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-6 space20">
-                            <button class="btn btn-green add-row-periods">
-                                Add New <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <input type="text" placeholder="Profile Name" id="profile_name" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="errorHandler alert alert-danger no-display">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover" id="table-school-periods">
-                            <thead>
-                                <tr>
-                                    <th>Period</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 space20 no-display">
                             <button class="btn btn-orange pull-right" id="save-period-profile">
                                 Save This Profile <i class="fa fa-save"></i>
                             </button>
