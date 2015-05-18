@@ -28,6 +28,7 @@ var TableDataPeriods = function() {
             jqTds[4].innerHTML = '<a class="cancel-row-periods" href="">Cancel</a>';
 
             $('#start_time,#end_time').each(function() {
+            console.log(this);
                 $(this).combodate({
                     firstItem: 'none', //show 'hour' and 'minute' string at first item of dropdown
                     minuteStep: 5
