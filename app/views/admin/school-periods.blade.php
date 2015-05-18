@@ -58,8 +58,8 @@
                                     </a>
                                 </td>
                                 <td class="center">
-                                    <div class="radio-inline">
-                                        <input type="radio" class="square-red" name="make-current-period-profile" checked="{{ isset($periods_profile->current_profile) ? 'checked' : '' }}">
+                                    <div class="radio-inline no-padding">
+                                        <input type="radio" class="square-red" id="make-current-period-profile" name="make-current-period-profile" {{ ($periods_profile->current_profile == 1) ? 'checked' : '' }}>
                                     </div>
                                 </td>
                             </tr>
@@ -165,7 +165,7 @@
                             </button>
                         </div>
                         <div class="col-sm-6">
-                            <h3 class="text-center" id="period-profile-name"> Profile - 1</h3>
+                            <h3 class="text-center" id="period-profile-name">  </h3>
                         </div>
                     </div>
                     <div class="row">
@@ -188,13 +188,6 @@
                             <tbody>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 space20">
-                            <button class="btn btn-orange pull-right" id="save-period-profile">
-                                Save This Profile <i class="fa fa-save"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

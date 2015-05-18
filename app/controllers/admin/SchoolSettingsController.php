@@ -366,9 +366,11 @@ class SchoolSettingsController extends BaseController {
 
         $periods_profiles = PeriodProfile::where('school_id', '=', $this->getSchoolId())->get();
 
+        $current_periods_profiles = PeriodProfile::where('school_id', '=', $this->getSchoolId())
+                                  ->where('current_profile', '=', 1)->get();
         $periods = Periods::all();
         //$periods = "hello";
-        return View::make('admin.school-periods')->with('periods_profiles', $periods_profiles)->with('periods', $periods)->with('schedules', $schedules);
+        return View::make('admin.school-periods')->with('periods_profiles', $periods_profiles)->with('current_periods_profiles', $current_periods_profiles)->with('schedules', $schedules);
     }
 
     public function postSetSchoolPeriods() {
@@ -390,16 +392,17 @@ class SchoolSettingsController extends BaseController {
 
         if ($period->save()) {
 
-            $period_profile = new PeriodToPeriodProfile();
-            $period_profile->period_id = $period->id;
-            $period_profile->profile_id = $period_profile_id;
+            $period_to_period_profile = new PeriodToPeriodProfile();
+            $period_to_period_profile->period_id = $period->id;
+            $period_to_period_profile->profile_id = $period_profile_id;
 
-            if ($period_profile->save()) {
+            if ($period_to_period_profile->save()) {
 
                 $response = array(
                     'status' => 'success',
                     'result' => array(
                         'period' => $period,
+                        'period_to_period_profile' => $period_to_period_profile
                     )
                 );
 
@@ -417,21 +420,54 @@ class SchoolSettingsController extends BaseController {
         $period_profile_id = Input::get('period_profile_id');
 
         if ($period_id) {
-            $period = Periods::find($period_id);            
+
+            $period_to_period_profile = PeriodToPeriodProfile::where('period_id', '=', $period_id)
+                                                             ->where('profile_id', '=', $period_profile_id);
+
+            if($period_to_period_profile->delete()){
+
+                $period = Periods::find($period_id);
+
+                if ($period->delete()) {
+
+                    $response = array(
+                        'status' => 'success',
+                        'result' => array(
+                            'period' => $period,
+                        )
+                    );
+
+                    return Response::json($response);
+                }else {
+
+                    $response = array(
+                        'status' => 'failed',
+                        'msg' => 'Period cant be deleted',
+                        'result' => array(
+                            'period' => "none",
+                        )
+                    );
+
+                    return Response::json($response);
+                }
+            }else {
+
+                $response = array(
+                    'status' => 'failed',
+                    'msg' => 'Period to Period Profile cant be deleted',
+                    'result' => array(
+                        'period' => "none",
+                    )
+                );
+
+                return Response::json($response);
+            }
         } else {
-            $period = new Periods();
-        }
-
-        $period->period_name = $period_name;
-        $period->start_time = $start_time;
-        $period->end_time = $end_time;
-
-        if ($period->delete()) {
 
             $response = array(
-                'status' => 'success',
+                'status' => 'failed',
                 'result' => array(
-                    'period' => $period,
+                    'period' => "none",
                 )
             );
 
@@ -463,6 +499,8 @@ class SchoolSettingsController extends BaseController {
 
         $period_profile_id = Input::get('period_profile_id');
 
+        $period_profile = PeriodProfile::find($period_profile_id);
+
         $period_to_period_profiles = PeriodToPeriodProfile::where('profile_id', '=', $period_profile_id)->get();
         $periods = array();
         $i = 0;
@@ -474,7 +512,8 @@ class SchoolSettingsController extends BaseController {
             'status' => 'success',
             'result' => array(
                 'periods_to_period_profiles' => $period_to_period_profiles,
-                'periods' => $periods
+                'periods' => $periods,
+                'profile' => $period_profile
             )
         );
 

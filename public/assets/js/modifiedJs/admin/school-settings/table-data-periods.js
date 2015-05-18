@@ -17,7 +17,6 @@ var TableDataPeriods = function() {
         }
 
         function editRow(oTable, nRow) {
-            console.log(nRow);
             var aData = oTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
             jqTds[0].innerHTML = '<input type="text" id="period_name" class="form-control" value="' + aData[0] + '">';
@@ -27,8 +26,7 @@ var TableDataPeriods = function() {
             jqTds[3].innerHTML = '<a class="save-row-periods" href="">Save</a>';
             jqTds[4].innerHTML = '<a class="cancel-row-periods" href="">Cancel</a>';
 
-            $('#start_time,#end_time').each(function() {
-            console.log(this);
+            $('input[id="start_time"],input[id="end_time"]').each(function() {
                 $(this).combodate({
                     firstItem: 'none', //show 'hour' and 'minute' string at first item of dropdown
                     minuteStep: 5
@@ -59,7 +57,7 @@ var TableDataPeriods = function() {
             return time;
         }
 
-        function saveRow(oTable, nRow) {
+        function saveRow(oTable, nRow, data) {
             var jqInputs = $('input', nRow);
 
             oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
@@ -68,6 +66,7 @@ var TableDataPeriods = function() {
             oTable.fnUpdate('<a class="edit-row-periods" href="">Edit</a>', nRow, 3, false);
             oTable.fnUpdate('<a class="delete-row-periods" href="">Delete</a>', nRow, 4, false);
             oTable.fnDraw();
+            nRow = nRow.setAttribute('data-period-id', data.result.period.id);
             newRow = false;
             actualEditingRow = null;
         }
@@ -90,6 +89,8 @@ var TableDataPeriods = function() {
                 method: 'POST',
                 success: function(data) {
                     $.unblockUI();
+                    $('#period-profile-name').text(data.result.profile.profile_name);
+
                     if (data.status === "success") {
                         var i;
                         var results = data.result.periods;
@@ -175,6 +176,8 @@ var TableDataPeriods = function() {
                         data: data,
                         method: 'POST',
                         success: function(data) {
+
+                            console.log(data);
                             $.unblockUI();
                             if (data.status === "success") {
                                 oTable.fnDeleteRow(nRow);
@@ -245,7 +248,7 @@ var TableDataPeriods = function() {
                     success: function(data) {
                         $.unblockUI();
                         if (data.status === "success") {
-                            saveRow(oTable, nRow);
+                            saveRow(oTable, nRow, data);
                             toastr.success('New Period Has Been Added Successfully');
                         }
                     }
@@ -288,13 +291,14 @@ var TableDataPeriods = function() {
             var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
             oTable.fnSetColumnVis(iCol, (bVis ? false : true));
         });
-
-        $('#make-current-period-profile').on('ifChecked', function(e) {
+            $('#table-school-periods').on('ifChecked', '#make-current-period-profile', function(e) {
             e.preventDefault();
-
-            $('#table-school-periods').find('tbody').find('tr').each(function() {
-                console.log(this);
-            });
+            if($(this).prop("checked") == true){
+                alert("checked");
+            }
+            else if($(this).prop("checked") == false){
+                alert("Checkbox is unchecked.");
+            }
 
         });
     };
