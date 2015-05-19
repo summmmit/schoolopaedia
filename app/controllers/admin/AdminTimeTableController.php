@@ -280,7 +280,7 @@ class AdminTimeTableController extends BaseController {
         }
     }
 
-    public function postGetSections(){
+    public function postGetSections() {
 
         $class_id = Input::get('class_id');
 
@@ -569,22 +569,26 @@ class AdminTimeTableController extends BaseController {
         return View::make('admin.admin-create-time-table')->with('weekDays', $weekDays);
     }
 
-    public function postGetPeriods() {
+    public function postGetTimeTablePeriods() {
+        
         $class_id = Input::get('class_id');
         $section_id = Input::get('section_id');
         $day_id = Input::get('day_id');
-        $timetables = Timetable::where('class_id', '=', $class_id)->where('section_id', '=', $section_id)->where('day_id', '=', $day_id)->get();
+        $timetables = Timetable::where('class_id', '=', $class_id)
+                                ->where('section_id', '=', $section_id)
+                                ->where('day_id', '=', $day_id)->get();
 
-        $periods = array();
+        $timetable_periods = array();
         $i = 0;
-
-        foreach ($timetables as $timetable => $value) {
-            $subject = Subjects::find($timetables[$timetable]['subject_id']);
-            $teacher = User::find($timetables[$timetable]['users_id']);
-            $periods[$i] = array(
-                'timings' => $timetables[$timetable],
+        foreach ($timetables as $timetable) {
+            $subject = Subjects::find($timetable->subject_id);
+            $teacher = UserDetails::where('user_id', '=', $timetable->users_id)->get()->first();
+            $period  = Periods::find($timetable->period_id);
+            $timetable_periods[$i] = array(
+                'timetable_period' => $timetable,
                 'subject' => $subject,
-                'teacher' => $teacher
+                'teacher' => $teacher,
+                'period'  => $period
             );
             $i++;
         }
@@ -592,51 +596,63 @@ class AdminTimeTableController extends BaseController {
         $response = array(
             'status' => 'success',
             'msg' => 'Setting created successfully',
-            'errors' => null,
             'result' => array(
-                'periods' => $periods
+                'timetable_periods' => $timetable_periods
             )
         );
 
         return Response::json($response);
     }
 
-    public function postAddPeriods() {
+    public function postAddTimeTablePeriods() {
 
         $period_id = Input::get('period_id');
         $class_id = Input::get('class_id');
         $day_id = Input::get('day_id');
         $section_id = Input::get('section_id');
-        $start_time = Input::get('start_time');
-        $end_time = Input::get('end_time');
         $subject_id = Input::get('subject_id');
         $teacher_id = Input::get('teacher_id');
 
-        if ($period_id) {
-            $period = Timetable::find($period_id);
+        $timetable_period_id = Input::get('timetable_period_id');
+
+        if ($timetable_period_id) {
+            $timetable_period = Timetable::find($timetable_period_id);
         } else {
-            $period = new Timetable();
+            $timetable_period = new Timetable();
         }
 
-        $period->start_time = $start_time;
-        $period->end_time = $end_time;
-        $period->class_id = $class_id;
-        $period->subject_id = $subject_id;
-        $period->day_id = $day_id;
-        $period->section_id = $section_id;
-        $period->users_id = $teacher_id;
+        $timetable_period->period_id = $period_id;
+        $timetable_period->class_id = $class_id;
+        $timetable_period->subject_id = $subject_id;
+        $timetable_period->day_id = $day_id;
+        $timetable_period->section_id = $section_id;
+        $timetable_period->users_id = $teacher_id;
 
         $subject = Subjects::find($subject_id);
-        $teacher = UserDetails::where('user_id', '=', $teacher_id);
+        $teacher = UserDetails::where('user_id', '=',$teacher_id);
+        $period = Periods::find($period_id);
 
-        $period->save();
+        if ($timetable_period->save()) {
+
+            $response = array(
+                'status' => 'success',
+                'msg' => 'New Timetable period is saved, Successfully',
+                'result' => array(
+                    'period' => $period,
+                    'subject' => $subject,
+                    'teacher' => $teacher,
+                    'timetable_period' => $timetable_period
+                )
+            );
+
+            return Response::json($response);
+        }
 
         $response = array(
-            'status' => 'success',
+            'status' => 'failed',
+            'msg' => 'New Timetable period Couldnt be saved',
             'result' => array(
-                'period' => $period,
-                'subject' => $subject,
-                'teacher' => $teacher
+                'timetable_period' => 'none'
             )
         );
 
@@ -684,7 +700,7 @@ class AdminTimeTableController extends BaseController {
     }
 
     public function postGetTeachers() {
-        
+
         $query = "SELECT * 
                      FROM  `users` 
                      JOIN users_groups
@@ -695,7 +711,7 @@ class AdminTimeTableController extends BaseController {
                      AND users.school_id = ?
                 ";
         $teachers = DB::select($query, array(3, $this->getSchoolId()));
-        
+
         $response = array(
             'status' => 'success',
             'result' => array(

@@ -19,21 +19,7 @@ var TableDataTimeTable = function() {
             var aData = oTimeTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
             jqTds[0].innerHTML = '#';
-            var sTime, eTime;
-            if (aData[1]) {
-                var time = aData[1].split('-');
-                sTime = time[0];
-                eTime = time[1];
-            } else {
-                sTime = "";
-                eTime = "";
-            }
-
-            var startTime = '<div class="col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-start-time" value="' + sTime + '">' +
-                    '<span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span></div></div>';
-            var endTime = '<div class="col-md-offset-2 col-md-4" style="padding: 0"><div class="input-group input-append bootstrap-timepicker"><input type="text" class="form-control time-picker" id="new-input-end-time" value="' + eTime + '">' +
-                    '<span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span></div></div>';
-            jqTds[1].innerHTML = startTime + endTime;
+            jqTds[1].innerHTML = '<select id="form-field-select-period" class="form-control search-select"><option value="">Select Period....</option> </select>';
             jqTds[2].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
             jqTds[3].innerHTML = '<select id="form-field-select-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
             jqTds[4].innerHTML = '<a class="save-row-time-table" href="#">Save</a>';
@@ -43,14 +29,14 @@ var TableDataTimeTable = function() {
                 class_id: rowData.class_id,
                 section_id: rowData.section_id
             };
-            
+
             $.ajax({
                 url: serverUrl + '/admin/time/table/get/subjects',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
-                    
+
                     var selectSubject = oTimeTable.find('#form-field-select-subject');
                     var selectSubjectRowId = oTimeTable.find('#form-field-select-subject').parent().attr('id');
                     var i;
@@ -64,9 +50,6 @@ var TableDataTimeTable = function() {
                     }
                 }
             });
-            $('.time-picker').timepicker({
-                showMeridian: false
-            });
 
             $.ajax({
                 url: serverUrl + '/admin/time/table/get/teachers',
@@ -78,12 +61,28 @@ var TableDataTimeTable = function() {
                     var teachers = data.result.teachers;
                     for (i = 0; i < teachers.length; i++) {
                         var name = teachers[i].first_name + ' ' + teachers[i].last_name;
-                        // var picUrl = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + data.teachers[i].pic;
-                        //var pic = '<img class="thumbnail" src="'+ picUrl +'" height="50px" width="50px">';
                         if (teachers[i].id == rowData.teacher_id) {
                             selectTeacher.append('<option value="' + teachers[i].user_id + '" selected>' + name + '</option>');
                         } else {
                             selectTeacher.append('<option value="' + teachers[i].user_id + '">' + name + '</option>');
+                        }
+                    }
+                }
+            });
+
+            $.ajax({
+                url: serverUrl + '/admin/get/current/period/profile/periods',
+                dataType: 'json',
+                method: 'POST',
+                success: function(data, response) {
+                    var selectPeriod = oTimeTable.find('#form-field-select-period');
+                    var i;
+                    var periods = data.result.periods;
+                    for (i = 0; i < periods.length; i++) {
+                        if (periods[i].id == rowData.period_id) {
+                            selectPeriod.append('<option value="' + periods[i].id + '" selected>' + periods[i].period_name + '</option>');
+                        } else {
+                            selectPeriod.append('<option value="' + periods[i].id + '">' + periods[i].period_name + '</option>');
                         }
                     }
                 }
@@ -94,19 +93,16 @@ var TableDataTimeTable = function() {
         function saveRow(oTimeTable, nRow, result) {
             var jqInputs = $('input', nRow);
             nRow.setAttribute('id', result.period.id);
+            nRow.setAttribute('data-period-id', result.period.id);
             nRow.setAttribute('data-subject-id', result.subject.id);
-            nRow.setAttribute('data-section-id', result.period.section_id);
+            nRow.setAttribute('data-section-id', result.timetable_period.section_id);
             nRow.setAttribute('data-teacher-id', result.teacher.id);
             oTimeTable.fnUpdate(oTimeTable.fnSettings().aoData.length, nRow, 0, false);
-            var timings = timeFormat(result.period.start_time) + ' - ' + timeFormat(result.period.end_time);
-            oTimeTable.fnUpdate(timings, nRow, 1, false);
+            oTimeTable.fnUpdate(result.period.period_name, nRow, 1, false);
             var subject = result.subject.subject_name + ' ( ' + result.subject.subject_code + ' )';
             oTimeTable.fnUpdate(subject, nRow, 2, false);
             var teacher = result.teacher.first_name + ' ' + result.teacher.middle_name + ' ' + result.teacher.last_name;
             oTimeTable.fnUpdate(teacher, nRow, 3, false);
-            //var picUrl = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + result.teacher.pic;
-            //var pic = '<img class="thumbnail" src="' + picUrl + '" height="50px" width="50px">';
-            //oTimeTable.fnUpdate(pic, nRow, 4, false);
             oTimeTable.fnUpdate('<a class="edit-row-time-table" href="">Edit</a>', nRow, 4, false);
             oTimeTable.fnUpdate('<a class="delete-row-time-table" href="">Delete</a>', nRow, 5, false);
             oTimeTable.fnDraw();
@@ -200,33 +196,24 @@ var TableDataTimeTable = function() {
             e.preventDefault();
 
             var nRow = $(this).parents('tr')[0];
-            var class_id = $(this).parentsUntil('.panel').find('#field-select-time-table-class').val();
-            var section_id = $(this).parentsUntil('.panel').find('#field-select-time-table-section').val();
-            var day_id = $(this).parentsUntil('.panel').find('#field-select-time-table-day').val();
-            var period_id = $(this).parents('tr').attr('id');
-            var start_time = $(this).parents('tr').find('#new-input-start-time').val();
-            var end_time = $(this).parents('tr').find('#new-input-end-time').val();
-            var subject_id = $(this).parents('tr').find('#form-field-select-subject').val();
-            var teacher_id = $(this).parents('tr').find('#form-field-select-teacher').val();
 
             var data = {
-                class_id: class_id,
-                section_id: section_id,
-                day_id: day_id,
-                period_id: period_id,
-                start_time: start_time,
-                end_time: end_time,
-                subject_id: subject_id,
-                teacher_id: teacher_id
+                class_id: $(this).parentsUntil('.panel').find('#field-select-time-table-class').val(),
+                section_id: $(this).parentsUntil('.panel').find('#field-select-time-table-section').val(),
+                day_id: $(this).parentsUntil('.panel').find('#field-select-time-table-day').val(),
+                period_id: $(this).parents('tr').find('#form-field-select-period').val(),
+                subject_id: $(this).parents('tr').find('#form-field-select-subject').val(),
+                teacher_id: $(this).parents('tr').find('#form-field-select-teacher').val(),
+                timetable_period_id: $(this).parents('tr').attr('id')
             };
 
-            console.log(data);
+                    console.log(data);
 
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
             $.ajax({
-                url: serverUrl + '/admin/time/table/add/periods',
+                url: serverUrl + '/admin/add/time/table/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
@@ -257,12 +244,15 @@ var TableDataTimeTable = function() {
 
             var rowData = {
                 class_id: $(this).parentsUntil('.panel').find('#field-select-time-table-class').val(),
-                period_id: $(this).parents('tr').attr('id'),
-                subject_id: $(this).parents('tr').attr('data-subject-id'),
-                day_id: $(this).parents('tr').attr('data-day-id'),
                 section_id: $(this).parents('tr').attr('data-section-id'),
-                teacher_id: $(this).parents('tr').attr('data-teacher-id')
+                day_id: $(this).parents('tr').attr('data-day-id'),
+                timetable_period_id: $(this).parents('tr').attr('id'),
+                subject_id: $(this).parents('tr').attr('data-subject-id'),
+                teacher_id: $(this).parents('tr').attr('data-teacher-id'),
+                period_id: $(this).parents('tr').attr('data-period-id')
             };
+            
+            console.log(rowData);
 
             editRow(oTimeTable, nRow, rowData);
             actualEditingRow = nRow;
@@ -349,7 +339,7 @@ var TableDataTimeTable = function() {
                 for (i = 0; i < weekDays.length; i++) {
                     $('#field-select-time-table-day').append('<option value="' + weekDays[i].code + '">' + weekDays[i].name + '</option>');
                 }
-                
+
             } else {
                 $('#field-select-time-table-day').empty().append('<option value="">Select a Day...</option>');
             }
@@ -383,15 +373,16 @@ var TableDataTimeTable = function() {
             };
 
             $.ajax({
-                url: serverUrl + '/admin/time/table/get/periods',
+                url: serverUrl + '/admin/get/time/table/periods',
                 dataType: 'json',
                 method: 'POST',
                 data: data,
                 success: function(data, response) {
                     $.unblockUI();
+                    console.log(data);
                     var i;
-                    for (i = 0; i < data.result.periods.length; i++) {
-                        deleteAndCreateTable(oTimeTable, i, data.result.periods);
+                    for (i = 0; i < data.result.timetable_periods.length; i++) {
+                        deleteAndCreateTable(oTimeTable, i, data.result.timetable_periods);
                     }
                 }
             });
@@ -404,27 +395,25 @@ var TableDataTimeTable = function() {
             }
 
         });
-        function deleteAndCreateTable(oTimeTable, i, periods) {
+        function deleteAndCreateTable(oTimeTable, i, result) {
 
             var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '', '']);
             var nRow = oTimeTable.fnGetNodes(aiNew[0]);
-            nRow.setAttribute('id', periods[i].timings.id);
-            nRow.setAttribute('data-subject-id', periods[i].subject.id);
-            nRow.setAttribute('data-section-id', periods[i].timings.section_id);
-            nRow.setAttribute('data-teacher-id', periods[i].teacher.id);
-            nRow.setAttribute('data-day-id', periods[i].timings.day_id);
+            nRow.setAttribute('id', result[i].timetable_period.id);
+            nRow.setAttribute('data-period-id', result[i].period.id);
+            nRow.setAttribute('data-subject-id', result[i].subject.id);
+            nRow.setAttribute('data-section-id', result[i].timetable_period.section_id);
+            nRow.setAttribute('data-teacher-id', result[i].teacher.user_id);
+            nRow.setAttribute('data-day-id', result[i].timetable_period.day_id);
 
             oTimeTable.fnUpdate(i + 1, nRow, 0, false);
-            oTimeTable.fnUpdate(timeFormat(periods[i].timings.start_time) + " - " + timeFormat(periods[i].timings.end_time), nRow, 1, false);
+            oTimeTable.fnUpdate(result[i].period.period_name, nRow, 1, false);
 
-            oTimeTable.fnUpdate(periods[i].subject.subject_name + '  (' + periods[i].subject.subject_code + ')', nRow, 2, false);
-            oTimeTable.fnUpdate(periods[i].teacher.first_name + ' ' + periods[i].teacher.last_name, nRow, 3, false);
+            oTimeTable.fnUpdate(result[i].subject.subject_name + '  (' + result[i].subject.subject_code + ')', nRow, 2, false);
+            oTimeTable.fnUpdate(result[i].teacher.first_name + ' ' + result[i].teacher.last_name, nRow, 3, false);
 
-            var urls = "http://localhost/projects/schoolopaedia/public/assets/projects/images/" + periods[i].teacher.pic;
-            oTimeTable.fnUpdate('<img class="thumbnail" src="' + urls + '" width="50px" height="50px">', nRow, 4, false);
-
-            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 5, false);
-            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="#">Delete</a>', nRow, 6, false);
+            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 4, false);
+            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="#">Delete</a>', nRow, 5, false);
 
             oTimeTable.fnDraw();
 

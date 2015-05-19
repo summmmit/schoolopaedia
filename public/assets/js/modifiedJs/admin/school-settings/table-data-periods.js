@@ -291,13 +291,38 @@ var TableDataPeriods = function() {
             var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
             oTable.fnSetColumnVis(iCol, (bVis ? false : true));
         });
-            $('#table-school-periods').on('ifChecked', '#make-current-period-profile', function(e) {
+
+        $('input#make-current-period-profile').on('ifChecked', function(e) {
             e.preventDefault();
-            if($(this).prop("checked") == true){
-                alert("checked");
-            }
-            else if($(this).prop("checked") == false){
-                alert("Checkbox is unchecked.");
+            var profile_id = $(this).parents('tr').attr('data-period-profile-id');
+
+            if (profile_id) {
+                
+                bootbox.confirm("Are you sure , You want to change Current Profile?", function(result) {
+
+                    var data = {
+                        profile_id: profile_id
+                    };
+
+                    $.blockUI({
+                        message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
+                    });
+
+                    $.ajax({
+                        url: serverUrl + '/admin/make/current/period/profile',
+                        dataType: 'json',
+                        data: data,
+                        method: 'POST',
+                        success: function(data) {
+                            $.unblockUI();
+                            if (data.status === "success") {
+                                toastr.success('Congratulations. This is Your Current Profile.');
+                            }
+                        }
+                    });
+
+                });
+
             }
 
         });

@@ -88,7 +88,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Timings</th>
+                                        <th>Period</th>
                                         <th>Subject Name (Subject Code)</th>
                                         <th>Teacher Name</th>
                                         <th>Edit</th>

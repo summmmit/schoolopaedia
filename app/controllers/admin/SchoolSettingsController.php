@@ -367,7 +367,7 @@ class SchoolSettingsController extends BaseController {
         $periods_profiles = PeriodProfile::where('school_id', '=', $this->getSchoolId())->get();
 
         $current_periods_profiles = PeriodProfile::where('school_id', '=', $this->getSchoolId())
-                                  ->where('current_profile', '=', 1)->get();
+                        ->where('current_profile', '=', 1)->get();
         $periods = Periods::all();
         //$periods = "hello";
         return View::make('admin.school-periods')->with('periods_profiles', $periods_profiles)->with('current_periods_profiles', $current_periods_profiles)->with('schedules', $schedules);
@@ -422,9 +422,9 @@ class SchoolSettingsController extends BaseController {
         if ($period_id) {
 
             $period_to_period_profile = PeriodToPeriodProfile::where('period_id', '=', $period_id)
-                                                             ->where('profile_id', '=', $period_profile_id);
+                    ->where('profile_id', '=', $period_profile_id);
 
-            if($period_to_period_profile->delete()){
+            if ($period_to_period_profile->delete()) {
 
                 $period = Periods::find($period_id);
 
@@ -438,7 +438,7 @@ class SchoolSettingsController extends BaseController {
                     );
 
                     return Response::json($response);
-                }else {
+                } else {
 
                     $response = array(
                         'status' => 'failed',
@@ -450,7 +450,7 @@ class SchoolSettingsController extends BaseController {
 
                     return Response::json($response);
                 }
-            }else {
+            } else {
 
                 $response = array(
                     'status' => 'failed',
@@ -514,6 +514,83 @@ class SchoolSettingsController extends BaseController {
                 'periods_to_period_profiles' => $period_to_period_profiles,
                 'periods' => $periods,
                 'profile' => $period_profile
+            )
+        );
+
+        return Response::json($response);
+    }
+
+    public function postMakeCurrentPeriodProfile() {
+
+        $profile_id = Input::get('profile_id');
+
+        if ($profile_id) {
+
+            $current_period_profile = PeriodProfile::where('current_profile', '=', 1)->get()->first();
+
+            if ($current_period_profile->count() > 0) {
+                $current_period_profile->current_profile = 0;
+
+                if ($current_period_profile->save()) {
+
+                    $period_profile = PeriodProfile::find($profile_id);
+                    $period_profile->current_profile = 1;
+                    if ($period_profile->save()) {
+
+                        $response = array(
+                            'status' => 'success',
+                            'msg' => 'Current Profile Changed Successfully',
+                            'result' => array(
+                                'period_profile' => $period_profile
+                            )
+                        );
+
+                        return Response::json($response);
+                    }
+                } else {
+
+                    $response = array(
+                        'status' => 'failed',
+                        'msg' => 'Current Profile is not Changed',
+                        'result' => array(
+                            'period_profile' => 'none'
+                        )
+                    );
+
+                    return Response::json($response);
+                }
+            }
+        } else {
+
+            $response = array(
+                'status' => 'failed',
+                'msg' => 'No Value is Passed as Profile Id',
+                'result' => array(
+                    'period_profile' => 'none'
+                )
+            );
+
+            return Response::json($response);
+        }
+    }
+
+    public function postGetCurrentPeriodProfilePeriods() {
+
+        $query = "SELECT periods.id, periods.period_name 
+                  FROM  `periods` 
+                  JOIN period_to_period_profile 
+                  ON period_to_period_profile.period_id = periods.id
+                  JOIN period_profile 
+                  ON period_profile.id = period_to_period_profile.profile_id
+                  WHERE period_profile.current_profile =?";
+
+        $periods = DB::select($query, array(1));
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'All Periods Successfully Retrieved',
+            'result' => array(
+                'periods' => $periods
             )
         );
 

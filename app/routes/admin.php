@@ -248,16 +248,16 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     /*
      * Admin get TimeTable by Class  (post)
      */
-    Route::Post('/time/table/get/periods', array(
+    Route::Post('/get/time/table/periods', array(
         'as' => 'admin-time-table-get-periods',
-        'uses' => 'AdminTimeTableController@postGetPeriods'
+        'uses' => 'AdminTimeTableController@postGetTimeTablePeriods'
     ));
     /*
      * Admin get TimeTable by Class  (post)
      */
-    Route::Post('/time/table/add/periods', array(
+    Route::Post('/add/time/table/periods', array(
         'as' => 'admin-time-table-add-periods',
-        'uses' => 'AdminTimeTableController@postAddPeriods'
+        'uses' => 'AdminTimeTableController@postAddTimeTablePeriods'
     ));
     /*
      * Admin Period Delete (post)
@@ -420,6 +420,20 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
     Route::Post('/get/school/periods/by/id', array(
         'as' => 'admin-get-school-periods-profile-by-id',
         'uses' => 'SchoolSettingsController@postGetSchoolPeriodsProfileById'
+    ));
+    /**
+     * Api for making period profile current
+     */
+    Route::Post('/make/current/period/profile', array(
+        'as' => 'admin-make-current-period-profile',
+        'uses' => 'SchoolSettingsController@postMakeCurrentPeriodProfile'
+    ));
+    /**
+     * Api for getting current profile periods
+     */
+    Route::Post('/get/current/period/profile/periods', array(
+        'as' => 'admin-get-current-period-profile-profiles',
+        'uses' => 'SchoolSettingsController@postGetCurrentPeriodProfilePeriods'
     ));
     
 });
