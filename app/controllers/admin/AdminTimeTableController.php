@@ -582,7 +582,7 @@ class AdminTimeTableController extends BaseController {
         $i = 0;
         foreach ($timetables as $timetable) {
             $subject = Subjects::find($timetable->subject_id);
-            $teacher = UserDetails::where('user_id', '=', $timetable->users_id)->get()->first();
+            $teacher = UserDetails::find($timetable->users_id);
             $period  = Periods::find($timetable->period_id);
             $timetable_periods[$i] = array(
                 'timetable_period' => $timetable,
@@ -628,8 +628,9 @@ class AdminTimeTableController extends BaseController {
         $timetable_period->section_id = $section_id;
         $timetable_period->users_id = $teacher_id;
 
+
         $subject = Subjects::find($subject_id);
-        $teacher = UserDetails::where('user_id', '=',$teacher_id);
+        $teacher = UserDetails::find($teacher_id);
         $period = Periods::find($period_id);
 
         if ($timetable_period->save()) {

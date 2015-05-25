@@ -62,9 +62,9 @@ var TableDataTimeTable = function() {
                     for (i = 0; i < teachers.length; i++) {
                         var name = teachers[i].first_name + ' ' + teachers[i].last_name;
                         if (teachers[i].id == rowData.teacher_id) {
-                            selectTeacher.append('<option value="' + teachers[i].user_id + '" selected>' + name + '</option>');
+                            selectTeacher.append('<option value="' + teachers[i].id + '" selected>' + name + '</option>');
                         } else {
-                            selectTeacher.append('<option value="' + teachers[i].user_id + '">' + name + '</option>');
+                            selectTeacher.append('<option value="' + teachers[i].id + '">' + name + '</option>');
                         }
                     }
                 }
@@ -403,7 +403,7 @@ var TableDataTimeTable = function() {
             nRow.setAttribute('data-period-id', result[i].period.id);
             nRow.setAttribute('data-subject-id', result[i].subject.id);
             nRow.setAttribute('data-section-id', result[i].timetable_period.section_id);
-            nRow.setAttribute('data-teacher-id', result[i].teacher.user_id);
+            nRow.setAttribute('data-teacher-id', result[i].teacher.id);
             nRow.setAttribute('data-day-id', result[i].timetable_period.day_id);
 
             oTimeTable.fnUpdate(i + 1, nRow, 0, false);
