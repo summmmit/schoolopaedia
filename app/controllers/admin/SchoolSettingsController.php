@@ -1,5 +1,7 @@
 <?php
 
+use restApi\errors\ApiResponses;
+
 /**
  * Description of AdminAccountController
  *
@@ -263,6 +265,31 @@ class SchoolSettingsController extends BaseController {
     }
 
     public function getSchoolTeachers() {
+        $query = "select
+                        users.id,
+                        users.school_id,
+                        user_details.username,
+                        user_details.first_name,
+                        user_details.last_name,
+                        users_to_class.class_id,
+                        users_to_class.section_id,
+                        user_details.pic
+                  from users
+                  join users_groups
+                  on users.id=users_groups.user_id and users_groups.groups_id=? and users.school_id=?
+                  join user_details
+                  on users.id=user_details.user_id
+                  join users_to_class
+                  on users_to_class.user_id=users.id";
+        $all_school_teachers = DB::select($query, array(3, $this->getSchoolId()));
+        
+
+echo "<pre>";
+print_r($all_school_teachers);
+
+die;
+
+        return successResponse();
 
         $all_teachers = 1;
         return View::make('admin.school-teachers')->with('teachers', $all_teachers);
