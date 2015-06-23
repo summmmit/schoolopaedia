@@ -572,7 +572,7 @@ var Events = function() {
     var attachCategories = function(){
 
         $.ajax({
-            url: 'http://localhost/projects/schools/public/admin/get/event/types',
+            url: serverUrl + '/admin/get/event/types',
             dataType: 'json',
             cache: false,
             method: 'POST',
