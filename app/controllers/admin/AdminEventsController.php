@@ -1,6 +1,6 @@
 <?php
 
-class AdminEventsController extends BaseController {
+class AdminEventsController extends SchoolDetailsController {
 
     public function getSchoolEvents() {
         return View::make('admin.events');

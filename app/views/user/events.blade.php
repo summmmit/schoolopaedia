@@ -220,15 +220,8 @@
                             </time>
                             <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" />
                             <div class="info">
-                                <h2 class="title">Independence Day</h2>
-                                <p class="desc">United States Holiday</p>
-                            </div>
-                            <div class="social">
-                                <ul>
-                                    <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-                                    <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-                                    <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-                                </ul>
+                                <h2 class="title center">Independence Day</h2>
+                                <p class="desc center">United States Holiday</p>
                             </div>
                         </li>
                     </ul>
@@ -252,15 +245,8 @@
                                 <span class="time">12:00 AM</span>
                             </time>
                             <div class="info">
-                                <h2 class="title">One Piece Unlimited World Red</h2>
-                                <p class="desc">PS Vita</p>
-                            </div>
-                            <div class="social">
-                                <ul>
-                                    <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-                                    <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-                                    <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-                                </ul>
+                                <h2 class="title center">One Piece Unlimited World Red</h2>
+                                <p class="desc center">PS Vita</p>
                             </div>
                         </li>
                     </ul>

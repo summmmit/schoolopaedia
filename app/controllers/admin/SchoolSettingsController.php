@@ -280,15 +280,6 @@ class SchoolSettingsController extends BaseController {
                   join users_to_class
                   on users_to_class.user_id=users.id";
         $all_school_teachers = DB::select($query, array(3, $this->getSchoolId()));
-        
-
-echo "<pre>";
-print_r($all_school_teachers);
-
-die;
-
-        return successResponse();
-
         $all_teachers = 1;
         return View::make('admin.school-teachers')->with('teachers', $all_teachers);
     }
