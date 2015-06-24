@@ -249,7 +249,7 @@ class UserAccountController extends BaseController {
                             ->withInput();
         } else {
 
-            $user = User::find(Auth::user()->id);
+            $user = User::find(Sentry::getUser()->id);
 
             $now = date("Y-m-d H-i-s");
 

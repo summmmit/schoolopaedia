@@ -93,7 +93,7 @@ var Events = function() {
             },
             events: {
                 type: 'POST',
-                url: 'http://localhost/projects/schools/public/admin/get/events',
+                url: serverUrl + '/admin/get/events',
                 error: function() {
                     alert('there was an error while fetching events!');
                 }
@@ -537,7 +537,7 @@ var Events = function() {
                 } else {
 
                     $.ajax({
-                        url: 'http://localhost/projects/schools/public/admin/create/event',
+                        url: serverUrl + '/admin/create/event',
                         dataType: 'json',
                         data: newEvent,
                         cache: false,
