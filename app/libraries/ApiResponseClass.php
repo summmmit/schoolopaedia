@@ -24,6 +24,6 @@ class ApiResponseClass {
             ],
             'request'   => $request
         ];
-        return Response::json($errorResponse, 400);
+        return Response::json($errorResponse, 200);
     }
 }

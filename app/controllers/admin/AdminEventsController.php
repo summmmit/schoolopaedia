@@ -6,6 +6,10 @@ class AdminEventsController extends SchoolDetailsController {
         return View::make('admin.events');
     }
 
+    public function getEventTypes(){
+        return View::make('admin.event-types');
+    }
+
     /**
      * Ajax Api for getting event types
      */
@@ -14,14 +18,18 @@ class AdminEventsController extends SchoolDetailsController {
         $school_id = $this->getSchoolId();
         $event_types = EventTypes::where('school_id', '=', $school_id)->get();
 
-        $response = array(
-            'status' => 'Success',
-            'result' => array(
-                'event_types' => $event_types,
-            )
+        $result = array(
+            'event_types' => $event_types,
         );
+        $request = null;
 
-        return Response::json($response);
+        if(count($event_types) >= 0){
+            $response = ApiResponseClass::successResponse($result, $request);
+        }else{
+            $response = ApiResponseClass::errorResponse("Invalid_Request", "Cant fetch Event Types.", $request);
+        }
+
+        return $response;
     }
 
     /**
@@ -88,6 +96,51 @@ class AdminEventsController extends SchoolDetailsController {
         }
 
         return Response::json($all_events);
+    }
+
+    /**
+     * @return json
+     */
+    public function postSaveEventType(){
+
+        $request = [
+            'event_type_id' => Input::get('event_type_id'),
+            'event_type_name' => Input::get('event_type_name')
+        ];
+
+        if($request['event_type_id']){
+            $event_type = EventTypes::find($request['event_type_id']);
+        }else{
+            $event_type = new EventTypes();
+        }
+        $event_type->event_type_name = $request['event_type_name'];
+        $event_type->school_id = $this->getSchoolId();
+
+        if($event_type->save()){
+            $response = ApiResponseClass::successResponse($event_type, $request);
+        }else{
+            $response = ApiResponseClass::errorResponse('Not Saved', 'Event Type Not saved.', $request);
+        }
+
+        return $response;
+    }
+
+    public function postDeleteEventTypes(){
+
+        $request = [
+          'event_type_id' => Input::get('event_type_id')
+        ];
+
+        $event_type = EventTypes::find($request['event_type_id']);
+
+        if($event_type->delete()){
+            $response = ApiResponseClass::successResponse($event_type, $request);
+        }else{
+            $response = ApiResponseClass::errorResponse('Not Deleted', 'Event Type Not Deleted.', $request);
+        }
+
+        return $response;
+
     }
 
 

@@ -389,6 +389,40 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
         'as' => 'admin-get-events',
         'uses' => 'AdminEventsController@postGetEvent'
     ));
+
+    //-------------------------------------------Event Types ----------------------------------------------------------------
+    /**
+     * Get or Create New School Events
+     */
+    /**
+     *  Get the event types blade
+     */
+    Route::get('/school/events/types', array(
+        'as' => 'admin-school-event-types',
+        'uses' => 'AdminEventsController@getEventTypes'
+    ));
+    /**
+     * API - Get All the Event Details
+     */
+    Route::Post('/get/all/event/types', array(
+        'as' => 'admin-get-event-types',
+        'uses' => 'AdminEventsController@postGetAllEventTypes'
+    ));
+    /**
+     * API - Get All the Event Details
+     */
+    Route::Post('/school/save/event/types', array(
+        'as' => 'admin-save-event-types',
+        'uses' => 'AdminEventsController@postSaveEventType'
+    ));
+    /**
+     * API - Delete Event Type
+     */
+    Route::Post('/delete/event/types', array(
+        'as' => 'admin-delete-event-types',
+        'uses' => 'AdminEventsController@postDeleteEventTypes'
+    ));
+    // ------------------------------------------School Periods -------------------------------------------------------------
     /**
      * Get School Periods
      */

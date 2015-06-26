@@ -20,7 +20,7 @@ var CreateTimeTable = function() {
     var fetchClasses = function() {
 
         $.ajax({
-            url: 'http://localhost/projects/schoolopaedia/public/admin/time/table/get/class/streams/pair',
+            url: serverUrl + '/admin/time/table/get/class/streams/pair',
             dataType: 'json',
             method: 'POST',
             success: function(data, response) {

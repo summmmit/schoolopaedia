@@ -22,7 +22,19 @@
         <a href="{{ URL::route('admin-school-teachers'); }}"><i class="fa fa-caret-up"></i> <span class="title"> Teachers </span></a>
     </li>
     <li>
-        <a href="{{ URL::route('admin-school-events'); }}"><i class="fa fa-caret-up"></i> <span class="title"> Events </span></a>
+        <a href="javascript:void(0)"><i class="fa fa-th-large"></i> <span class="title"> Events </span><i class="icon-arrow"></i> </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="{{ URL::route('admin-school-events'); }}">
+                    <span class="title"> Events Schedule </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ URL::route('admin-school-event-types'); }}">
+                    <span class="title">Event Types</span>
+                </a>
+            </li>
+        </ul>
     </li>
     <li>
         <a href="javascript:void(0)"><i class="fa fa-th-large"></i> <span class="title"> School Settings </span><i class="icon-arrow"></i> </a>

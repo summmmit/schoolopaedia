@@ -163,8 +163,6 @@ var TableDataPeriods = function() {
                 period_profile_id: $(this).parents('table').attr('data-table-period-profile')
             };
 
-            console.log(data);
-
             bootbox.confirm("Are you sure to delete this row?", function(result) {
                 if (result) {
                     $.blockUI({
@@ -176,8 +174,6 @@ var TableDataPeriods = function() {
                         data: data,
                         method: 'POST',
                         success: function(data) {
-
-                            console.log(data);
                             $.unblockUI();
                             if (data.status === "success") {
                                 oTable.fnDeleteRow(nRow);

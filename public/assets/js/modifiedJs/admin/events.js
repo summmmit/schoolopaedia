@@ -577,13 +577,31 @@ var Events = function() {
             cache: false,
             method: 'POST',
             success: function(data) {
-                if(data.status == "Success"){
+                if(data.status == "success"){
                     var i;
                     for(i=0; i<data.result.event_types.length; i++){
                         $('.event-categories').append('<option value="'+ data.result.event_types[i].id +'">'+ data.result.event_types[i].event_type_name +'</option>');
                     }
                 }
             }
+        });
+
+        $('.event-name').on('keyup', function(){
+            var event_name = $(this).val();
+            $('#card-event-name').text(event_name);
+        });
+
+        $('#event-content').on('keyup', function(){
+            var event_content = $(this).val();
+            $('#card-event-content').text(event_content);
+        });
+
+        $('.fileupload-new').on('change', function(){
+
+            var hello = $('.fileupload-preview');
+            var img = hello[0].innerHTML;
+            console.log(img);
+
         });
 
     };

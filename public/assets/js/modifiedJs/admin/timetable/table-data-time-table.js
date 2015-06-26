@@ -207,8 +207,6 @@ var TableDataTimeTable = function() {
                 timetable_period_id: $(this).parents('tr').attr('id')
             };
 
-                    console.log(data);
-
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
@@ -251,8 +249,6 @@ var TableDataTimeTable = function() {
                 teacher_id: $(this).parents('tr').attr('data-teacher-id'),
                 period_id: $(this).parents('tr').attr('data-period-id')
             };
-            
-            console.log(rowData);
 
             editRow(oTimeTable, nRow, rowData);
             actualEditingRow = nRow;

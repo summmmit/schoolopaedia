@@ -4,6 +4,22 @@ var TableDataSubjects = function() {
         var newRow = false;
         var actualEditingRow = null;
 
+        $(document).ready(function(){
+
+            $.ajax({
+                url: serverUrl + '/admin/time/table/get/class/streams/pair',
+                dataType: 'json',
+                method: 'POST',
+                success: function(data, response) {
+                    var i;
+                    var pairs = data.result.stream_class_pairs;
+                    for (i = 0; i < data.result.stream_class_pairs.length; i++) {
+                        $('#form-field-select-subjects-classes').append('<option value=' + pairs[i].classes_id + '>' + pairs[i].stream_class_pair + '</option>');
+                    }
+                }
+            });
+        });
+
         function restoreRow(oTable, nRow) {
             var aData = oTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
@@ -277,19 +293,6 @@ var TableDataSubjects = function() {
     };
 
     var fetchClasses = function() {
-
-        $.ajax({
-            url: serverUrl + '/admin/time/table/get/class/streams/pair',
-            dataType: 'json',
-            method: 'POST',
-            success: function(data, response) {
-                var i;
-                var pairs = data.result.stream_class_pairs;
-                for (i = 0; i < data.result.stream_class_pairs.length; i++) {
-                    $('#form-field-select-subjects-classes').append('<option value=' + pairs[i].classes_id + '>' + pairs[i].stream_class_pair + '</option>');
-                }
-            }
-        });
     };
     return {
         //main function to initiate template pages
