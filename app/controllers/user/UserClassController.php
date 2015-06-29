@@ -139,4 +139,11 @@ class UserClassController extends BaseController {
         return Response::json($response);
     }
 
+  public static function postStatusFeed() {
+    echo("Just Do It man !!");
+    exit;
+
+
+  }
+
 }

@@ -257,5 +257,9 @@ Route::group(array('before' => 'UserAuth'), function() {
         'uses' => 'UserClassController@postGetSections'
     ));
 
+  Route::Post('/user/statusfeed', array(
+    'as' => 'user-statusfeed',
+    'uses' => 'UserClassController@postStatusFeed'
+  ));
 
 });
