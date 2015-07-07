@@ -262,4 +262,9 @@ Route::group(array('before' => 'UserAuth'), function() {
     'uses' => 'UserClassController@postStatusFeed'
   ));
 
+  Route::get('/user/status', array(
+    'as' => 'user-status',
+    'uses' => 'UserStatusController@getStatus'
+  ));
+
 });

@@ -119,15 +119,17 @@
     </div>
     <div class="col-sm-6">
         <div class="well">
-            <form class="form-horizontal " role="form" action="{{ URL::route('user-statusfeed') }}" method="post">
+            <form class="form-horizontal " role="form" action="{{ URL::route('user-statusfeed') }}" method="post" enctype="multipart/form-data">
                 <div class="form-group" style="padding:5px;">
                     <textarea class="form-control" placeholder="Update your status" name="status" id="status"></textarea>
                 </div>
               <button class="btn btn-primary pull-right" type="submit">Update</button>
                 <ul class="list-inline">
-                    <li><a type="file" name="video"><i class="glyphicon glyphicon-upload" ></i></a></li>
-                    <li><a type="file" name="image"><i class="glyphicon glyphicon-camera" ></i></a></li>
-                    <li><a type="file" name="marker"><i class="glyphicon glyphicon-map-marker" ></i></a></li>
+
+                    <li><input type="file" name="video"><i type="file" name="video" class="glyphicon glyphicon-upload" ></i></li>
+                    <li><input type="file" name="image"><i class="glyphicon glyphicon-camera" ></i></li>
+                    <li><input type="file" name="marker"><i class="glyphicon glyphicon-map-marker" ></i></li>
+
 
 <!--                <li><input type="file" name="video" id="video" class="glyphicon glyphicon-upload"></li>-->
 <!--                    <li><input type="file" name="image" id="image" class="glyphicon glyphicon-camera"></li>-->

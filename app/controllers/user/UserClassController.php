@@ -140,8 +140,34 @@ class UserClassController extends BaseController {
     }
 
   public static function postStatusFeed() {
-    echo("Just Do It man !!");
-    exit;
+
+    $target_dir = "uplaods/";
+    $target_file = $target_dir . basename($_FILES["video"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+    if(isset($_POST["submit"])) {
+      $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+      if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+      } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+      }
+    }
+
+    $video =  Input::get('video');
+    $image =  Input::get('image');
+    $marker = Input::get('marker');
+
+    $statusFeed = new Statusfeed();
+    $statusFeed->video_url = $video;
+    $statusFeed->image_url = $image;
+    $statusFeed->location_longigute = $marker;
+
+
+
+    $statusFeed->save();
 
 
   }

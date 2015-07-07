@@ -26,4 +26,8 @@
     <li>
         <a href="{{ URL::route('user-events'); }}"><i class="fa fa-desktop"></i> <span class="title"> Events </span></a>
     </li>
+
+  <li>
+    <a href="{{ URL::route('user-status'); }}"><i class="fa fa-desktop"></i> <span class="title"> Status </span></a>
+  </li>
 </ul>
