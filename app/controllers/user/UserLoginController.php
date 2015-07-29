@@ -27,10 +27,6 @@ class UserLoginController extends BaseController {
                 $email = Input::get('email');
                 $password = Input::get('password');
 
-                //Pre activate user
-                //$user = Sentry::register(array('email' => $email, 'password' => $password), true);
-                //$user = Sentry::register(array('email' => $input['email'], 'password' => $input['password']));
-
                 $user = Sentry::createUser(array(
                     'email'     => $email,
                     'password'  => $password,
@@ -46,7 +42,7 @@ class UserLoginController extends BaseController {
 
                 //send email with link to activate.
                 /*Mail::send('emails.register_confirm', $data, function($m) use ($data) {
-                 $m -> to($data['email']) -> subject('Thanks for Registration - Support Team');
+                 $m -> to($data['email']) -> subject('Thanks for Registration - Support Team');az
                  });*/
 
                 //If no groups created then create new groups
