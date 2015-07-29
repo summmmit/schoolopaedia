@@ -1,4 +1,5 @@
 <?php
+
 class UserLoginController extends BaseController {
 
     //Show register Form
@@ -418,8 +419,12 @@ class UserLoginController extends BaseController {
         return Redirect::to('/user/sign/in');
     }
 
-    public function getUserHome() {      
-        return View::make('user.home');
+    public function getUserHome() {
+        $response =  ApiResponseClass::successResponse([1=>'sumit'], [1=>'none']);
+
+        echo $response;
+
+        return View::make('user.home')->with('response', $response);
     }
     
     public function getWelcomeSettings(){

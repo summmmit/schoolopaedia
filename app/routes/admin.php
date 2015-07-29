@@ -359,32 +359,35 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
         'uses' => 'SchoolSettingsController@getSchoolTeachers'
     ));
     /**
+     * ------------------------------------------------ Admin Events -------------------------------------
+     */
+    /**
      * Get or Create New School Events
      */
     Route::get('/school/events', array(
         'as' => 'admin-school-events',
-        'uses' => 'SchoolSettingsController@getSchoolEvents'
+        'uses' => 'AdminEventsController@getSchoolEvents'
     ));
     /**
      * Api for getting the events types for new event calendar
      */
     Route::Post('/get/event/types', array(
         'as' => 'admin-get-event-types',
-        'uses' => 'SchoolSettingsController@postGetEventTypes'
+        'uses' => 'AdminEventsController@postGetEventTypes'
     ));
     /**
      * Api for creating Event
      */
     Route::Post('/create/event', array(
         'as' => 'admin-create-event',
-        'uses' => 'SchoolSettingsController@postCreateEvent'
+        'uses' => 'AdminEventsController@postCreateEvent'
     ));
     /**
      * Api for Getting all the Events
      */
     Route::Post('/get/events', array(
         'as' => 'admin-get-events',
-        'uses' => 'SchoolSettingsController@postGetEvent'
+        'uses' => 'AdminEventsController@postGetEvent'
     ));
     /**
      * Get School Periods
