@@ -45,15 +45,31 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Roll Number</th>
-                                <th>Student Name</th>
-                                <th>Class</th>
-                                <th>Section</th>
+                                <th>Username</th>
+                                <th>Teacher Name</th>
                                 <th>Picture</th>
                                 <th>Details</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <?php $i = 0; ?>
+                            @foreach($teachers as $teacher)
+                                <tr>
+                                    <td>{{ ++$i }}</td>
+                                    <td>{{ $teacher->username }}</td>
+                                    <td>{{ $teacher->first_name .' '. $teacher->last_name }}</td>
+                                    @if($teacher->pic != "" || $teacher->pic != null)
+                                        <td><img src="{{ URL::asset($teacher->pic); }}"></td>
+                                    @else
+                                        <td><img src="{{ URL::asset('assets/projects/images/no_img.png'); }}" width="50px" height="50px"></td>
+                                    @endif
+                                    <td>
+                                        <a class="show-sv" href="#school-teacher-details" data-startFrom="right">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -65,7 +81,7 @@
 
 @section('subview')
     <!--Start :  Subview for This page only -->
-    <div id="school-student-details" class="no-display">
+    <div id="school-teacher-details" class="no-display">
         <div class="col-sm-11 col-sm-offset-1">
             <div class="row">
                 <div class="col-sm-12">

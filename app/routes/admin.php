@@ -435,5 +435,6 @@ Route::group(array('prefix' => 'admin', 'before' => 'Adminauth'), function() {
         'as' => 'admin-get-current-period-profile-profiles',
         'uses' => 'SchoolSettingsController@postGetCurrentPeriodProfilePeriods'
     ));
+
     
 });

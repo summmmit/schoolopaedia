@@ -87,7 +87,6 @@
                             <table class="table table-striped table-hover" id="table-add-class-time-table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Period</th>
                                         <th>Subject Name (Subject Code)</th>
                                         <th>Teacher Name</th>

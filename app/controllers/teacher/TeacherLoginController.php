@@ -190,6 +190,7 @@ class TeacherLoginController extends BaseController
                 $credentials = array('email' => Input::get('identity'), 'password' => Input::get('password'));
 
                 //For now auto activate users
+
                 $user = Sentry::authenticate($credentials, false);
 
                 //At this point we may get many exceptions lets handle all user management and throttle exceptions

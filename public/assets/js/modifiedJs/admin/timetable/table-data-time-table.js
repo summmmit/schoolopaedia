@@ -18,12 +18,11 @@ var TableDataTimeTable = function() {
         function editRow(oTimeTable, nRow, rowData) {
             var aData = oTimeTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
-            jqTds[0].innerHTML = '#';
-            jqTds[1].innerHTML = '<select id="form-field-select-period" class="form-control search-select"><option value="">Select Period....</option> </select>';
-            jqTds[2].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
-            jqTds[3].innerHTML = '<select id="form-field-select-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
-            jqTds[4].innerHTML = '<a class="save-row-time-table" href="#">Save</a>';
-            jqTds[5].innerHTML = '<a class="cancel-row-time-table" href="#">Cancel</a>';
+            jqTds[0].innerHTML = '<select id="form-field-select-period" class="form-control search-select"><option value="">Select Period....</option> </select>';
+            jqTds[1].innerHTML = '<select id="form-field-select-subject" class="form-control search-select"><option value="">Select Subject....</option> </select>';
+            jqTds[2].innerHTML = '<select id="form-field-select-teacher" class="form-control search-select"><option value="">Select Teacher....</option> </select>';
+            jqTds[3].innerHTML = '<a class="save-row-time-table" href="#">Save</a>';
+            jqTds[4].innerHTML = '<a class="cancel-row-time-table" href="#">Cancel</a>';
 
             var data = {
                 class_id: rowData.class_id,
@@ -62,9 +61,9 @@ var TableDataTimeTable = function() {
                     for (i = 0; i < teachers.length; i++) {
                         var name = teachers[i].first_name + ' ' + teachers[i].last_name;
                         if (teachers[i].id == rowData.teacher_id) {
-                            selectTeacher.append('<option value="' + teachers[i].id + '" selected>' + name + '</option>');
+                            selectTeacher.append('<option value="' + teachers[i].user_id + '" selected>' + name + '</option>');
                         } else {
-                            selectTeacher.append('<option value="' + teachers[i].id + '">' + name + '</option>');
+                            selectTeacher.append('<option value="' + teachers[i].user_id + '">' + name + '</option>');
                         }
                     }
                 }
@@ -92,19 +91,18 @@ var TableDataTimeTable = function() {
 
         function saveRow(oTimeTable, nRow, result) {
             var jqInputs = $('input', nRow);
-            nRow.setAttribute('id', result.period.id);
+            //nRow.setAttribute('id', result.period.id);
             nRow.setAttribute('data-period-id', result.period.id);
             nRow.setAttribute('data-subject-id', result.subject.id);
             nRow.setAttribute('data-section-id', result.timetable_period.section_id);
-            nRow.setAttribute('data-teacher-id', result.teacher.id);
-            oTimeTable.fnUpdate(oTimeTable.fnSettings().aoData.length, nRow, 0, false);
-            oTimeTable.fnUpdate(result.period.period_name, nRow, 1, false);
+            nRow.setAttribute('data-teacher-id', result.teacher.user_id);
+            oTimeTable.fnUpdate(result.period.period_name, nRow, 0, false);
             var subject = result.subject.subject_name + ' ( ' + result.subject.subject_code + ' )';
-            oTimeTable.fnUpdate(subject, nRow, 2, false);
+            oTimeTable.fnUpdate(subject, nRow, 1, false);
             var teacher = result.teacher.first_name + ' ' + result.teacher.middle_name + ' ' + result.teacher.last_name;
-            oTimeTable.fnUpdate(teacher, nRow, 3, false);
-            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="">Edit</a>', nRow, 4, false);
-            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="">Delete</a>', nRow, 5, false);
+            oTimeTable.fnUpdate(teacher, nRow, 2, false);
+            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="">Edit</a>', nRow, 3, false);
+            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="">Delete</a>', nRow, 4, false);
             oTimeTable.fnDraw();
             newRow = false;
             actualEditingRow = null;
@@ -117,7 +115,7 @@ var TableDataTimeTable = function() {
                     restoreRow(oTimeTable, actualEditingRow);
                 }
                 newRow = true;
-                var aiNew = oTimeTable.fnAddData(['', '', '', '', '', '']);
+                var aiNew = oTimeTable.fnAddData(['', '', '', '', '']);
                 var nRow = oTimeTable.fnGetNodes(aiNew[0]);
 
                 var rowData = {
@@ -207,8 +205,6 @@ var TableDataTimeTable = function() {
                 timetable_period_id: $(this).parents('tr').attr('id')
             };
 
-                    console.log(data);
-
             $.blockUI({
                 message: '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
             });
@@ -251,8 +247,6 @@ var TableDataTimeTable = function() {
                 teacher_id: $(this).parents('tr').attr('data-teacher-id'),
                 period_id: $(this).parents('tr').attr('data-period-id')
             };
-            
-            console.log(rowData);
 
             editRow(oTimeTable, nRow, rowData);
             actualEditingRow = nRow;
@@ -270,7 +264,7 @@ var TableDataTimeTable = function() {
                     "sNext": ""
                 }
             },
-            "aaSorting": [[1, 'asc']],
+            "aaSorting": [[0, 'asc']],
             "aLengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
@@ -403,17 +397,17 @@ var TableDataTimeTable = function() {
             nRow.setAttribute('data-period-id', result[i].period.id);
             nRow.setAttribute('data-subject-id', result[i].subject.id);
             nRow.setAttribute('data-section-id', result[i].timetable_period.section_id);
-            nRow.setAttribute('data-teacher-id', result[i].teacher.id);
+            nRow.setAttribute('data-teacher-id', result[i].teacher.user_id);
             nRow.setAttribute('data-day-id', result[i].timetable_period.day_id);
 
-            oTimeTable.fnUpdate(i + 1, nRow, 0, false);
-            oTimeTable.fnUpdate(result[i].period.period_name, nRow, 1, false);
 
-            oTimeTable.fnUpdate(result[i].subject.subject_name + '  (' + result[i].subject.subject_code + ')', nRow, 2, false);
-            oTimeTable.fnUpdate(result[i].teacher.first_name + ' ' + result[i].teacher.last_name, nRow, 3, false);
+            oTimeTable.fnUpdate(result[i].period.period_name, nRow, 0, false);
 
-            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 4, false);
-            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="#">Delete</a>', nRow, 5, false);
+            oTimeTable.fnUpdate(result[i].subject.subject_name + '  (' + result[i].subject.subject_code + ')', nRow, 1, false);
+            oTimeTable.fnUpdate(result[i].teacher.first_name + ' ' + result[i].teacher.last_name, nRow, 2, false);
+
+            oTimeTable.fnUpdate('<a class="edit-row-time-table" href="#">Edit</a>', nRow, 3, false);
+            oTimeTable.fnUpdate('<a class="delete-row-time-table" href="#">Delete</a>', nRow, 4, false);
 
             oTimeTable.fnDraw();
 

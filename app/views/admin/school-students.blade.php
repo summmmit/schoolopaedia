@@ -62,7 +62,11 @@
                                     <td>{{ $user['first_name'] }} {{ $user['last_name'] }}</td>
                                     <td>{{ $user['class_name'] }}</td>
                                     <td>{{ $user['section_name'] }}</td>
+                                    @if($user['pic']!="" || $user['pic']!=null)
                                     <td><img src="{{ URL::asset($user['pic']); }}"></td>
+                                    @else
+                                        <td><img src="{{ URL::asset('assets/projects/images/no_img.png'); }}" width="50px" height="50px"></td>
+                                    @endif
                                     <td>
                                         <a class="show-sv" href="#school-student-details" data-startFrom="right">
                                             Details
