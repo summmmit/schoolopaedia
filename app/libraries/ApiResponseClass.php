@@ -1,5 +1,7 @@
 <?php
 
+namespace app\libraries\helpers\ApiResponseClass;
+
 class ApiResponseClass {
     
     public static function  successResponse($result = array(), $request = array()){
