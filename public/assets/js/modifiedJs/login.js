@@ -142,7 +142,7 @@ var Login = function() {
 	var runRegisterValidator = function() {
 		var form3 = $('.form-register');
 		var errorHandler3 = $('.errorHandler', form3);
-        var globalError = $('.global-error', form);
+        var globalError = $('.global-error', form3);
 		form3.validate({
 			rules : {
 				first_name : {

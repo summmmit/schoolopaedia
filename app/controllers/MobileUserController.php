@@ -1,7 +1,5 @@
 <?php
 
-use app\libraries\helpers\ApiResponseClass;
-
 class MobileUserController extends BaseController
 {
 
@@ -143,60 +141,24 @@ class MobileUserController extends BaseController
             //At this point we may get many exceptions lets handle all user management and throttle exceptions
         } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
 
-            $errorResponse = [
-                'status' => 'failed',
-                'error' => [
-                    'message' => 'Error',
-                    'description' => 'Email field is required.'
-                ],
-                'request' => $credentials
-            ];
-            return Response::json($errorResponse);
-
+            $error = ApiResponseClass::errorResponse('Error', 'Email field is required.', $credentials);
+            return $error;
         } catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
 
-            $errorResponse = [
-                'status' => 'failed',
-                'error' => [
-                    'message' => 'Error',
-                    'description' => 'Password field is required.'
-                ],
-                'request' => $credentials
-            ];
-            return Response::json($errorResponse);
+            $error = ApiResponseClass::errorResponse('Error', 'Password field is required.', $credentials);
+            return $error;
         } catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
 
-            $errorResponse = [
-                'status' => 'failed',
-                'error' => [
-                    'message' => 'Error',
-                    'description' => 'Wrong password, try again.'
-                ],
-                'request' => $credentials
-            ];
-            return Response::json($errorResponse);
+            $error = ApiResponseClass::errorResponse('Error', 'Wrong password, try again.', $credentials);
+            return $error;
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
 
-            $errorResponse = [
-                'status' => 'failed',
-                'error' => [
-                    'message' => 'Error',
-                    'description' => 'User was not found.'
-                ],
-                'request' => $credentials
-            ];
-            return Response::json($errorResponse);
+            $error = ApiResponseClass::errorResponse('Error', 'User was not found.', $credentials);
+            return $error;
         } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
 
-            $errorResponse = [
-                'status' => 'failed',
-                'error' => [
-                    'message' => 'Error',
-                    'description' => 'User is not activated.'
-                ],
-                'request' => $credentials
-            ];
-            return Response::json($errorResponse);
+            $error = ApiResponseClass::errorResponse('Error', 'User is not activated.', $credentials);
+            return $error;
         } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
             Session::flash('global', 'User is suspended ');
             return Redirect::to('/user/sign/in');
@@ -205,19 +167,10 @@ class MobileUserController extends BaseController
             return Redirect::to('/user/sign/in');
         }
 
-        $successResponse = [
-            'status' => 'success',
-            'result' => array(
-                'user_id' => $user->id
-            ),
-            'request' => $credentials
-        ];
-        return Response::json($successResponse);
-
+        $login_flag = null;
+        // Login_flag => 1 - go to home screen , 2 - go to school register page, 3 - go to new class register page
 
         $users_login_info = UsersLoginInfo::where('user_id', '=', $user->id)->get();
-
-        Session::flash('global', 'Loggedin Successfully');
 
         if ($users_login_info->count() > 0) {
             $school_id = $user->school_id;
@@ -228,15 +181,24 @@ class MobileUserController extends BaseController
                 ->where('user_id', '=', Sentry::getUser()->id)->get();
             if ($user_registered_to_session->count() > 0) {
 
-                return Redirect::to(route('user-home'));
+                $login_flag = 1;
             } else {
                 Session::flash('global', 'Loggedin Successfully.<br>You Have to Register For new School Session first');
-                return Redirect::to(route('user-class-set-initial'));
+
+                $login_flag = 3;
             }
 
         } else {
-            return Redirect::to(route('user-welcome-settings'));
+
+            $login_flag = 2;
         }
 
+        $result = array(
+            'user' => $user,
+            'login_flag' => $login_flag
+        );
+
+        $success = ApiResponseClass::successResponse($result, $credentials);
+        return $success;
     }
 }

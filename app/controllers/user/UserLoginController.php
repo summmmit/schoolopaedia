@@ -417,9 +417,6 @@ class UserLoginController extends BaseController {
 
     public function getUserHome() {
         $response =  ApiResponseClass::successResponse([1=>'sumit'], [1=>'none']);
-
-        echo $response;
-
         return View::make('user.home')->with('response', $response);
     }
     

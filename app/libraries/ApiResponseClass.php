@@ -1,11 +1,8 @@
 <?php
 
-namespace app\libraries\helpers\ApiResponseClass;
-
 class ApiResponseClass {
     
     public static function  successResponse($result = array(), $request = array()){
-        
         $successResponse = [
             'status'   => 'success',
             'result'   =>  $result,
@@ -13,7 +10,7 @@ class ApiResponseClass {
         ];
 
         //return json_encode($successResponse, 200);
-        return Response::json($successResponse, 200);
+        return Response::json($successResponse);
     }
     
     public static function errorResponse($message, $description, $request = array()){
@@ -26,6 +23,6 @@ class ApiResponseClass {
             ],
             'request'   => $request
         ];
-        return Response::json($errorResponse, 400);
+        return Response::json($errorResponse);
     }
 }

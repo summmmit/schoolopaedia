@@ -14,7 +14,7 @@
     <p>
         Please enter your name and password to log in.
     </p>
-    <form class="form-login" action="{{ URL::route('user-sign-in-post'); }}" method="post">
+    <form class="form-login" action="#" method="post">
         <!-- Some Message to be Displayed start-->
         <div class="errorHandler alert alert-danger no-display">
             <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
@@ -46,7 +46,7 @@
                     <input type="checkbox" class="grey remember" id="remember" name="remember">
                     Keep me signed in
                 </label>
-                <button type="submit" class="btn btn-green pull-right">
+                <button type="submit" id="submit_login" class="btn btn-green pull-right">
                     Login <i class="fa fa-arrow-circle-right"></i>
                 </button>
             </div>
@@ -81,6 +81,37 @@
     jQuery(document).ready(function() {
         Main.init();
         Login.init();
+
+        function url(url){
+            window.location = url;
+        }
+
+        $('#submit_login').on('click', function(e){
+            e.preventDefault();
+
+            var data = {
+                identity : $('input[name="identity"]').val(),
+                password : $('input[name="password"]').val()
+            }
+
+            $.ajax({
+                data: data,
+                url: 'http://localhost/projects/schoolopaedia/public/mobile/user/sign/in/post',
+                dataType: 'json',
+                method : 'POST',
+                success: function(result) {
+                    console.log(result);
+                    if(result.status == "success"){
+                        alert('dasgda');
+                        if(result.result.login_flag == 2){
+                            url('/user/home');
+                            alert('dasgda');
+                        }
+                    }
+                }
+            });
+        });
+
     });
 </script>
 
